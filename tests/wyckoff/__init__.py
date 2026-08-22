@@ -1,0 +1,1 @@
+"""Wyckoff schematic event tests."""
