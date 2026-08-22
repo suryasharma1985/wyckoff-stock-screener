@@ -7,11 +7,20 @@ Guiding Principles (AGENTS.md):
 """
 
 from typing import Any, Optional
+import sys, os
+
+# Ensure src/ is on the path when running via `streamlit run dashboard/app.py`
+# both locally and on Streamlit Community Cloud
+_src_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "src")
+if _src_path not in sys.path:
+    sys.path.insert(0, _src_path)
+
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 import pandas as pd
 import streamlit as st
 import yfinance as yf
+
 
 from wyckoff_screener.data_loader import validate_ohlcv_dataframe
 from wyckoff_screener.pointfigure.pf_chart import build_point_and_figure_chart, count_price_objective
