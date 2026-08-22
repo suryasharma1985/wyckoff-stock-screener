@@ -20,3 +20,14 @@ A Python research and screening tool for Indian equities (NSE) based on the **Wy
    ```bash
    pytest
    ```
+3. Run Streamlit dashboard:
+   ```bash
+   streamlit run dashboard/app.py
+   ```
+
+## Status
+
+**Phase 7 complete — all 7 phases implemented, 70/70 tests passing.**
+
+Phase 7 backtest (3 NSE stocks, Jan 2024–Aug 2026, 246 rolling checkpoints) found that the **disqualification gate** (`is_disqualified`) shows consistent directional edge at the 60-bar horizon across all three stocks — the most trustworthy signal in the system. The composite score's *magnitude* as a continuous ranking variable above the qualification threshold did **not** hold up per-stock (inverted on 2 of 3 stocks); treat it as a coarse triage tool, not a precision ranking. See `AGENTS.md § Validated Findings` for the full findings and limitations.
+

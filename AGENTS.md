@@ -119,3 +119,40 @@ wyckoff-stock-screener/
 - **Never tune a threshold to make a specific stock look more bullish** — thresholds are shared constants, changed deliberately with documented rationale, not per-stock.
 - **Never skip a test on new detection logic.**
 - **This is analysis/research tooling only — no live order execution, ever.**
+
+---
+
+## Progress Tracking
+- Maintain [`PROGRESS.md`](file:///c:/Users/surya/Downloads/wyckoff-stock-screener/PROGRESS.md) continuously: after completing any task (phase, module, or fix), immediately update the completed checklist with the current date, refresh the test suite pass count, and record any threshold/design decisions in "Known Decisions / Deviations".
+
+---
+
+## Validated Findings (Phase 7 Backtest)
+
+**Sample**: 3 NSE stocks (ANANTRAJ, APOLLO, HINDCOPPER), Jan 2024–Aug 2026, 246 rolling checkpoints (82 per stock, step=5 bars, 250-bar lookback window). **NOT statistically significant — exploratory and directional only.** Three stocks over 2.5 years in a bull market is insufficient to validate alpha. Treat all findings below as hypotheses for further investigation, not established results.
+
+**FINDING 1 — Disqualification filter is the most trustworthy signal in the system.**
+The `is_disqualified` gate (triggered by UTAD, absent base accumulation structure, or all mechanical filters failing) shows a consistent directional edge across all 3 stocks individually at the 60-bar forward horizon:
+- ANANTRAJ: Qualified +3.57% vs Disqualified -7.63%
+- APOLLO:    Qualified +30.01% vs Disqualified +11.49%
+- HINDCOPPER: Qualified +20.70% vs Disqualified +10.03%
+
+This is the only signal that held on every stock without exception. The UTAD + absent-base flag appears to identify periods where accumulation has either not yet formed or has already transitioned into distribution, which subsequently underperformed over ~3-month horizons. Use the disqualification gate as the primary decision boundary.
+
+**FINDING 2 — composite_score's magnitude as a continuous ranking variable ABOVE the qualification threshold does NOT hold up per-stock.**
+At the 60-bar horizon, high-score (≥60) setups inverted vs low-score (<40) setups on 2 of 3 stocks:
+- ANANTRAJ: High Score -11.64% vs Low Score +3.24% (n=6 — INVERTED)
+- APOLLO:   High Score +9.57%  vs Low Score +38.32% (n=11 — INVERTED)
+- HINDCOPPER: High Score +36.09% vs Low Score +23.78% (n=14 — correct)
+
+The pooled +17.44% for high-score vs +15.75% for low-score looks like a marginal win but conceals a 2/3 per-stock failure rate. **Do not present composite_score as if higher-is-reliably-better beyond the qualify/disqualify gate.** Above the qualification threshold, score differences should be treated as weak supporting evidence, not a ranking you can trust to pick the best of several qualified setups.
+
+**HYPOTHESIS (untested)** — High scores may partly capture "how extended an already-mature move is" rather than "how much upside remains." ANANTRAJ's and APOLLO's high-score windows clustered near late-bull peaks and post-recovery phases respectively, when the mechanical filters and recency components scored well precisely because conditions looked ideal — just before they reversed. This would explain why high scores appear at the wrong moment. This hypothesis requires a larger universe (50+ stocks, multiple market cycles) before it can be confirmed or rejected.
+
+**What to do with this:**
+- Use `is_disqualified` as a hard gate — do not engage with disqualified setups.
+- Use composite_score as a coarse triage tool within the qualified universe, not a precision ranking.
+- Do not re-weight the scoring engine based on this dataset alone — sample size is too small.
+- Any future re-weighting must be documented with sample size, methodology, and honest out-of-sample results.
+
+
