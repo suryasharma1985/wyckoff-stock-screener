@@ -333,14 +333,24 @@ def build_research_universe(
                     f"Zero-volume session percentage ({zero_vol_rate:.1f}%) exceeds maximum ({max_zero_volume_pct}%)."
                 )
 
-            # Check price validity
-            if (df_ohlcv["Close"] <= 0).any() or (df_ohlcv["High"] <= 0).any() or (df_ohlcv["Low"] <= 0).any():
-                quality_errors.append("Non-positive prices found in OHLC series.")
+            # Check price validity (non-positive prices)
+            for p_col in ["Open", "High", "Low", "Close"]:
+                if p_col in df_ohlcv.columns and (df_ohlcv[p_col] <= 0).any():
+                    quality_errors.append(f"Non-positive prices found in {p_col} series.")
 
-            # Check OHLC logic
+            # Check impossible OHLC candle logic
             invalid_hl = (df_ohlcv["High"] < df_ohlcv["Low"]).sum()
-            if invalid_hl > 0:
-                quality_errors.append(f"Invalid bar logic (High < Low) found in {invalid_hl} bars.")
+            invalid_ho = (df_ohlcv["High"] < df_ohlcv["Open"]).sum()
+            invalid_hc = (df_ohlcv["High"] < df_ohlcv["Close"]).sum()
+            invalid_lo = (df_ohlcv["Low"] > df_ohlcv["Open"]).sum()
+            invalid_lc = (df_ohlcv["Low"] > df_ohlcv["Close"]).sum()
+
+            total_impossible = invalid_hl + invalid_ho + invalid_hc + invalid_lo + invalid_lc
+            if total_impossible > 0:
+                quality_errors.append(
+                    f"Impossible candle geometry found ({invalid_hl} High<Low, {invalid_ho} High<Open, "
+                    f"{invalid_hc} High<Close, {invalid_lo} Low>Open, {invalid_lc} Low>Close)."
+                )
 
             if quality_errors:
                 rec.has_acceptable_data_quality = False

@@ -135,14 +135,22 @@ def validate_ohlcv_dataframe(
             f"Found {len(invalid_low_close)} bars where Low > Close (e.g. date: {invalid_low_close.iloc[0][date_col]})"
         )
 
-    # 7. Check Volume non-negative
+    # 7. Check positive prices
+    for p_col in [open_col, high_col, low_col, close_col]:
+        non_positive = cleaned[cleaned[p_col] <= 0]
+        if not non_positive.empty:
+            raise DataValidationError(
+                f"Found {len(non_positive)} bars with non-positive {p_col} price (e.g. date: {non_positive.iloc[0][date_col]})"
+            )
+
+    # 8. Check Volume non-negative
     invalid_volume = cleaned[cleaned[volume_col] < 0]
     if not invalid_volume.empty:
         raise DataValidationError(
             f"Found {len(invalid_volume)} bars with negative Volume (e.g. date: {invalid_volume.iloc[0][date_col]})"
         )
 
-    # 8. Sort ascending by date
+    # 9. Sort ascending by date
     cleaned = cleaned.sort_values(by=date_col, ascending=True).reset_index(drop=True)
 
     return cleaned

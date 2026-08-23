@@ -14,7 +14,7 @@
 - [x] Phase 9A: Broad NSE EQ research universe infrastructure & reproducible snapshot engine — 2026-08-23
 
 ## Test Suite Status
-- 97/97 passing as of Phase 9A (including universe sources, models, research eligibility compound evaluator, snapshot engine, regression tests, and batch screener)
+- 101/101 passing as of Phase 9A (including universe sources, models, research eligibility compound evaluator, snapshot engine, regression tests, OHLC geometry validations, and batch screener)
 
 ## Bugs Found and Fixed
 - **2026-08-22**: Fixed combinatorial explosion in `detect_secondary_test_candidates()` and `detect_lps_candidates()`. Previously, both functions scanned from each anchor to the end of the dataset without a search ceiling and recorded every matching bar (yielding 211 STs and 13,534 LPSs on ANANTRAJ). Fixed by introducing bounded lookahead windows (`ST_MAX_BARS_AFTER_SC = 15`, `LPS_MAX_BARS_AFTER_ANCHOR = 20`) and recording only the first qualifying bar per anchor. Reduced ANANTRAJ counts to 4 STs and 6 LPSs.

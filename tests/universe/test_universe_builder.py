@@ -294,3 +294,47 @@ def test_sample_universe_source_factory_compatibility():
     assert not raw.dataframe.empty
     symbol_col = [c for c in raw.dataframe.columns if str(c).strip().lower() == "symbol"][0]
     assert "ANANTRAJ" in raw.dataframe[symbol_col].values
+
+
+@pytest.mark.parametrize(
+    "corrupt_field,corrupt_value",
+    [
+        ("High", 50.0),   # High < Low (Low is 100) -> High < Low, High < Open, High < Close
+        ("Low", 150.0),   # Low > High (High is 102) -> Low > Open, Low > Close
+        ("Close", -10.0), # Non-positive price
+        ("Open", 0.0),    # Non-positive price
+    ],
+)
+def test_ohlc_candle_geometry_and_non_positive_price_rejection(tmp_path: Path, corrupt_field: str, corrupt_value: float):
+    """Verify that impossible candle geometry (High < Low, High < Open, Low > Close, etc.) and non-positive prices are rejected."""
+    csv_file = tmp_path / "bad_ohlc_universe.csv"
+    csv_file.write_text(
+        "SYMBOL,SERIES,COMPANY NAME\n"
+        "BAD_CANDLE,EQ,Bad Candle Company\n",
+        encoding="utf-8",
+    )
+
+    dates = pd.date_range("2024-01-01", periods=80)
+    df_ohlcv = pd.DataFrame({
+        "Date": dates,
+        "Open": [100.0] * 80,
+        "High": [102.0] * 80,
+        "Low": [98.0] * 80,
+        "Close": [101.0] * 80,
+        "Volume": [100000.0] * 80,
+    })
+
+    # Corrupt a single bar
+    df_ohlcv.loc[10, corrupt_field] = corrupt_value
+
+    res = build_research_universe(
+        source=LocalCsvUniverseSource(csv_file),
+        output_base_dir=tmp_path / "snapshots",
+        evaluate_data_layer=True,
+        preloaded_ohlcv_dict={"BAD_CANDLE.NS": df_ohlcv},
+    )
+
+    assert len(res.eligible_records) == 0
+    assert len(res.excluded_records) == 1
+    assert res.excluded_records[0].primary_exclusion_reason == ExclusionReason.DATA_QUALITY_FAILURE.value
+
