@@ -120,3 +120,18 @@ def test_mechanical_qualification_exact_3_gate_rules():
     assert res_trend_fail.filter_results["dma_50_above_100"] is False
     assert res_trend_fail.is_mechanically_qualified is False
 
+    # 4. Gate 3 Alternative Pass (F): vcp_bbw_contracting enables qualification even when rsi_in_band is False
+    df_quality_alt = _create_passing_synthetic_stock(bars=500)
+    res_q_alt = evaluate_broad_setup(df_quality_alt, symbol="Q_ALT.NS", min_avg_turnover_cr=1.0)
+    assert res_q_alt.filter_results["rsi_in_band"] is False
+    assert res_q_alt.filter_results["vcp_bbw_contracting"] is True
+    assert res_q_alt.is_mechanically_qualified is True
+
+    # 5. Gate 2 Alternative Pass (E): dma_50_above_100 passes even when weekly_uptrend is False (e.g. short dataset < 40 weeks)
+    df_short_trend = _create_passing_synthetic_stock(bars=120)  # 120 bars ~ 17 weeks (weekly MA unavailable)
+    res_short = evaluate_broad_setup(df_short_trend, symbol="SHORT_TREND.NS", min_avg_turnover_cr=1.0)
+    assert res_short.filter_results["weekly_uptrend"] is False
+    assert res_short.filter_results["dma_50_above_100"] is True
+    assert res_short.is_mechanically_qualified is True
+
+
