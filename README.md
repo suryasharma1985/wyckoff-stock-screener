@@ -27,10 +27,11 @@ A Python research and screening tool for Indian equities (NSE) based on the **Wy
 
 ## Status
 
-**Phase 8 complete — 88/88 tests passing.**
+**Phase 9C complete — 120/120 tests passing.**
 
-- **Batch Screening & TradingView Integration**: Batch screener (`python -m wyckoff_screener.scan --universe <csv>`) ingests NSE symbol universes, evaluates mechanical filters, and exports structured CSVs containing multi-timeframe TradingView chart URLs (Daily, Weekly, 75-min) paired with a 9-point manual review checklist.
-- **Strict Separation of Concerns**: TradingView serves solely as a visual review and chart-navigation layer for human confirmation. All numeric metrics (volume ratios, spread ratios, RSI, ATR/VCP contraction, P&F targets) are derived strictly from validated point-in-time OHLCV data.
-- **Research & Screening Tool Only**: The system flags candidate events (`candidate_event_detected`, `possible_LPS`) and does not generate automated buy signals, guaranteed predictions, or confirmed accumulation labels without manual review records. Phase 7 backtest findings confirmed that while the disqualification gate (`is_disqualified`) has consistent directional value, the composite score magnitude is exploratory and not a proven ranking system. See `AGENTS.md` for full specifications and findings.
+- **Broad NSE EQ Research Screening & Candidate Intelligence**: Research screening engine (`python -m wyckoff_screener.research --dataset-dir <path>`) evaluates 100% of research-eligible securities from validated Phase 9B datasets, generating structured output CSVs (`all_results.csv`, `candidates.csv`, `disqualified.csv`, `failures.csv`) and an auditable `research_manifest.json`.
+- **Evidence-First Candidate Triage**: Categorizes every security into mutually exclusive workflow tiers (`HIGH_PRIORITY_CANDIDATE`, `QUALIFIED_CANDIDATE`, `WATCHLIST`, `NO_SETUP`, `DISQUALIFIED`) with machine-readable numeric explanations.
+- **Strict Separation of Concerns**: TradingView serves solely as an optional visual review and chart-navigation layer for human confirmation. All numeric calculations are computed locally from validated canonical OHLCV datasets with zero external network requests during screening.
+- **Research & Screening Tool Only**: The system flags candidate events and does not generate automated buy signals, guaranteed predictions, or confirmed accumulation labels without manual review records. See `AGENTS.md` and `docs/RESEARCH_ENGINE.md` for full specifications and findings.
 
 

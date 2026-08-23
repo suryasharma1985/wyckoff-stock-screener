@@ -15,6 +15,7 @@ import pandas as pd
 
 from wyckoff_screener.data.batch_downloader import download_and_cache_universe
 from wyckoff_screener.data.dataset_builder import build_research_dataset
+from wyckoff_screener.research.screening_engine import run_research_screening
 from wyckoff_screener.scanning.broad_filter import evaluate_broad_setup
 from wyckoff_screener.universe.builder import build_research_universe
 from wyckoff_screener.universe.nse_symbols import (
@@ -42,6 +43,11 @@ def main() -> None:
         "--build-dataset",
         action="store_true",
         help="Build a new dated canonical research dataset snapshot from the universe before screening.",
+    )
+    parser.add_argument(
+        "--research-screening",
+        action="store_true",
+        help="Execute Phase 9C Research Screening Engine across the dataset instead of standard scan.",
     )
     parser.add_argument(
         "--dataset-dir",
@@ -158,6 +164,28 @@ def main() -> None:
         print(f"  Date range observed:        {man.earliest_available_date} -> {man.latest_available_date}")
         print(f"  Average bars/symbol:        {man.avg_bars_per_symbol}")
         args.dataset_dir = str(ds_res.dataset_dir)
+        args.universe = str(Path(args.dataset_dir) / "symbols.csv")
+
+    if args.research_screening:
+        if not args.dataset_dir:
+            print("ERROR: --research-screening requires --dataset-dir or --build-dataset.", file=sys.stderr)
+            sys.exit(1)
+        print("=" * 90)
+        print("RUNNING PHASE 9C BROAD RESEARCH SCREENING ENGINE...")
+        print(f"Target Dataset: {args.dataset_dir}")
+        print("=" * 90)
+        r_res = run_research_screening(
+            dataset_dir=args.dataset_dir,
+            output_base_dir="data/research_results",
+            min_avg_turnover_cr=args.min_turnover_cr,
+        )
+        m = r_res.manifest
+        print("\n" + "=" * 90)
+        print(f"RESEARCH SCREENING COMPLETE: {r_res.results_dir}")
+        print(f"Total Evaluated: {m.successful_evaluations} / {m.total_input_securities}")
+        print(f"Categories: High Priority={m.high_priority_candidates_count}, Qualified={m.qualified_candidates_count}, Watchlist={m.watchlist_candidates_count}, Disqualified={m.disqualified_count}, No Setup={m.no_setup_count}")
+        print("=" * 90)
+        return
 
     print(f"Loading universe from: {args.universe}")
     print(f"Eligible series: {eligible_series_tuple}")
