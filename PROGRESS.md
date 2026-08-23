@@ -1,6 +1,6 @@
 # Project Progress Log
 
-## Status: Phase 8 Complete (Batch Screening & TradingView Integration Active)
+## Status: Phase 9B Complete (Broad NSE EQ Research Dataset Construction & Cache Validation Active)
 
 ## Completed
 - [x] Phase 1: Scaffolding (AGENTS.md, folder structure, git init) — 2026-08-22
@@ -12,9 +12,10 @@
 - [x] Phase 7: Historical backtest validation & forward-return evaluation — 2026-08-22
 - [x] Phase 8: CSV-defined batch screening & TradingView manual-review integration — 2026-08-23
 - [x] Phase 9A: Broad NSE EQ research universe infrastructure & reproducible snapshot engine — 2026-08-23
+- [x] Phase 9B: Broad NSE EQ research dataset construction, cache validation & manifest engine — 2026-08-23
 
 ## Test Suite Status
-- 101/101 passing as of Phase 9A (including universe sources, models, research eligibility compound evaluator, snapshot engine, regression tests, OHLC geometry validations, and batch screener)
+- 109/109 passing as of Phase 9B (including universe sources, models, research eligibility compound evaluator, snapshot engine, regression tests, OHLC geometry validations, dataset builder, SHA-256 cache integrity, deterministic duplicate handling, TradingView link isolation, and batch screener)
 
 ## Bugs Found and Fixed
 - **2026-08-22**: Fixed combinatorial explosion in `detect_secondary_test_candidates()` and `detect_lps_candidates()`. Previously, both functions scanned from each anchor to the end of the dataset without a search ceiling and recorded every matching bar (yielding 211 STs and 13,534 LPSs on ANANTRAJ). Fixed by introducing bounded lookahead windows (`ST_MAX_BARS_AFTER_SC = 15`, `LPS_MAX_BARS_AFTER_ANCHOR = 20`) and recording only the first qualifying bar per anchor. Reduced ANANTRAJ counts to 4 STs and 6 LPSs.

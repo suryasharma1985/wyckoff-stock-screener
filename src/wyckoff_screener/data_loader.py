@@ -87,11 +87,17 @@ def validate_ohlcv_dataframe(
     except Exception as exc:
         raise DataValidationError(f"Failed to parse '{date_col}' column as datetime: {exc}") from exc
 
-    # 3. Check for duplicate dates
+    # 3. Check for duplicate dates (deterministic handling)
+    # A. Identical duplicates: drop exact duplicate rows keeping first occurrence
+    cleaned = cleaned.drop_duplicates(subset=required_cols, keep="first").copy()
+
+    # B. Conflicting duplicates: different OHLCV values on the same date -> reject
     duplicate_mask = cleaned[date_col].duplicated(keep=False)
     if reject_duplicates and duplicate_mask.any():
         duplicate_dates = cleaned.loc[duplicate_mask, date_col].dt.strftime("%Y-%m-%d").unique().tolist()
-        raise DataValidationError(f"Duplicate dates found in OHLCV data: {duplicate_dates}")
+        raise DataValidationError(
+            f"Duplicate dates found in OHLCV data (conflicting records): {duplicate_dates} (reason: CONFLICTING_DUPLICATE_DATES)"
+        )
 
     # 4. Convert and validate numeric dtypes
     numeric_cols = [open_col, high_col, low_col, close_col, volume_col]

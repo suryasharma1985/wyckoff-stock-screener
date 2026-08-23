@@ -1,4 +1,4 @@
-"""Batch data downloader and caching package."""
+"""Batch data downloader, caching package, and canonical research dataset builders."""
 
 from wyckoff_screener.data.batch_downloader import (
     BatchDownloadResult,
@@ -7,6 +7,11 @@ from wyckoff_screener.data.batch_downloader import (
     DownloadFailure,
     download_and_cache_universe,
 )
+from wyckoff_screener.data.dataset_builder import (
+    ResearchDatasetManifest,
+    ResearchDatasetResult,
+    build_research_dataset,
+)
 
 __all__ = [
     "BatchDownloadResult",
@@ -14,4 +19,7 @@ __all__ = [
     "DataQualityReport",
     "DownloadFailure",
     "download_and_cache_universe",
+    "ResearchDatasetManifest",
+    "ResearchDatasetResult",
+    "build_research_dataset",
 ]

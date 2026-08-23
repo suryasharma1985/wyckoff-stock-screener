@@ -9,6 +9,8 @@ Guiding Principles (AGENTS.md):
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
+import hashlib
+import io
 import json
 import os
 from pathlib import Path
@@ -197,7 +199,18 @@ def download_and_cache_universe(
 
         if not force_refresh and csv_file.exists() and meta_file.exists():
             try:
-                raw_df = pd.read_csv(csv_file)
+                # Verify data integrity via hash if recorded
+                with open(meta_file, "r", encoding="utf-8") as mf:
+                    cached_meta = json.load(mf)
+
+                csv_bytes = csv_file.read_bytes()
+                expected_hash = cached_meta.get("data_hash")
+                if expected_hash:
+                    actual_hash = hashlib.sha256(csv_bytes).hexdigest()
+                    if actual_hash != expected_hash:
+                        raise ValueError(f"Cache hash mismatch for {ticker}: expected {expected_hash}, got {actual_hash}")
+
+                raw_df = pd.read_csv(io.BytesIO(csv_bytes))
                 validated_df = validate_ohlcv_dataframe(raw_df)
                 q_report = _validate_data_quality(validated_df, ticker, min_bars=min_bars)
 
@@ -232,22 +245,33 @@ def download_and_cache_universe(
                     df = future.result()
                     q_report = _validate_data_quality(df, ticker, min_bars=min_bars)
 
+                    csv_bytes = df.to_csv(index=False).encode("utf-8")
+                    data_hash = hashlib.sha256(csv_bytes).hexdigest()
+
                     # Persist to cache
                     csv_file = cache_path / f"{ticker}.csv"
                     meta_file = cache_path / f"{ticker}.meta.json"
 
-                    df.to_csv(csv_file, index=False)
+                    csv_file.write_bytes(csv_bytes)
 
+                    now_utc = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
                     meta = {
-                        "ticker": ticker,
-                        "start_date": start_date,
-                        "end_date": end_date or str(df["Date"].iloc[-1])[:10],
-                        "interval": interval,
-                        "source": "yfinance",
+                        "symbol": ticker[:-3] if ticker.endswith(".NS") else ticker,
+                        "yfinance_ticker": ticker,
+                        "provider": "yfinance",
+                        "frequency": interval,
+                        "requested_start": start_date,
+                        "requested_end": end_date or "latest",
+                        "actual_start": str(df["Date"].iloc[0])[:10],
+                        "actual_end": str(df["Date"].iloc[-1])[:10],
+                        "retrieved_at_utc": now_utc,
+                        "schema_version": "1.0",
+                        "adjustment_policy": "split_adjusted_ohlc_raw_volume",
+                        "row_count": len(df),
+                        "data_hash": data_hash,
+                        "validation_status": "VALID",
+                        "zero_volume_pct": q_report.zero_volume_pct,
                         "timezone": "Asia/Kolkata",
-                        "download_timestamp_utc": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
-                        "bar_count": len(df),
-                        "is_adjusted": True,
                     }
                     with open(meta_file, "w", encoding="utf-8") as mf:
                         json.dump(meta, mf, indent=2)

@@ -14,6 +14,7 @@ from typing import Any
 import pandas as pd
 
 from wyckoff_screener.data.batch_downloader import download_and_cache_universe
+from wyckoff_screener.data.dataset_builder import build_research_dataset
 from wyckoff_screener.scanning.broad_filter import evaluate_broad_setup
 from wyckoff_screener.universe.builder import build_research_universe
 from wyckoff_screener.universe.nse_symbols import (
@@ -36,6 +37,23 @@ def main() -> None:
         "--build-universe",
         action="store_true",
         help="Build a new dated research universe snapshot before screening.",
+    )
+    parser.add_argument(
+        "--build-dataset",
+        action="store_true",
+        help="Build a new dated canonical research dataset snapshot from the universe before screening.",
+    )
+    parser.add_argument(
+        "--dataset-dir",
+        type=str,
+        default=None,
+        help="Path to materialized research dataset directory (containing manifest.json, symbols.csv, data/).",
+    )
+    parser.add_argument(
+        "--dataset-base-dir",
+        type=str,
+        default="data/research_datasets",
+        help="Base directory to save research datasets (default 'data/research_datasets').",
     )
     parser.add_argument(
         "--universe-source",
@@ -122,6 +140,25 @@ def main() -> None:
         args.universe = str(Path(rep.snapshot_dir) / "eligible.csv")
         print(f"Proceeding to screen {len(build_res.eligible_records)} eligible securities from {args.universe}...\n")
 
+    if args.build_dataset:
+        print(f"Building canonical research dataset from universe '{args.universe}'...")
+        ds_res = build_research_dataset(
+            universe_snapshot_path=args.universe,
+            output_base_dir=args.dataset_base_dir,
+            start_date=args.start_date,
+            force_refresh=args.force_refresh,
+        )
+        man = ds_res.manifest
+        print(f"  Dataset materialized at:    {ds_res.dataset_dir}")
+        print(f"  Total requested:            {man.total_requested}")
+        print(f"  Successful materialized:    {man.successful_symbols}")
+        print(f"  Failed symbols:             {man.failed_symbols}")
+        print(f"  Cache hits:                 {man.cache_hits}")
+        print(f"  Fresh downloads:            {man.fresh_downloads}")
+        print(f"  Date range observed:        {man.earliest_available_date} -> {man.latest_available_date}")
+        print(f"  Average bars/symbol:        {man.avg_bars_per_symbol}")
+        args.dataset_dir = str(ds_res.dataset_dir)
+
     print(f"Loading universe from: {args.universe}")
     print(f"Eligible series: {eligible_series_tuple}")
 
@@ -140,20 +177,38 @@ def main() -> None:
         print("No valid symbols found in universe. Exiting.", file=sys.stderr)
         sys.exit(1)
 
-    # 2. Batch Download & Cache
-    tickers = report.get_tickers_list()
-    print(f"\nFetching/loading market data for {len(tickers)} tickers (cache: {args.cache_dir})...")
+    # 2. Acquire Market Data (from materialized dataset or cache)
+    successful_data_map: dict[str, pd.DataFrame] = {}
+    download_failures: list[Any] = []
 
-    download_result = download_and_cache_universe(
-        tickers=tickers,
-        cache_dir=args.cache_dir,
-        start_date=args.start_date,
-        force_refresh=args.force_refresh,
-    )
+    if args.dataset_dir:
+        data_path = Path(args.dataset_dir) / "data" if (Path(args.dataset_dir) / "data").exists() else Path(args.dataset_dir)
+        print(f"\nLoading canonical OHLCV DataFrames from dataset: {data_path}...")
+        for rec in report.accepted_symbols:
+            csv_f = data_path / f"{rec.yfinance_ticker}.csv"
+            if csv_f.exists():
+                try:
+                    df = pd.read_csv(csv_f)
+                    successful_data_map[rec.yfinance_ticker] = df
+                except Exception as exc:
+                    print(f"  Warning: failed to read {csv_f}: {exc}")
+        print(f"  Loaded {len(successful_data_map)} canonical DataFrames directly from dataset.")
+    else:
+        tickers = report.get_tickers_list()
+        print(f"\nFetching/loading market data for {len(tickers)} tickers (cache: {args.cache_dir})...")
 
-    print(f"  Cached data used:     {download_result.cached_count}")
-    print(f"  Newly downloaded:     {download_result.downloaded_count}")
-    print(f"  Download failures:    {download_result.failed_count}")
+        download_result = download_and_cache_universe(
+            tickers=tickers,
+            cache_dir=args.cache_dir,
+            start_date=args.start_date,
+            force_refresh=args.force_refresh,
+        )
+
+        print(f"  Cached data used:     {download_result.cached_count}")
+        print(f"  Newly downloaded:     {download_result.downloaded_count}")
+        print(f"  Download failures:    {download_result.failed_count}")
+        successful_data_map = download_result.successful_data
+        download_failures = download_result.failures
 
     # Build symbol -> company name mapping
     company_map = {rec.yfinance_ticker: rec.company_name for rec in report.accepted_symbols}
@@ -163,13 +218,13 @@ def main() -> None:
     all_results = []
     error_logs: list[str] = []
 
-    for failure in download_result.failures:
+    for failure in download_failures:
         error_logs.append(
             f"[{failure.timestamp_utc}] DOWNLOAD_ERROR ticker={failure.ticker} "
             f"stage={failure.stage} error={failure.error_message}"
         )
 
-    for ticker, df in download_result.successful_data.items():
+    for ticker, df in successful_data_map.items():
         comp_name = company_map.get(ticker, ticker)
         try:
             res = evaluate_broad_setup(
