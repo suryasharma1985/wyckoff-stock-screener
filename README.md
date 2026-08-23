@@ -27,7 +27,10 @@ A Python research and screening tool for Indian equities (NSE) based on the **Wy
 
 ## Status
 
-**Phase 7 complete — all 7 phases implemented, 70/70 tests passing.**
+**Phase 8 complete — 88/88 tests passing.**
 
-Phase 7 backtest (3 NSE stocks, Jan 2024–Aug 2026, 246 rolling checkpoints) found that the **disqualification gate** (`is_disqualified`) shows consistent directional edge at the 60-bar horizon across all three stocks — the most trustworthy signal in the system. The composite score's *magnitude* as a continuous ranking variable above the qualification threshold did **not** hold up per-stock (inverted on 2 of 3 stocks); treat it as a coarse triage tool, not a precision ranking. See `AGENTS.md § Validated Findings` for the full findings and limitations.
+- **Batch Screening & TradingView Integration**: Batch screener (`python -m wyckoff_screener.scan --universe <csv>`) ingests NSE symbol universes, evaluates mechanical filters, and exports structured CSVs containing multi-timeframe TradingView chart URLs (Daily, Weekly, 75-min) paired with a 9-point manual review checklist.
+- **Strict Separation of Concerns**: TradingView serves solely as a visual review and chart-navigation layer for human confirmation. All numeric metrics (volume ratios, spread ratios, RSI, ATR/VCP contraction, P&F targets) are derived strictly from validated point-in-time OHLCV data.
+- **Research & Screening Tool Only**: The system flags candidate events (`candidate_event_detected`, `possible_LPS`) and does not generate automated buy signals, guaranteed predictions, or confirmed accumulation labels without manual review records. Phase 7 backtest findings confirmed that while the disqualification gate (`is_disqualified`) has consistent directional value, the composite score magnitude is exploratory and not a proven ranking system. See `AGENTS.md` for full specifications and findings.
+
 
