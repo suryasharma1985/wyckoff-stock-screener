@@ -278,3 +278,57 @@ def download_and_cache_universe(
         failures=failures,
         cache_dir=str(cache_path),
     )
+
+
+class BatchMarketDataDownloader:
+    """Downloader helper providing single and batch ticker caching interface."""
+
+    def __init__(
+        self,
+        cache_dir: Union[str, Path] = DEFAULT_CACHE_DIR,
+        start_date: str = DEFAULT_START_DATE,
+        end_date: Optional[str] = None,
+        interval: str = "1d",
+        force_refresh: bool = False,
+        max_retries: int = DEFAULT_MAX_RETRIES,
+        min_bars: int = DEFAULT_MIN_BARS,
+        max_workers: int = 4,
+    ):
+        self.cache_dir = cache_dir
+        self.start_date = start_date
+        self.end_date = end_date
+        self.interval = interval
+        self.force_refresh = force_refresh
+        self.max_retries = max_retries
+        self.min_bars = min_bars
+        self.max_workers = max_workers
+
+    def get_ticker_data(self, ticker: str) -> Optional[pd.DataFrame]:
+        """Download or fetch single ticker from cache."""
+        res = download_and_cache_universe(
+            tickers=[ticker],
+            cache_dir=self.cache_dir,
+            start_date=self.start_date,
+            end_date=self.end_date,
+            interval=self.interval,
+            force_refresh=self.force_refresh,
+            max_retries=self.max_retries,
+            min_bars=self.min_bars,
+            max_workers=1,
+        )
+        return res.get_dataframe(ticker)
+
+    def download_batch(self, tickers: Sequence[str]) -> BatchDownloadResult:
+        """Download and cache batch of tickers."""
+        return download_and_cache_universe(
+            tickers=tickers,
+            cache_dir=self.cache_dir,
+            start_date=self.start_date,
+            end_date=self.end_date,
+            interval=self.interval,
+            force_refresh=self.force_refresh,
+            max_retries=self.max_retries,
+            min_bars=self.min_bars,
+            max_workers=self.max_workers,
+        )
+

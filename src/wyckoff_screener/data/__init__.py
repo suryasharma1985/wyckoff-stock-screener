@@ -2,6 +2,7 @@
 
 from wyckoff_screener.data.batch_downloader import (
     BatchDownloadResult,
+    BatchMarketDataDownloader,
     DataQualityReport,
     DownloadFailure,
     download_and_cache_universe,
@@ -9,6 +10,7 @@ from wyckoff_screener.data.batch_downloader import (
 
 __all__ = [
     "BatchDownloadResult",
+    "BatchMarketDataDownloader",
     "DataQualityReport",
     "DownloadFailure",
     "download_and_cache_universe",

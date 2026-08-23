@@ -15,6 +15,7 @@ import pandas as pd
 
 from wyckoff_screener.data.batch_downloader import download_and_cache_universe
 from wyckoff_screener.scanning.broad_filter import evaluate_broad_setup
+from wyckoff_screener.universe.builder import build_research_universe
 from wyckoff_screener.universe.nse_symbols import (
     DEFAULT_ELIGIBLE_SERIES,
     load_nse_universe_csv,
@@ -28,8 +29,25 @@ def main() -> None:
     parser.add_argument(
         "--universe",
         type=str,
-        required=True,
-        help="Path to CSV containing NSE universe (columns: Symbol, Series, Company Name).",
+        default="data/sample_nse_symbols.csv",
+        help="Path to CSV containing NSE universe or snapshot eligible.csv (default 'data/sample_nse_symbols.csv').",
+    )
+    parser.add_argument(
+        "--build-universe",
+        action="store_true",
+        help="Build a new dated research universe snapshot before screening.",
+    )
+    parser.add_argument(
+        "--universe-source",
+        type=str,
+        default="sample",
+        help="Universe source to build from: 'sample', 'nse_eq' (official NSE live), or 'custom_csv' (default 'sample').",
+    )
+    parser.add_argument(
+        "--snapshot-dir",
+        type=str,
+        default="data/universe_snapshots",
+        help="Base directory to save universe snapshots (default 'data/universe_snapshots').",
     )
     parser.add_argument(
         "--eligible-series",
@@ -81,6 +99,29 @@ def main() -> None:
 
     # 1. Ingest & Validate Universe
     eligible_series_tuple = tuple(s.strip().upper() for s in args.eligible_series.split(","))
+
+    if args.build_universe:
+        print(f"Building research universe from source '{args.universe_source}'...")
+        build_res = build_research_universe(
+            source=args.universe_source,
+            output_base_dir=args.snapshot_dir,
+            eligible_series=eligible_series_tuple,
+            min_avg_turnover_cr=args.min_turnover_cr,
+        )
+        rep = build_res.report
+        print(f"  Snapshot created at:         {rep.snapshot_dir}")
+        print(f"  Total source records:        {rep.total_source_records}")
+        print(f"  Valid EQ symbols:            {rep.eq_series_count}")
+        print(f"  Final research-eligible:     {rep.final_research_eligible_count}")
+        print(f"  Total excluded records:      {rep.final_excluded_count}")
+        print("  Rejections breakdown:")
+        for r_name, r_count in rep.rejections_by_reason.items():
+            print(f"    - {r_name}: {r_count}")
+
+        # Set universe path to generated eligible.csv for downstream screening
+        args.universe = str(Path(rep.snapshot_dir) / "eligible.csv")
+        print(f"Proceeding to screen {len(build_res.eligible_records)} eligible securities from {args.universe}...\n")
+
     print(f"Loading universe from: {args.universe}")
     print(f"Eligible series: {eligible_series_tuple}")
 
