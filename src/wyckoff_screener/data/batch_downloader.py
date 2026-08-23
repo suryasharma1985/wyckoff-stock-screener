@@ -135,7 +135,7 @@ def _download_single_ticker_with_retry(
 
     for attempt in range(1, max_retries + 1):
         try:
-            raw = yf.download(ticker, start=start_date, end=end_date, interval=interval, progress=False)
+            raw = yf.download(ticker, start=start_date, end=end_date, interval=interval, progress=False, timeout=15)
             if raw is None or raw.empty:
                 raise ValueError(f"yfinance returned empty dataset for {ticker} between {start_date} and {end_date}.")
 

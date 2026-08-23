@@ -177,49 +177,60 @@ def build_research_dataset(
     fresh_downloads = 0
     validation_failures = 0
 
+    all_yf_tickers = [t[1] for t in tickers_to_process]
+    raw_data_map: dict[str, pd.DataFrame] = {}
+    acquisition_status_map: dict[str, str] = {}
+
+    if preloaded_ohlcv_dict is not None:
+        for t in all_yf_tickers:
+            if t in preloaded_ohlcv_dict:
+                raw_data_map[t] = preloaded_ohlcv_dict[t]
+                acquisition_status_map[t] = "PRELOADED_MOCK"
+                cache_hits += 1
+    else:
+        # Check cache presence before batch execution for exact reporting
+        for t in all_yf_tickers:
+            c_csv = Path(DEFAULT_CACHE_DIR) / f"{t}.csv"
+            c_meta = Path(DEFAULT_CACHE_DIR) / f"{t}.meta.json"
+            if not force_refresh and c_csv.exists() and c_meta.exists():
+                acquisition_status_map[t] = "CACHE_HIT"
+            else:
+                acquisition_status_map[t] = "FRESH_DOWNLOAD"
+
+        batch_res = market_downloader.download_batch(all_yf_tickers)
+        raw_data_map = batch_res.successful_data
+        cache_hits = batch_res.cached_count
+        fresh_downloads = batch_res.downloaded_count
+
+        for f in batch_res.failures:
+            sym_match = f.ticker[:-3] if f.ticker.endswith(".NS") else f.ticker
+            failures_records.append({
+                "symbol": sym_match,
+                "yfinance_ticker": f.ticker,
+                "stage": f.stage,
+                "primary_reason": "DOWNLOAD_FAILED",
+                "error_message": f.error_message,
+                "retries_attempted": 3,
+                "timestamp_utc": f.timestamp_utc,
+            })
+
     # Process each ticker with failure isolation
     for sym, yf_ticker, company, series in tickers_to_process:
-        df_raw: Optional[pd.DataFrame] = None
-        acquisition_status = "UNKNOWN"
+        df_raw = raw_data_map.get(yf_ticker)
+        acquisition_status = acquisition_status_map.get(yf_ticker, "UNKNOWN")
 
-        if preloaded_ohlcv_dict and yf_ticker in preloaded_ohlcv_dict:
-            df_raw = preloaded_ohlcv_dict[yf_ticker]
-            acquisition_status = "PRELOADED_MOCK"
-        else:
-            cache_file = Path(DEFAULT_CACHE_DIR) / f"{yf_ticker}.csv"
-            cache_meta = Path(DEFAULT_CACHE_DIR) / f"{yf_ticker}.meta.json"
-            had_cache = cache_file.exists() and cache_meta.exists() and not force_refresh
-
-            try:
-                df_raw = market_downloader.get_ticker_data(yf_ticker)
-                if df_raw is not None and not df_raw.empty:
-                    acquisition_status = "CACHE_HIT" if had_cache else "FRESH_DOWNLOAD"
-                    if had_cache:
-                        cache_hits += 1
-                    else:
-                        fresh_downloads += 1
-            except Exception as exc:
+        if df_raw is None or df_raw.empty:
+            # If not already recorded in batch failures
+            if not any(f["yfinance_ticker"] == yf_ticker for f in failures_records):
                 failures_records.append({
                     "symbol": sym,
                     "yfinance_ticker": yf_ticker,
-                    "stage": "download",
-                    "primary_reason": "DOWNLOAD_FAILED",
-                    "error_message": str(exc),
+                    "stage": "data_availability",
+                    "primary_reason": "EMPTY_DATA",
+                    "error_message": f"No data returned for ticker {yf_ticker}.",
                     "retries_attempted": 3,
                     "timestamp_utc": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
                 })
-                continue
-
-        if df_raw is None or df_raw.empty:
-            failures_records.append({
-                "symbol": sym,
-                "yfinance_ticker": yf_ticker,
-                "stage": "data_availability",
-                "primary_reason": "EMPTY_DATA",
-                "error_message": f"No data returned for ticker {yf_ticker}.",
-                "retries_attempted": 3,
-                "timestamp_utc": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
-            })
             continue
 
         # Validate canonical schema and OHLC geometry
