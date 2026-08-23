@@ -22,6 +22,10 @@ import streamlit as st
 import yfinance as yf
 
 
+from wyckoff_screener.charting.tradingview_links import (
+    CHART_REVIEW_CHECKLIST,
+    generate_tradingview_links,
+)
 from wyckoff_screener.data_loader import validate_ohlcv_dataframe
 from wyckoff_screener.pointfigure.pf_chart import build_point_and_figure_chart, count_price_objective
 from wyckoff_screener.scoring.setup_scorer import score_setup
@@ -344,5 +348,55 @@ if df is not None and not df.empty:
         icon = "✅" if f_pass else "❌"
         col.write(f"{icon} **{f_name.replace('_', ' ').title()}**")
 
+    # -------------------------------------------------------------
+    # TradingView Manual Chart-Review Integration
+    # -------------------------------------------------------------
+    st.markdown("---")
+    st.markdown("### 🌐 TradingView Multi-Timeframe Chart Review")
+
+    tv_links = generate_tradingview_links(current_symbol)
+
+    st.markdown(
+        """
+        <div class="score-caveat">
+            ℹ️ <strong>Manual Visual Review Notice:</strong> TradingView link is provided for manual human visual confirmation.
+            Numeric signals and metrics shown above are strictly calculated from the application's validated OHLCV data.
+            A TradingView link is <strong>NOT proof or confirmation</strong> that a setup, Spring, LPS, or SOS is confirmed.
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    tv_c1, tv_c2, tv_c3 = st.columns(3)
+    with tv_c1:
+        st.link_button(
+            "📈 Open Daily Chart (1D)",
+            tv_links.daily_url,
+            use_container_width=True,
+            help="Open Daily chart on TradingView with Volume and EMAs",
+        )
+    with tv_c2:
+        st.link_button(
+            "📊 Open Weekly Chart (1W)",
+            tv_links.weekly_url,
+            use_container_width=True,
+            help="Open Weekly chart on TradingView for macro base confirmation",
+        )
+    with tv_c3:
+        st.link_button(
+            "⏱️ Open 75-Minute Chart (75m)",
+            tv_links.intraday_75m_url,
+            use_container_width=True,
+            help="Open 75m chart on TradingView (select 75m manually if needed)",
+        )
+
+    st.caption(f"TradingView Symbol: `{tv_links.exchange_symbol}` | {tv_links.intraday_note}")
+
+    with st.expander("📋 9-Point Manual Chart-Review Checklist", expanded=False):
+        for item in CHART_REVIEW_CHECKLIST:
+            st.markdown(f"- {item}")
+        st.info("💡 Keep this checklist open while visually examining the TradingView chart to confirm volume spreads and structural support holding.")
+
 else:
     st.info("👈 Please load data via the sidebar (fetch live ticker or upload a CSV) to begin analysis.")
+

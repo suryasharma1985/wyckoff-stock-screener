@@ -155,4 +155,33 @@ The pooled +17.44% for high-score vs +15.75% for low-score looks like a marginal
 - Do not re-weight the scoring engine based on this dataset alone — sample size is too small.
 - Any future re-weighting must be documented with sample size, methodology, and honest out-of-sample results.
 
+---
+
+## Universe Ingestion & Survivorship Bias Distinction
+- **Current Universe Screening vs. Historical Backtesting**: Ingesting a current constituent list (e.g. current Nifty 50 or active NSE equities) is appropriate for forward monitoring, triage, and manual review. However, screening a current list over historical periods introduces **survivorship bias** (failing or delisted companies are excluded).
+- For bias-free historical backtests, point-in-time universe snapshots must be supplied. Every universe validation report explicitly records `universe_source`, `retrieval_date`, and constituent methodology.
+- **Series Eligibility**: `EQ` is the default eligible series for standard Indian equity trading. Alternative series (such as `BE` Trade-for-Trade / Book Entry) carry distinct settlement constraints and liquidity dynamics; they are not treated as equivalent to `EQ` and must be deliberately opted in by the caller.
+
+---
+
+## TradingView Integration & Visual Review Layer
+- **Strict Separation of Quantitative Engine and Visual Chart Navigation**:
+  - TradingView URLs (Daily, Weekly, 75-Minute) are generated purely to facilitate human visual inspection on TradingView's platform.
+  - A generated TradingView link is **NOT evidence** that a setup, Spring, LPS, SOS, or accumulation structure is valid or confirmed.
+  - All numeric calculations (moving averages, RSI, ATR/VCP ratios, volume spreads, P&F targets) are derived strictly from the application's validated, point-in-time OHLCV dataset.
+- **Manual Chart-Review Checklist**:
+  1. Daily chart with volume (bar-by-bar spread & volume interaction)
+  2. Weekly chart with volume (macro trend / base structure)
+  3. RSI(14) in 55–70 bullish momentum zone
+  4. 20-period volume average comparison (climactic volume >= 2.0x, dry-up < 0.75x)
+  5. 50 EMA and 100 EMA / SMA alignment
+  6. ATR / VCP volatility contraction across successive swings
+  7. Marked support and resistance levels across trading range
+  8. Schematic candidate: Spring / ST / LPS / SOS / UTAD context
+  9. Close-position and effort-vs-result absorption check
+- **Manual Review Records**:
+  - Review records must explicitly record `chart_review_status` (`pending`, `reviewed`, `rejected`), `reviewed_timeframes`, `reviewer_notes`, `confirmed_candidate_events`, and `rejected_candidate_events`.
+  - Candidate events must **never** be automatically converted to "confirmed" status without a completed manual review record.
+
+
 
