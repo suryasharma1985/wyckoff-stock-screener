@@ -316,7 +316,8 @@ def build_research_dataset(
 
         # Write canonical OHLCV CSV file
         out_csv_path = data_dir / f"{yf_ticker}.csv"
-        validated_df.to_csv(out_csv_path, index=False)
+        canonical_df = validated_df[["Date", "Open", "High", "Low", "Close", "Volume"]]
+        canonical_df.to_csv(out_csv_path, index=False)
         data_files[yf_ticker] = out_csv_path
 
         symbols_records.append({

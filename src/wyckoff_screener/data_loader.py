@@ -156,8 +156,10 @@ def validate_ohlcv_dataframe(
             f"Found {len(invalid_volume)} bars with negative Volume (e.g. date: {invalid_volume.iloc[0][date_col]})"
         )
 
-    # 9. Sort ascending by date
+    # 9. Sort ascending by date and enforce canonical column order
     cleaned = cleaned.sort_values(by=date_col, ascending=True).reset_index(drop=True)
+    canonical_cols = [date_col, open_col, high_col, low_col, close_col, volume_col]
+    cleaned = cleaned[canonical_cols]
 
     return cleaned
 
