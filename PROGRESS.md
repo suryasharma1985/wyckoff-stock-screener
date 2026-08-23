@@ -10,10 +10,10 @@
 - [x] Phase 5: Point & Figure counting + Bogomazov peer-strength comparison — 2026-08-22
 - [x] Phase 6: Scoring/ranking engine + Streamlit dashboard — 2026-08-22
 - [x] Phase 7: Historical backtest validation & forward-return evaluation — 2026-08-22
-- [x] Phase 8: NSE-wide batch screening & TradingView manual-review integration — 2026-08-23
+- [x] Phase 8: CSV-defined batch screening & TradingView manual-review integration — 2026-08-23
 
 ## Test Suite Status
-- 88/88 passing as of Phase 8 (including universe ingestion, batch downloader cache, TradingView URLs, broad filters, and review record schema)
+- 89/89 passing as of Phase 8 release audit (including universe ingestion, batch downloader cache, TradingView URLs, broad filters, 3-gate qualification rules, and review record schema)
 
 ## Bugs Found and Fixed
 - **2026-08-22**: Fixed combinatorial explosion in `detect_secondary_test_candidates()` and `detect_lps_candidates()`. Previously, both functions scanned from each anchor to the end of the dataset without a search ceiling and recorded every matching bar (yielding 211 STs and 13,534 LPSs on ANANTRAJ). Fixed by introducing bounded lookahead windows (`ST_MAX_BARS_AFTER_SC = 15`, `LPS_MAX_BARS_AFTER_ANCHOR = 20`) and recording only the first qualifying bar per anchor. Reduced ANANTRAJ counts to 4 STs and 6 LPSs.
@@ -38,6 +38,12 @@
 - `P&F Count-Row Auto-Selection Priority`: When `count_row_price` is not provided by caller, auto-selects by priority: most recent `LPS` candidate price > most recent `Spring` candidate price > `current_close`.
 - `P&F Upside-to-Points Tiers`: Upside thresholds (>=20% => 10 pts, >=10% => 6 pts, >0% => 3 pts, <=0% => 0 pts) are codified arbitrary threshold bands for ranking prioritization, not derived literally from AGENTS.md text.
 - `Backtest Lookback Window`: `run_rolling_score()` uses a 250-bar rolling window (not expanding) so earlier data is dropped at each checkpoint. This matches how the scoring engine was designed (recent-history scoring), but means the engine never "sees" the full dataset simultaneously.
+- `Compound Mechanical Qualification Rule`: `is_mechanically_qualified` is a 3-gate compound rule: `pass_liq AND (weekly_uptrend OR dma_50_above_100) AND (rsi_in_band OR atr_contracting OR vcp_bbw_contracting)`. Individual filter results are exposed separately in `filter_results`.
+- `Three-Layer Concept Separation`:
+  1. Universe Eligibility: Series `EQ` filter and ticker syntax validation (`universe/nse_symbols.py`).
+  2. Setup / Mechanical Qualification: Technical trend, momentum, volatility contraction, and turnover gates (`scanning/broad_filter.py`).
+  3. Research / Backtest Eligibility: Data bar sufficiency (`min_bars >= 60`), session continuity, zero-volume rate, and point-in-time constituent snapshot verification.
+- `Universe Provenance & Survivorship Bias Notice`: Current constituent lists (such as `data/sample_nse_symbols.csv` containing 15 accepted EQ stocks) are CSV-defined sample universes suitable for forward screening/monitoring, but do NOT represent survivorship-bias-free historical index constituents. Point-in-time constituent snapshots must be supplied for historical research.
 
 
 

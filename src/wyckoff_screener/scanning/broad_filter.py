@@ -212,7 +212,12 @@ def evaluate_broad_setup(
         "min_liquidity_passed": pass_liq,
     }
 
-    # Mechanically qualified requires core trend + liquidity + at least one contraction/momentum support
+    # Compound Mechanical Qualification Rule:
+    # 1. Gate 1 (Mandatory Liquidity): pass_liq (20-day avg turnover >= min_avg_turnover_cr)
+    # 2. Gate 2 (Trend Confirmation - At least 1 of 2): weekly_uptrend OR dma_50_above_100
+    # 3. Gate 3 (Setup Quality / Contraction - At least 1 of 3): rsi_in_band OR atr_contracting OR vcp_bbw_contracting
+    # Note: is_mechanically_qualified indicates compound qualification across all 3 gates;
+    # individual pass/fail status for all 6 filters is exposed independently in filter_results dict.
     is_mechanically_qualified = bool(
         pass_liq and (pass_weekly or pass_dma) and (pass_rsi or pass_atr or pass_bbw)
     )

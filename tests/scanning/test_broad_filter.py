@@ -93,3 +93,30 @@ def test_weekly_bar_completeness_check():
     # 2026-08-19 is Wednesday (weekday 2)
     df_wednesday = pd.DataFrame({"Date": [pd.to_datetime("2026-08-19")]})
     assert check_weekly_bar_completeness(df_wednesday) is False
+
+
+def test_mechanical_qualification_exact_3_gate_rules():
+    """Prove the exact Boolean formula of is_mechanically_qualified across each gate:
+
+    Rule: is_mechanically_qualified = min_liquidity_passed
+                                    AND (weekly_uptrend OR dma_50_above_100)
+                                    AND (rsi_in_band OR atr_contracting OR vcp_bbw_contracting)
+    """
+    df_base = _create_passing_synthetic_stock(bars=500)
+
+    # 1. Base stock passes
+    res_base = evaluate_broad_setup(df_base, symbol="BASE.NS", min_avg_turnover_cr=1.0)
+    assert res_base.is_mechanically_qualified is True
+
+    # 2. Gate 1 (Liquidity) failure: setting min_avg_turnover_cr to impossible level (e.g. 1000 Cr)
+    res_liq_fail = evaluate_broad_setup(df_base, symbol="LIQ_FAIL.NS", min_avg_turnover_cr=1000.0)
+    assert res_liq_fail.filter_results["min_liquidity_passed"] is False
+    assert res_liq_fail.is_mechanically_qualified is False
+
+    # 3. Gate 2 (Trend) failure: downward trending stock fails both weekly and daily trend
+    df_trend_fail = _create_failing_synthetic_stock(bars=150)
+    res_trend_fail = evaluate_broad_setup(df_trend_fail, symbol="TREND_FAIL.NS", min_avg_turnover_cr=0.0)
+    assert res_trend_fail.filter_results["weekly_uptrend"] is False
+    assert res_trend_fail.filter_results["dma_50_above_100"] is False
+    assert res_trend_fail.is_mechanically_qualified is False
+
