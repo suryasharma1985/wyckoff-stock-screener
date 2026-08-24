@@ -147,6 +147,18 @@ def category_chip(cat: str) -> str:
     return '<span class="chip-none">— No Setup</span>'
 
 
+def format_date_tag(tag: str) -> str:
+    """Format date tag (YYYYMMDD or YYYY-MM-DD) into readable calendar string."""
+    clean = str(tag).strip().replace("-", "")
+    if len(clean) == 8 and clean.isdigit():
+        try:
+            dt = datetime.strptime(clean, "%Y%m%d")
+            return dt.strftime("%Y-%m-%d (%d %b %Y)")
+        except ValueError:
+            pass
+    return str(tag)
+
+
 def section(label: str):
     st.markdown(f'<div class="section-header">{label}</div>', unsafe_allow_html=True)
 
@@ -445,7 +457,33 @@ elif page == "📊 Research Screening Results":
         if not run_dirs:
             st.info("No completed screening runs found.")
         else:
-            sel_dir = st.selectbox("Select Screening Run Date", run_dirs, format_func=lambda d: d.name)
+            # Build date mapping for calendar selector
+            date_map = {}
+            for d in run_dirs:
+                clean = d.name.replace("-", "")
+                if len(clean) == 8 and clean.isdigit():
+                    try:
+                        dt = datetime.strptime(clean, "%Y%m%d").date()
+                        date_map[dt] = d
+                    except ValueError:
+                        pass
+
+            col_cal, col_drop = st.columns([1, 2])
+            with col_cal:
+                default_date = list(date_map.keys())[0] if date_map else datetime.today().date()
+                picked_date = st.date_input("📅 Calendar Date Selector", value=default_date, key="scr_cal_date")
+
+            matched_dir = date_map.get(picked_date)
+            default_idx = run_dirs.index(matched_dir) if matched_dir in run_dirs else 0
+
+            with col_drop:
+                sel_dir = st.selectbox(
+                    "Select Screening Run Date",
+                    run_dirs,
+                    index=default_idx,
+                    format_func=lambda d: f"📅 {format_date_tag(d.name)}"
+                )
+
             cand_path = sel_dir / "candidates.csv"
             all_path = sel_dir / "all_results.csv"
 
@@ -511,7 +549,7 @@ elif page == "📉 Historical Validation":
     else:
         val_dirs = sorted([d for d in val_base.iterdir() if d.is_dir()], reverse=True)
         if val_dirs:
-            selected_val = st.selectbox("Validation Run Date", val_dirs, format_func=lambda d: d.name)
+            selected_val = st.selectbox("Validation Run Date", val_dirs, format_func=lambda d: f"📅 {format_date_tag(d.name)}")
             cat_path = selected_val / "category_performance.csv"
             score_path = selected_val / "score_band_performance.csv"
             split_path = selected_val / "in_sample_vs_out_sample.csv"
@@ -645,7 +683,12 @@ elif page == "🔮 Forward Paper Validation":
         st.markdown("#### 📸 Frozen Screening Snapshots")
         if snapshots_dir.exists() and total_snaps > 0:
             snap_dates = [p.stem.replace("snapshot_", "") for p in sorted(snapshots_dir.glob("snapshot_*.json"), reverse=True)]
-            sel_date_tag = st.selectbox("Select Screening Snapshot Date", snap_dates, index=0)
+            sel_date_tag = st.selectbox(
+                "Select Screening Snapshot Date",
+                snap_dates,
+                index=0,
+                format_func=lambda dt: f"📅 {format_date_tag(dt)}"
+            )
             target_snap_file = snapshots_dir / f"snapshot_{sel_date_tag}.json"
             if target_snap_file.exists():
                 try:
