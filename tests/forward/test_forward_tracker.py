@@ -343,3 +343,17 @@ def test_forward_cli_execution(tmp_path: Path):
     # Test report command (should run without error)
     args_report = argparse.Namespace(forward_dir=str(fwd_dir))
     handle_report(args_report)
+
+    # Test screen command with invalid/early date raises SystemExit
+    args_invalid_screen = argparse.Namespace(
+        date="1990-01-01",
+        dataset_dir=str(ds_dir),
+        forward_dir=str(fwd_dir),
+        overwrite=False,
+        min_turnover_cr=0.0,
+        high_priority_threshold=60.0,
+        qualified_threshold=40.0,
+        watchlist_threshold=30.0,
+    )
+    with pytest.raises(SystemExit):
+        handle_screen(args_invalid_screen)

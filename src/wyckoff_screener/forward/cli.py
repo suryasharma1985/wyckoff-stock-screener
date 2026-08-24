@@ -20,6 +20,7 @@ from wyckoff_screener.forward.models import (
     FORWARD_ENGINE_VERSION,
     ForwardCandidateRecord,
     HorizonStatus,
+    generate_candidate_id,
 )
 from wyckoff_screener.forward.tracker import update_all_forward_outcomes
 from wyckoff_screener.research.screening_engine import (
@@ -106,6 +107,10 @@ def handle_screen(args: argparse.Namespace) -> None:
                     df_pit.to_csv(tmp_data_dir / f"{yf_ticker}.csv", index=False)
                     sliced_count += 1
 
+        if sliced_count == 0:
+            print(f"ERROR: No securities in '{ds_dir}' have at least 50 historical bars on or before {target_date_str}.", file=sys.stderr)
+            sys.exit(1)
+
         print(f"Point-in-time dataset prepared: {sliced_count} securities with data <= {target_date_str}")
 
         # Run frozen research screening engine on the strictly isolated dataset
@@ -121,16 +126,6 @@ def handle_screen(args: argparse.Namespace) -> None:
         )
 
     # Convert results into immutable ForwardCandidateRecord items
-    forward_records: list[ForwardCandidateRecord] = []
-    for cand in screening_res.candidates_df.to_dict(orient="records"):
-        pass
-
-    for cand_obj in screening_res.manifest.candidate_records if hasattr(screening_res.manifest, "candidate_records") else []:
-        pass
-
-    # Reconstruct from successful candidate result objects
-    # Note: run_research_screening produces all_results_df
-    # We load candidate records directly from screening_engine
     all_cand_records: list[ForwardCandidateRecord] = []
     for _, row in screening_res.all_results_df.iterrows():
         sym = str(row["symbol"]).strip().upper()
@@ -144,8 +139,7 @@ def handle_screen(args: argparse.Namespace) -> None:
 
         cand_id = row.get("candidate_id")
         if not cand_id or pd.isna(cand_id):
-            cand_id = f"{sym}_{target_date_str}_{ref_price:.4f}_{FORWARD_ENGINE_VERSION}"
-            cand_id = cand_id[:16]
+            cand_id = generate_candidate_id(sym, target_date_str, ref_price, FORWARD_ENGINE_VERSION)
 
         rec = ForwardCandidateRecord(
             candidate_id=str(cand_id),
