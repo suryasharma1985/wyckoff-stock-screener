@@ -1,0 +1,26 @@
+{
+  "screening_run_id": "research_screening_20260801",
+  "dataset_snapshot_path": "data/research_datasets/20260801",
+  "dataset_date": "2026-08-23 13:20:04 UTC",
+  "generated_at_utc": "2026-08-24 09:41:38 UTC",
+  "schema_version": "1.0",
+  "total_input_securities": 31,
+  "attempted_evaluations": 31,
+  "successful_evaluations": 31,
+  "failed_evaluations": 0,
+  "high_priority_candidates_count": 4,
+  "qualified_candidates_count": 4,
+  "watchlist_candidates_count": 13,
+  "no_setup_count": 0,
+  "disqualified_count": 10,
+  "mechanically_qualified_count": 18,
+  "tradingview_link_failures_count": 0,
+  "screening_policy": {
+    "min_avg_turnover_cr": 1.0,
+    "high_priority_score_threshold": 60.0,
+    "qualified_score_threshold": 40.0,
+    "watchlist_score_threshold": 30.0,
+    "max_workers": 4
+  },
+  "disclaimer": "RESEARCH TRIAGE NOTICE: All candidate classifications and scores are mathematical research triage aids for human visual chart review on TradingView. Not investment advice or trade signals."
+}

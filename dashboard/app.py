@@ -488,32 +488,57 @@ elif page == "📊 Research Screening Results":
         if not run_dirs:
             st.info("No completed screening runs found.")
         else:
+            # Filter run_dirs to those with valid format
+            valid_run_dirs = [d for d in run_dirs if d.name.replace("-", "").isdigit() and len(d.name.replace("-", "")) == 8]
+            if not valid_run_dirs:
+                valid_run_dirs = run_dirs
+
             # Build date mapping for calendar selector
             date_map = {}
-            for d in run_dirs:
+            for d in valid_run_dirs:
                 clean = d.name.replace("-", "")
-                if len(clean) == 8 and clean.isdigit():
-                    try:
-                        dt = datetime.strptime(clean, "%Y%m%d").date()
-                        date_map[dt] = d
-                    except ValueError:
-                        pass
+                try:
+                    dt = datetime.strptime(clean, "%Y%m%d").date()
+                    date_map[dt] = d
+                except ValueError:
+                    pass
+
+            sorted_dates = sorted(date_map.keys(), reverse=True)
+            default_date = sorted_dates[0] if sorted_dates else datetime.today().date()
 
             col_cal, col_drop = st.columns([1, 2])
             with col_cal:
-                default_date = list(date_map.keys())[0] if date_map else datetime.today().date()
                 picked_date = st.date_input("📅 Calendar Date Selector", value=default_date, key="scr_cal_date")
 
-            matched_dir = date_map.get(picked_date)
-            default_idx = run_dirs.index(matched_dir) if matched_dir in run_dirs else 0
+            # Check if picked calendar date is an exact match
+            if picked_date in date_map:
+                sel_dir = date_map[picked_date]
+                chosen_idx = valid_run_dirs.index(sel_dir)
+            else:
+                # Find closest earlier date if possible, else closest available
+                earlier_dates = [d for d in sorted_dates if d <= picked_date]
+                if earlier_dates:
+                    closest_date = earlier_dates[0]
+                else:
+                    closest_date = sorted_dates[-1] if sorted_dates else default_date
+                sel_dir = date_map.get(closest_date, valid_run_dirs[0])
+                chosen_idx = valid_run_dirs.index(sel_dir) if sel_dir in valid_run_dirs else 0
 
             with col_drop:
-                sel_dir = st.selectbox(
+                dropdown_dir = st.selectbox(
                     "Select Screening Run Date",
-                    run_dirs,
-                    index=default_idx,
-                    format_func=lambda d: f"📅 {format_date_tag(d.name)}"
+                    valid_run_dirs,
+                    index=chosen_idx,
+                    format_func=lambda d: f"📅 {format_date_tag(d.name)}",
+                    key=f"scr_run_dir_select_{picked_date.strftime('%Y%m%d')}",
                 )
+                sel_dir = dropdown_dir
+
+            if picked_date in date_map:
+                st.success(f"✅ Displaying screening results for **{picked_date.strftime('%d %b %Y')}** ({len(valid_run_dirs)} historical screening runs available).")
+            else:
+                avail_str = ", ".join([f"`{d.strftime('%Y-%m-%d')}`" for d in sorted_dates])
+                st.warning(f"⚠️ No screening scan was performed on **{picked_date.strftime('%d %b %Y')}**. Showing closest screening run: **{format_date_tag(sel_dir.name)}**. (Available dates: {avail_str})")
 
             cand_path = sel_dir / "candidates.csv"
             all_path = sel_dir / "all_results.csv"
