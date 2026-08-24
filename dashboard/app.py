@@ -55,6 +55,7 @@ except ImportError:
 
 from wyckoff_screener.charting.tradingview_links import CHART_REVIEW_CHECKLIST, generate_tradingview_links
 from wyckoff_screener.data_loader import validate_ohlcv_dataframe
+from wyckoff_screener.indicators.vsa_metrics import close_position, spread_ratio, volume_ratio
 from wyckoff_screener.pointfigure.pf_chart import build_point_and_figure_chart, count_price_objective
 from wyckoff_screener.scoring.setup_scorer import score_setup
 from wyckoff_screener.wyckoff.schematic_events import detect_all_schematic_events
@@ -290,6 +291,34 @@ if page == "🏠 Home / Single Stock":
     if df is not None and not df.empty:
         scored = score_setup(df, symbol=current_symbol)
 
+        # Compute VSA metrics for latest bar
+        vr_series = volume_ratio(df)
+        sr_series = spread_ratio(df)
+        cp_series = close_position(df)
+
+        latest_vr = float(vr_series.iloc[-1]) if not vr_series.empty and not pd.isna(vr_series.iloc[-1]) else 1.0
+        latest_sr = float(sr_series.iloc[-1]) if not sr_series.empty and not pd.isna(sr_series.iloc[-1]) else 1.0
+        latest_cp = float(cp_series.iloc[-1]) if not cp_series.empty and not pd.isna(cp_series.iloc[-1]) else 0.5
+
+        # Determine candidate category
+        if scored.is_disqualified:
+            cand_category = "DISQUALIFIED"
+        elif scored.composite_score >= 60.0 and all(scored.mechanical_filters_passed.values()):
+            cand_category = "HIGH_PRIORITY_CANDIDATE"
+        elif scored.composite_score >= 40.0:
+            cand_category = "QUALIFIED_CANDIDATE"
+        elif scored.composite_score >= 30.0:
+            cand_category = "WATCHLIST"
+        else:
+            cand_category = "NO_SETUP"
+
+        pf_obj = scored.pf_price_objective
+        pf_target = pf_obj.target_price if pf_obj else None
+        pf_upside = pf_obj.upside_pct if pf_obj else None
+        pf_is_stale = pf_obj.is_stale_anchor if pf_obj else False
+        is_mech_qual = all(scored.mechanical_filters_passed.values())
+        filter_details = scored.mechanical_filters_passed
+
         # ── Stock Header Row
         st.markdown("---")
         hcol1, hcol2, hcol3 = st.columns([3, 2, 2])
@@ -302,27 +331,27 @@ if page == "🏠 Home / Single Stock":
         with hcol2:
             st.metric("Reference Close Price", f"₹{df['Close'].iloc[-1]:.2f}")
         with hcol3:
-            st.markdown(category_chip(scored.candidate_category), unsafe_allow_html=True)
+            st.markdown(category_chip(cand_category), unsafe_allow_html=True)
             st.caption(f"Composite Score: **{scored.composite_score:.1f} / 100**")
 
         # ── 1. "WHY WAS THIS STOCK SELECTED?"
         render_why_selected_card(
             symbol=current_symbol,
-            category=scored.candidate_category,
+            category=cand_category,
             composite_score=scored.composite_score,
             event_type=scored.most_recent_event_type or "None",
-            event_date=scored.most_recent_event_date or "N/A",
-            vol_ratio=scored.vsa_volume_ratio,
-            spread_ratio=scored.vsa_spread_ratio,
-            close_pos=scored.vsa_close_position,
-            mechanical_passed=scored.is_mechanically_qualified,
-            filter_details=scored.filter_results,
-            pf_target=scored.pf_target_price,
-            pf_upside=scored.pf_upside_pct,
-            pf_is_stale=scored.pf_is_stale_anchor,
+            event_date=str(scored.most_recent_event_date) if scored.most_recent_event_date else "N/A",
+            vol_ratio=latest_vr,
+            spread_ratio=latest_sr,
+            close_pos=latest_cp,
+            mechanical_passed=is_mech_qual,
+            filter_details=filter_details,
+            pf_target=pf_target,
+            pf_upside=pf_upside,
+            pf_is_stale=pf_is_stale,
             is_disqualified=scored.is_disqualified,
             disqualifying_flags=" · ".join(scored.disqualifying_flags) if scored.disqualifying_flags else "None",
-            explanation_summary=scored.supporting_note,
+            explanation_summary="",
             beginner_mode=beginner_mode,
         )
 
@@ -331,10 +360,10 @@ if page == "🏠 Home / Single Stock":
         # ── 2. WYCKOFF INTERPRETATION
         render_wyckoff_interpretation_card(
             event_type=scored.most_recent_event_type or "None",
-            event_date=scored.most_recent_event_date or "N/A",
-            vol_ratio=scored.vsa_volume_ratio,
-            spread_ratio=scored.vsa_spread_ratio,
-            close_pos=scored.vsa_close_position,
+            event_date=str(scored.most_recent_event_date) if scored.most_recent_event_date else "N/A",
+            vol_ratio=latest_vr,
+            spread_ratio=latest_sr,
+            close_pos=latest_cp,
             beginner_mode=beginner_mode,
         )
 
@@ -342,13 +371,13 @@ if page == "🏠 Home / Single Stock":
 
         # ── 3. WHAT SHOULD I LOOK AT ON THE CHART?
         render_chart_checklist_card(
-            filter_details=scored.filter_results,
-            vol_ratio=scored.vsa_volume_ratio,
-            spread_ratio=scored.vsa_spread_ratio,
-            close_pos=scored.vsa_close_position,
+            filter_details=filter_details,
+            vol_ratio=latest_vr,
+            spread_ratio=latest_sr,
+            close_pos=latest_cp,
             event_type=scored.most_recent_event_type or "None",
-            pf_target=scored.pf_target_price,
-            pf_is_stale=scored.pf_is_stale_anchor,
+            pf_target=pf_target,
+            pf_is_stale=pf_is_stale,
             is_disqualified=scored.is_disqualified,
         )
 
@@ -363,10 +392,10 @@ if page == "🏠 Home / Single Stock":
 
         # ── 5. SCREENING CHECKLIST (Expandable)
         render_screening_checklist_expander(
-            filter_details=scored.filter_results,
-            vol_ratio=scored.vsa_volume_ratio,
-            spread_ratio=scored.vsa_spread_ratio,
-            close_pos=scored.vsa_close_position,
+            filter_details=filter_details,
+            vol_ratio=latest_vr,
+            spread_ratio=latest_sr,
+            close_pos=latest_cp,
         )
 
         # ── 6. RISKS & INVALIDATIONS
@@ -419,7 +448,7 @@ if page == "🏠 Home / Single Stock":
                 f"**Calculated P&F Objective**: **₹{pf_obj.target_price:.2f}** "
                 f"(Upside: **+{pf_obj.upside_pct:.1f}%** | Count Row: ₹{pf_obj.count_row_price:.2f} | Columns: {pf_obj.columns_counted})"
             )
-            if scored.pf_is_stale_anchor:
+            if pf_obj.is_stale_anchor:
                 st.warning("⚠️ **Stale P&F Anchor Warning**: Count row anchor is older than 60 bars.")
         else:
             st.info("No Point & Figure horizontal count row identified in current trading range.")
