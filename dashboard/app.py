@@ -312,10 +312,11 @@ if page == "🏠 Home / Single Stock":
         else:
             cand_category = "NO_SETUP"
 
+        ref_close = float(df["Close"].iloc[-1])
         pf_obj = scored.pf_price_objective
-        pf_target = pf_obj.target_price if pf_obj else None
-        pf_upside = pf_obj.upside_pct if pf_obj else None
-        pf_is_stale = pf_obj.is_stale_anchor if pf_obj else False
+        pf_target = pf_obj.price_objective if pf_obj else None
+        pf_upside = ((pf_obj.price_objective - ref_close) / ref_close * 100.0) if (pf_obj and ref_close > 0) else None
+        pf_is_stale = bool(pf_obj.stale_anchor) if pf_obj else False
         is_mech_qual = all(scored.mechanical_filters_passed.values())
         filter_details = scored.mechanical_filters_passed
 
@@ -442,13 +443,14 @@ if page == "🏠 Home / Single Stock":
 
         # ── 8. POINT & FIGURE CHART & TARGETS
         section("Bruce Fraser Point & Figure Analysis")
-        pf_obj = count_price_objective(df)
-        if pf_obj and pf_obj.target_price:
+        if scored.pf_price_objective and scored.pf_price_objective.price_objective:
+            pf_res = scored.pf_price_objective
+            upside_pct = ((pf_res.price_objective - ref_close) / ref_close * 100.0) if ref_close > 0 else 0.0
             st.markdown(
-                f"**Calculated P&F Objective**: **₹{pf_obj.target_price:.2f}** "
-                f"(Upside: **+{pf_obj.upside_pct:.1f}%** | Count Row: ₹{pf_obj.count_row_price:.2f} | Columns: {pf_obj.columns_counted})"
+                f"**Calculated P&F Objective**: **₹{pf_res.price_objective:.2f}** "
+                f"(Upside: **{upside_pct:+.1f}%** | Count Row: ₹{pf_res.count_row_price:.2f} | Columns Counted: {pf_res.num_columns})"
             )
-            if pf_obj.is_stale_anchor:
+            if pf_res.stale_anchor:
                 st.warning("⚠️ **Stale P&F Anchor Warning**: Count row anchor is older than 60 bars.")
         else:
             st.info("No Point & Figure horizontal count row identified in current trading range.")
