@@ -17,9 +17,13 @@ from pathlib import Path
 import sys
 from typing import Any, Dict, Optional
 
-_src_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "src")
-if _src_path not in sys.path:
-    sys.path.insert(0, _src_path)
+_repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_src_path = os.path.join(_repo_root, "src")
+_dashboard_path = os.path.join(_repo_root, "dashboard")
+
+for _p in [_repo_root, _src_path, _dashboard_path]:
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
 
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
@@ -28,15 +32,27 @@ import pandas as pd
 import streamlit as st
 import yfinance as yf
 
-from dashboard.explainers import (
-    render_chart_checklist_card,
-    render_risks_and_invalidations_card,
-    render_score_breakdown_card,
-    render_screening_checklist_expander,
-    render_why_selected_card,
-    render_wyckoff_interpretation_card,
-)
-from dashboard.glossary import WYCKOFF_GLOSSARY, get_glossary_terms, get_term_details
+try:
+    from dashboard.explainers import (
+        render_chart_checklist_card,
+        render_risks_and_invalidations_card,
+        render_score_breakdown_card,
+        render_screening_checklist_expander,
+        render_why_selected_card,
+        render_wyckoff_interpretation_card,
+    )
+    from dashboard.glossary import WYCKOFF_GLOSSARY, get_glossary_terms, get_term_details
+except ImportError:
+    from explainers import (
+        render_chart_checklist_card,
+        render_risks_and_invalidations_card,
+        render_score_breakdown_card,
+        render_screening_checklist_expander,
+        render_why_selected_card,
+        render_wyckoff_interpretation_card,
+    )
+    from glossary import WYCKOFF_GLOSSARY, get_glossary_terms, get_term_details
+
 from wyckoff_screener.charting.tradingview_links import CHART_REVIEW_CHECKLIST, generate_tradingview_links
 from wyckoff_screener.data_loader import validate_ohlcv_dataframe
 from wyckoff_screener.pointfigure.pf_chart import build_point_and_figure_chart, count_price_objective

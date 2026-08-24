@@ -5,8 +5,22 @@ breakdowns, and risk invalidation disclosures based strictly on verified engine 
 """
 
 from typing import Any, Dict, Optional
+import os
+import sys
 import streamlit as st
-from dashboard.glossary import WYCKOFF_GLOSSARY
+
+_repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_src_path = os.path.join(_repo_root, "src")
+_dashboard_path = os.path.join(_repo_root, "dashboard")
+
+for _p in [_repo_root, _src_path, _dashboard_path]:
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
+
+try:
+    from dashboard.glossary import WYCKOFF_GLOSSARY
+except ImportError:
+    from glossary import WYCKOFF_GLOSSARY
 
 
 def render_why_selected_card(
