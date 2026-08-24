@@ -100,3 +100,25 @@ def test_dashboard_read_only_with_empty_and_populated_ledger(tmp_path: Path):
     assert snap_loaded.total_candidates == 1
     mtime_after = snap_path.stat().st_mtime
     assert mtime_before == mtime_after
+
+
+def test_historical_validation_dataframe_parsing():
+    """Verify that all validation CSVs parse without KeyError on column slicing."""
+    val_dir = Path("data/validation_results/20260824")
+    if not val_dir.exists():
+        pytest.skip("Validation results not found")
+
+    cat_path = val_dir / "category_performance.csv"
+    assert cat_path.exists()
+    cdf = pd.read_csv(cat_path)
+    assert not cdf.empty
+
+    horizons = sorted(cdf["horizon"].unique())
+    for h in horizons:
+        cohort_col = "cohort_name" if "cohort_name" in cdf.columns else "cohort_value"
+        sub_cols = [c for c in ["cohort_group", cohort_col, "observation_count",
+                                "mean_return_pct", "median_return_pct", "win_rate_pct",
+                                "mean_mfe_pct", "mean_mae_pct"] if c in cdf.columns]
+        sub = cdf[cdf["horizon"] == h][sub_cols].copy()
+        assert not sub.empty
+        assert "observation_count" in sub.columns

@@ -623,11 +623,13 @@ elif page == "📉 Historical Validation":
                 horizons = sorted(cdf["horizon"].unique())
                 for h in horizons:
                     section(f"Forward Horizon: {h}")
-                    sub = cdf[cdf["horizon"] == h][["cohort_group", "cohort_value", "observation_count",
-                                                     "mean_return_pct", "median_return_pct", "win_rate_pct",
-                                                     "mean_mfe_pct", "mean_mae_pct"]].copy()
+                    cohort_col = "cohort_name" if "cohort_name" in cdf.columns else "cohort_value"
+                    sub_cols = [c for c in ["cohort_group", cohort_col, "observation_count",
+                                            "mean_return_pct", "median_return_pct", "win_rate_pct",
+                                            "mean_mfe_pct", "mean_mae_pct"] if c in cdf.columns]
+                    sub = cdf[cdf["horizon"] == h][sub_cols].copy()
                     sub = sub.rename(columns={
-                        "cohort_group": "Group", "cohort_value": "Cohort",
+                        "cohort_group": "Group", cohort_col: "Cohort",
                         "observation_count": "N", "mean_return_pct": "Mean Return %",
                         "median_return_pct": "Median Return %", "win_rate_pct": "Win Rate %",
                         "mean_mfe_pct": "Mean MFE %", "mean_mae_pct": "Mean MAE %"
