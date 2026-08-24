@@ -1,6 +1,6 @@
 # Project Progress Log
 
-## Status: Phase 9C Complete (Broad NSE EQ Research Screening & Candidate Intelligence Engine Active)
+## Status: Phase 11 Complete (Live / Paper Forward Validation Engine Operational & Audited)
 
 ## Completed
 - [x] Phase 1: Scaffolding (AGENTS.md, folder structure, git init) — 2026-08-22
@@ -14,9 +14,13 @@
 - [x] Phase 9A: Broad NSE EQ research universe infrastructure & reproducible snapshot engine — 2026-08-23
 - [x] Phase 9B: Broad NSE EQ research dataset construction, cache validation & manifest engine — 2026-08-23
 - [x] Phase 9C: Broad NSE EQ research screening engine, candidate intelligence & failure isolation — 2026-08-23
+- [x] Phase 10: Historical validation & backtesting of the broad NSE EQ research engine — 2026-08-23
+- [x] Phase 10.1: Historical validation analytical review (3,639 checkpoints, zero lookahead) — 2026-08-24
+- [x] Phase 10.2: Real-world objective alignment & final system audit — 2026-08-24
+- [x] Phase 11: Live / Paper prospective forward validation engine, immutable ledger & dashboard — 2026-08-24
 
 ## Test Suite Status
-- 120/120 passing as of Phase 9C (including universe sources, models, research eligibility compound evaluator, snapshot engine, dataset builder, SHA-256 cache integrity, research screening orchestrator, failure isolation, manifest mathematical reconciliation, deterministic repeated screening, and evidence-first explanations)
+- 145/145 passing as of Phase 11 (including forward candidate dataclass immutability, deterministic SHA-256 candidate IDs, snapshot serialization fidelity, duplicate screening protection, exact 10d/20d/60d forward returns, excursion MFE/MAE formulas, partial horizon pending gating, zero-lookahead isolation tests, CLI subcommands, and dashboard read-only guarantees).
 
 ## Bugs Found and Fixed
 - **2026-08-22**: Fixed combinatorial explosion in `detect_secondary_test_candidates()` and `detect_lps_candidates()`. Previously, both functions scanned from each anchor to the end of the dataset without a search ceiling and recorded every matching bar (yielding 211 STs and 13,534 LPSs on ANANTRAJ). Fixed by introducing bounded lookahead windows (`ST_MAX_BARS_AFTER_SC = 15`, `LPS_MAX_BARS_AFTER_ANCHOR = 20`) and recording only the first qualifying bar per anchor. Reduced ANANTRAJ counts to 4 STs and 6 LPSs.

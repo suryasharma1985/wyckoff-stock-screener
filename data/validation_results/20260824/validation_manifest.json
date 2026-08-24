@@ -1,0 +1,39 @@
+{
+  "validation_run_id": "val_20260824",
+  "dataset_snapshot_dir": "data\\research_datasets\\20260823_31_AUDIT",
+  "dataset_date_str": "20260824",
+  "run_timestamp": "2026-08-24T03:11:10.169705+00:00",
+  "total_securities_in_dataset": 31,
+  "securities_evaluated": 31,
+  "total_checkpoints_attempted": 3639,
+  "total_successful_observations": 3639,
+  "total_failed_observations": 0,
+  "warmup_bars": 200,
+  "step_bars": 5,
+  "forward_horizons": [
+    10,
+    20,
+    60
+  ],
+  "split_date": "2025-01-01",
+  "in_sample_start": "2023-10-23",
+  "in_sample_end": "2024-12-30",
+  "out_of_sample_start": "2025-01-03",
+  "out_of_sample_end": "2026-05-29",
+  "in_sample_observation_count": 1589,
+  "out_of_sample_observation_count": 2050,
+  "category_observation_counts": {
+    "DISQUALIFIED": 1068,
+    "HIGH_PRIORITY_CANDIDATE": 330,
+    "QUALIFIED_CANDIDATE": 449,
+    "WATCHLIST": 1792,
+    "NO_SETUP": 0
+  },
+  "horizon_valid_observation_counts": {
+    "10d": 3639,
+    "20d": 3639,
+    "60d": 3639
+  },
+  "survivorship_bias_warning": "CURRENT-UNIVERSE HISTORICAL VALIDATION (Subject to Survivorship Bias; for forward triage evaluation only)",
+  "software_version": "1.0.0"
+}

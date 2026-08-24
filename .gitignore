@@ -24,7 +24,12 @@ htmlcov/
 .DS_Store
 Thumbs.db
 
-# Raw data files (keep sample fixture)
+# Raw data files & caches (exclude heavy files, track deployment artifacts)
 data/*
-!data/sample_nse_ohlcv.csv
 !data/.gitkeep
+!data/sample_nse_ohlcv.csv
+!data/sample_nse_symbols.csv
+!data/validation_results/
+!data/validation_results/**
+!data/forward_validation/
+!data/forward_validation/**

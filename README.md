@@ -27,11 +27,11 @@ A Python research and screening tool for Indian equities (NSE) based on the **Wy
 
 ## Status
 
-**Phase 9C complete — 120/120 tests passing.**
+**Phase 11 complete — 145/145 tests passing.**
 
-- **Broad NSE EQ Research Screening & Candidate Intelligence**: Research screening engine (`python -m wyckoff_screener.research --dataset-dir <path>`) evaluates 100% of research-eligible securities from validated Phase 9B datasets, generating structured output CSVs (`all_results.csv`, `candidates.csv`, `disqualified.csv`, `failures.csv`) and an auditable `research_manifest.json`.
-- **Evidence-First Candidate Triage**: Categorizes every security into mutually exclusive workflow tiers (`HIGH_PRIORITY_CANDIDATE`, `QUALIFIED_CANDIDATE`, `WATCHLIST`, `NO_SETUP`, `DISQUALIFIED`) with machine-readable numeric explanations.
-- **Strict Separation of Concerns**: TradingView serves solely as an optional visual review and chart-navigation layer for human confirmation. All numeric calculations are computed locally from validated canonical OHLCV datasets with zero external network requests during screening.
-- **Research & Screening Tool Only**: The system flags candidate events and does not generate automated buy signals, guaranteed predictions, or confirmed accumulation labels without manual review records. See `AGENTS.md` and `docs/RESEARCH_ENGINE.md` for full specifications and findings.
-
-
+- **Live / Paper Prospective Forward Validation Engine**: Automated prospective forward screening (`python -m wyckoff_screener.forward screen --date YYYY-MM-DD`), persistent snapshot ledger (`data/forward_validation/snapshots/`), and forward price-path outcome tracking (`python -m wyckoff_screener.forward update`) across 10d, 20d, and 60d trading-bar horizons with MFE/MAE excursions.
+- **Strict Zero-Lookahead & Immutability**: All screening at date $T$ uses strictly historical data $Date \le T$. Daily candidate snapshots are permanently frozen with deterministic SHA-256 candidate IDs. Future market data updates outcome fields only and never modifies historical screening snapshots.
+- **Streamlit Forward Paper Validation Dashboard**: Integrated **"🔮 Forward Paper Validation"** view in `dashboard/app.py` for monitoring active open candidates, realized cohort win rates/returns, and historical baseline comparisons.
+- **Historical Validation & Backtesting Engine (Phase 10)**: Point-in-time walk-forward validation engine (`python -m wyckoff_screener.validation --dataset-dir <path>`) tests candidate signals against historical forward returns with zero future-bar leakage.
+- **Evidence-First Candidate Triage**: Evaluates candidate categories across historical checkpoints with cohort and benchmark baselines, explicit temporal in-sample vs out-of-sample partitioning, and survivorship-bias transparency.
+- **Research & Screening Tool Only**: The system flags candidate events and does not generate automated buy signals, guaranteed predictions, or live orders. See `AGENTS.md`, `docs/FORWARD_VALIDATION.md`, and `docs/HISTORICAL_VALIDATION.md` for full specifications and findings.

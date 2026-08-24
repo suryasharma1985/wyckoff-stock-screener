@@ -1,0 +1,10 @@
+cohort_group,cohort_name,horizon,observation_count,valid_return_count,win_rate_pct,mean_return_pct,median_return_pct,std_return_pct,p25_return_pct,p75_return_pct,mean_mfe_pct,mean_mae_pct
+score_band,SCORE_HIGH (>=60.0),10d,513,513,50.68,0.81,0.09,7.65,-3.6,4.13,6.51,-5.27
+score_band,SCORE_HIGH (>=60.0),20d,513,513,53.02,1.57,0.48,10.4,-4.73,6.67,9.48,-7.41
+score_band,SCORE_HIGH (>=60.0),60d,513,513,51.66,3.71,0.55,20.16,-9.62,15.06,17.96,-12.67
+score_band,SCORE_MID (40.0-59.9),10d,1510,1510,51.66,1.05,0.36,8.66,-3.91,5.01,7.25,-5.52
+score_band,SCORE_MID (40.0-59.9),20d,1510,1510,53.77,1.99,0.73,11.85,-5.09,7.36,10.67,-7.73
+score_band,SCORE_MID (40.0-59.9),60d,1510,1510,55.3,4.84,2.63,20.62,-8.38,15.79,19.32,-12.69
+score_band,SCORE_LOW (<40.0),10d,1616,1616,47.65,0.67,-0.41,8.8,-4.54,4.97,7.07,-5.78
+score_band,SCORE_LOW (<40.0),20d,1616,1616,50.62,1.43,0.18,12.73,-6.25,7.43,10.34,-8.11
+score_band,SCORE_LOW (<40.0),60d,1616,1616,52.29,4.25,1.05,21.23,-8.98,13.79,19.25,-12.86
