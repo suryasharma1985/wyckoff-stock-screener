@@ -33,3 +33,5 @@ data/*
 !data/validation_results/**
 !data/forward_validation/
 !data/forward_validation/**
+!data/research_results/
+!data/research_results/**

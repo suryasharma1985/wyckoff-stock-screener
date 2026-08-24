@@ -437,7 +437,7 @@ elif page == "📊 Research Screening Results":
         </div>
         """, unsafe_allow_html=True)
 
-    base_results = Path("data/research_results")
+    base_results = Path(_repo_root) / "data" / "research_results"
     if not base_results.exists():
         st.info("No research screening results found in `data/research_results/`. Run batch screening locally first.")
     else:
@@ -505,7 +505,7 @@ elif page == "📉 Historical Validation":
     </div>
     """, unsafe_allow_html=True)
 
-    val_base = Path("data/validation_results")
+    val_base = Path(_repo_root) / "data" / "validation_results"
     if not val_base.exists():
         st.info("No historical validation results found in `data/validation_results/`.")
     else:
@@ -587,7 +587,7 @@ elif page == "🔮 Forward Paper Validation":
     </div>
     """, unsafe_allow_html=True)
 
-    fwd_base = Path("data/forward_validation")
+    fwd_base = Path(_repo_root) / "data" / "forward_validation"
     ledger_path = fwd_base / "ledger" / "forward_ledger.csv"
     outcomes_path = fwd_base / "ledger" / "forward_outcomes.csv"
     snapshots_dir = fwd_base / "snapshots"
