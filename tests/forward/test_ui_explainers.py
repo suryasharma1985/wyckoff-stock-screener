@@ -55,10 +55,10 @@ def test_explainer_renderers_smoke():
         "vcp_bbw_contracting": True,
     }
     score_breakdown = {
-        "mechanical_filters_pts": 30.0,
-        "schematic_recency_pts": 40.0,
-        "peer_relative_strength_pts": 0.0,
-        "pf_upside_pts": 10.0,
+        "mechanical_filters": 30.0,
+        "schematic_recency": 40.0,
+        "peer_relative_strength": 0.0,
+        "pf_target_upside": 10.0,
     }
 
     # Test why_selected

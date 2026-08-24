@@ -274,10 +274,10 @@ def render_score_breakdown_card(
     # 40 pts Schematic Recency
     # 20 pts Peer Relative Strength
     # 10 pts P&F Upside
-    mech_pts = score_breakdown.get("mechanical_filters_pts", 0.0)
-    rec_pts = score_breakdown.get("schematic_recency_pts", 0.0)
-    peer_pts = score_breakdown.get("peer_relative_strength_pts", 0.0)
-    pf_pts = score_breakdown.get("pf_upside_pts", 0.0)
+    mech_pts = score_breakdown.get("mechanical_filters", score_breakdown.get("mechanical_filters_pts", 0.0))
+    rec_pts = score_breakdown.get("schematic_recency", score_breakdown.get("schematic_recency_pts", 0.0))
+    peer_pts = score_breakdown.get("peer_relative_strength", score_breakdown.get("peer_relative_strength_pts", 0.0))
+    pf_pts = score_breakdown.get("pf_target_upside", score_breakdown.get("pf_upside_pts", score_breakdown.get("pf_upside", 0.0)))
 
     st.markdown(f"#### Overall Composite Score: **{composite_score:.1f} / 100**")
 
