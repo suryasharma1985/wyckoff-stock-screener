@@ -172,6 +172,40 @@ def latest_results_dir(base: str) -> Optional[Path]:
     return dirs[0] if dirs else None
 
 
+@st.cache_data(ttl=3600)  # Cache for 1 hour to prevent redundant network calls
+def calculate_nifty_relative_strength(stock_df: pd.DataFrame) -> Optional[float]:
+    try:
+        # We need at least 1 year of daily bars (approx 250 bars)
+        if len(stock_df) < 250:
+            period = len(stock_df)
+        else:
+            period = 250
+            
+        stock_close_start = float(stock_df["Close"].iloc[-period])
+        stock_close_end = float(stock_df["Close"].iloc[-1])
+        stock_ret = ((stock_close_end - stock_close_start) / stock_close_start) * 100.0
+        
+        # We use a date range matching the stock dataframe
+        start_date = stock_df["Date"].iloc[-period]
+        end_date = stock_df["Date"].iloc[-1]
+        
+        # Format dates as string for yfinance
+        start_str = pd.to_datetime(start_date).strftime("%Y-%m-%d")
+        end_str = pd.to_datetime(end_date).strftime("%Y-%m-%d")
+        
+        nifty_df = yf.download("^NSEI", start=start_str, end=end_str, progress=False)
+        if not nifty_df.empty:
+            if isinstance(nifty_df.columns, pd.MultiIndex):
+                nifty_df.columns = nifty_df.columns.get_level_values(0)
+            nifty_close_start = float(nifty_df["Close"].iloc[0])
+            nifty_close_end = float(nifty_df["Close"].iloc[-1])
+            nifty_ret = ((nifty_close_end - nifty_close_start) / nifty_close_start) * 100.0
+            return stock_ret - nifty_ret
+    except Exception:
+        pass
+    return None
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # SIDEBAR
 # ─────────────────────────────────────────────────────────────────────────────
@@ -344,7 +378,7 @@ if page == "🏠 Home / Single Stock":
 
         # ── Stock Header Row
         st.markdown("---")
-        hcol1, hcol2, hcol3 = st.columns([3, 2, 2])
+        hcol1, hcol2, hcol3, hcol4 = st.columns([3, 2, 2, 2])
         with hcol1:
             st.markdown(f"## {current_symbol}")
             st.caption(
@@ -353,7 +387,18 @@ if page == "🏠 Home / Single Stock":
             )
         with hcol2:
             st.metric("Reference Close Price", f"₹{df['Close'].iloc[-1]:.2f}")
+        
+        # Calculate Nifty 50 Relative Strength Outperformance
+        rs_rating_val = calculate_nifty_relative_strength(df)
         with hcol3:
+            if rs_rating_val is not None:
+                st.metric("RS vs Nifty 50 (1Yr)", f"{rs_rating_val:+.1f}%", 
+                          delta=f"{rs_rating_val:+.1f}% vs Index",
+                          help="Relative Strength outperformance compared to Nifty 50 Index (^NSEI) over the last 1 year (250 daily trading bars).")
+            else:
+                st.metric("RS vs Nifty 50 (1Yr)", "N/A")
+                
+        with hcol4:
             st.markdown(category_chip(cand_category), unsafe_allow_html=True)
             st.caption(f"Composite Score: **{scored.composite_score:.1f} / 100**")
 
