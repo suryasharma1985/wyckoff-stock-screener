@@ -271,18 +271,36 @@ if page == "🏠 Home / Single Stock":
                     st.error(f"Failed to fetch market data: {exc}")
 
     elif data_source_mode == "Upload CSV File":
-        uploaded_file = st.file_uploader(
-            "Upload OHLCV CSV (Requires columns: Date, Open, High, Low, Close, Volume)", type=["csv"]
+        uploaded_files = st.file_uploader(
+            "Upload OHLCV CSVs (Requires columns: Date, Open, High, Low, Close, Volume)", 
+            type=["csv"],
+            accept_multiple_files=True
         )
-        if uploaded_file is not None:
-            try:
-                raw_df = pd.read_csv(uploaded_file)
-                df = validate_ohlcv_dataframe(raw_df)
-                current_symbol = uploaded_file.name.replace(".csv", "").upper()
-                st.session_state["loaded_df"] = df
-                st.session_state["symbol"] = current_symbol
-            except Exception as exc:
-                st.error(f"CSV Validation Error: {exc}")
+        if uploaded_files:
+            loaded_dfs = {}
+            for uploaded_file in uploaded_files:
+                try:
+                    raw_df = pd.read_csv(uploaded_file)
+                    df_val = validate_ohlcv_dataframe(raw_df)
+                    sym_name = uploaded_file.name.replace(".csv", "").upper()
+                    loaded_dfs[sym_name] = df_val
+                except Exception as exc:
+                    st.error(f"CSV Validation Error in {uploaded_file.name}: {exc}")
+            
+            if loaded_dfs:
+                st.session_state["uploaded_dfs"] = loaded_dfs
+                options = list(loaded_dfs.keys())
+                if len(options) > 1:
+                    selected_sym = st.selectbox("Select uploaded stock to analyze", options)
+                else:
+                    selected_sym = options[0]
+                st.session_state["loaded_df"] = loaded_dfs[selected_sym]
+                st.session_state["symbol"] = selected_sym
+                current_symbol = selected_sym
+        else:
+            st.session_state.pop("uploaded_dfs", None)
+            st.session_state.pop("loaded_df", None)
+            st.session_state.pop("symbol", None)
 
     if "loaded_df" in st.session_state:
         df = st.session_state["loaded_df"]
