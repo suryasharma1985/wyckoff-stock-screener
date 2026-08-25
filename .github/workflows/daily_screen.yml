@@ -1,0 +1,89 @@
+name: Automated Daily Wyckoff & VSA Research Screening
+
+on:
+  schedule:
+    # 11:30 AM UTC = 5:00 PM IST (Monday through Friday)
+    # 90-minute buffer after NSE 3:30 PM IST close for full EOD bar consolidation
+    - cron: '30 11 * * 1-5'
+  workflow_dispatch:
+    inputs:
+      universe_source:
+        description: 'Universe source to screen (nse_eq, sample, or custom_csv)'
+        required: true
+        default: 'nse_eq'
+        type: choice
+        options:
+          - nse_eq
+          - sample
+      force_refresh:
+        description: 'Force re-download all historical market data'
+        required: false
+        default: false
+        type: boolean
+      min_turnover_cr:
+        description: 'Minimum 20-day average turnover in INR Crores'
+        required: false
+        default: '1.0'
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  daily-screen:
+    name: Daily NSE Equity Research Screening
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: NSE Session & Holiday Pre-Flight Check
+        id: session_check
+        run: |
+          python scripts/check_nse_session.py
+        continue-on-error: true
+
+      - name: Evaluate Session Pre-Flight Status
+        if: steps.session_check.outcome == 'failure'
+        run: |
+          # Exit code 2 indicates an official trading holiday or weekend
+          echo "NSE market is closed today (holiday or non-trading day). Cleanly skipping workflow execution."
+          exit 0
+
+      - name: Execute Broad NSE Equity Screening Pipeline
+        run: |
+          SOURCE="${{ inputs.universe_source || 'nse_eq' }}"
+          TURNOVER="${{ inputs.min_turnover_cr || '1.0' }}"
+          EXTRA_FLAGS=""
+          if [ "${{ inputs.force_refresh }}" = "true" ]; then
+            EXTRA_FLAGS="--force-refresh"
+          fi
+          
+          python scripts/run_daily_screening.py \
+            --universe-source "$SOURCE" \
+            --min-turnover-cr "$TURNOVER" \
+            $EXTRA_FLAGS
+
+      - name: Commit and Push Daily Screening Results
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore(data): auto-generate daily research screening results [skip ci]"
+          file_pattern: "data/research_results/* data/universe_snapshots/*"
+          commit_user_name: "github-actions[bot]"
+          commit_user_email: "github-actions[bot]@users.noreply.github.com"
+          commit_author: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"

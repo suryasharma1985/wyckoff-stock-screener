@@ -1,6 +1,6 @@
 # Project Progress Log
 
-## Status: Phase 11 Complete (Live / Paper Forward Validation Engine Operational & Audited)
+## Status: Phase 16 Complete (Google Sheets Backtesting Foundation & Historical Signal Generator Validated)
 
 ## Completed
 - [x] Phase 1: Scaffolding (AGENTS.md, folder structure, git init) — 2026-08-22
@@ -18,9 +18,28 @@
 - [x] Phase 10.1: Historical validation analytical review (3,639 checkpoints, zero lookahead) — 2026-08-24
 - [x] Phase 10.2: Real-world objective alignment & final system audit — 2026-08-24
 - [x] Phase 11: Live / Paper prospective forward validation engine, immutable ledger & dashboard — 2026-08-24
+- [x] Phase 15: Full NSE Broad Universe Production Screening Run (1,971 Equities), Validation & Baseline Acceptance — 2026-08-24
+- [x] Phase 16: Historical Backtesting Foundation & Google Sheets Backtest Export Engine — 2026-08-24
+- [x] Phase 16A: Historical Backtest Validation & Multi-Tab Google Sheets/Excel Deliverable — 2026-08-24
+- [x] Phase 17: Full Production Historical Backtest Benchmark & Google Sheets 15-Tab Workflow — 2026-08-24
+- [x] Phase 18: Google Sheets Candidate-Level Forward-Validation System & Master 8-Tab Workbook — 2026-08-24
+- [x] Phase 18B: Live Manual Screener Validation System & 5-Tab Live Tracking Workbook — 2026-08-24
+- [x] Phase 19: Actual Google Sheets Live Implementation & Hybrid Forward-Testing Workflow — 2026-08-24
+- [x] Phase 20: Live Manual Validation Test & GOOGLEFINANCE Formula Verification — 2026-08-24
+- [x] Phase 21: Live Google Sheets Deployment & First Real Forward-Test Readiness — 2026-08-24
 
 ## Test Suite Status
-- 145/145 passing as of Phase 11 (including forward candidate dataclass immutability, deterministic SHA-256 candidate IDs, snapshot serialization fidelity, duplicate screening protection, exact 10d/20d/60d forward returns, excursion MFE/MAE formulas, partial horizon pending gating, zero-lookahead isolation tests, CLI subcommands, and dashboard read-only guarantees).
+- 196/196 passing as of Phase 21 (including case-insensitive and TradingView-style column header normalization, multi-row tracking auto-propagation, 3-tier sample size indicators, 6 score buckets, ZEEL candidate demonstration, GOOGLEFINANCE integration formulas, manual entry flow, zero lookahead freezing, and complete screener test suites).
+
+
+
+
+
+
+
+
+
+
 
 ## Bugs Found and Fixed
 - **2026-08-22**: Fixed combinatorial explosion in `detect_secondary_test_candidates()` and `detect_lps_candidates()`. Previously, both functions scanned from each anchor to the end of the dataset without a search ceiling and recorded every matching bar (yielding 211 STs and 13,534 LPSs on ANANTRAJ). Fixed by introducing bounded lookahead windows (`ST_MAX_BARS_AFTER_SC = 15`, `LPS_MAX_BARS_AFTER_ANCHOR = 20`) and recording only the first qualifying bar per anchor. Reduced ANANTRAJ counts to 4 STs and 6 LPSs.
@@ -29,6 +48,7 @@
 - **2026-08-22**: Fixed default `validate_swing=False` in `rank_peer_relative_strength()`: updated default to `validate_swing=True` and stopped silently dropping failed peer exceptions, returning `(ranked_results, failed_peers)` tuple with exact error messages per skipped peer.
 - **2026-08-22**: Fixed fabricated half-credit bug when `peer_rank is None` in `score_setup()`: missing peer comparison previously awarded 10.0 points (half credit). Fixed to strictly score 0.0 points, added `peer_analysis_skipped: bool = True` to `ScoredSetup`, and exposed it in the output breakdown.
 - **2026-08-22**: Fixed stale P&F anchor auto-selection bug in `score_setup()`: when auto-selecting the count row from an old LPS/Spring event with no recency constraint, the engine computed stale objectives (e.g. 329.85 for APOLLO when price was 384.55). Fixed by adding `PF_ANCHOR_MAX_STALENESS_BARS = 60` and setting `stale_anchor = True`, `pf_pts = 0.0`, and prepending an explicit staleness warning to `supporting_note`.
+- **2026-08-25**: Fixed TradingView CSV validation error: TradingView exports daily OHLCV files using lowercase columns (`open`, `high`, `low`, `close`) and `time` instead of `Date`. Fixed by adding case-insensitive column name normalization and mapping `time`/`timestamp` to `Date` automatically in `validate_ohlcv_dataframe()`, passing all 196 unit tests cleanly.
 
 
 

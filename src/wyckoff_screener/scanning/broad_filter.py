@@ -123,6 +123,7 @@ def evaluate_broad_setup(
     high_col: str = "High",
     low_col: str = "Low",
     volume_col: str = "Volume",
+    events: Optional[dict[str, list[Any]]] = None,
 ) -> BatchScreeningResult:
     """Run reproducible quantitative screening across OHLCV history for a single stock.
 
@@ -137,6 +138,7 @@ def evaluate_broad_setup(
         high_col: High column name.
         low_col: Low column name.
         volume_col: Volume column name.
+        events: Optional precomputed dictionary of Wyckoff events to avoid duplicate calculation.
 
     Returns:
         BatchScreeningResult containing exact filter values, candidate event summary, and TradingView links.
@@ -213,11 +215,6 @@ def evaluate_broad_setup(
     }
 
     # Compound Mechanical Qualification Rule:
-    # 1. Gate 1 (Mandatory Liquidity): pass_liq (20-day avg turnover >= min_avg_turnover_cr)
-    # 2. Gate 2 (Trend Confirmation - At least 1 of 2): weekly_uptrend OR dma_50_above_100
-    # 3. Gate 3 (Setup Quality / Contraction - At least 1 of 3): rsi_in_band OR atr_contracting OR vcp_bbw_contracting
-    # Note: is_mechanically_qualified indicates compound qualification across all 3 gates;
-    # individual pass/fail status for all 6 filters is exposed independently in filter_results dict.
     is_mechanically_qualified = bool(
         pass_liq and (pass_weekly or pass_dma) and (pass_rsi or pass_atr or pass_bbw)
     )
@@ -251,7 +248,7 @@ def evaluate_broad_setup(
     }
 
     try:
-        events = detect_all_schematic_events(
+        ev_dict = events if events is not None else detect_all_schematic_events(
             wdf,
             date_col=date_col,
             close_col=close_col,
@@ -260,10 +257,12 @@ def evaluate_broad_setup(
             volume_col=volume_col,
         )
 
+
         all_flat = []
-        for ev_type, ev_list in events.items():
+        for ev_type, ev_list in ev_dict.items():
             for ev in ev_list:
                 all_flat.append(ev)
+
 
         if all_flat:
             # Sort by date descending (most recent first)

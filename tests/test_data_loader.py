@@ -121,3 +121,21 @@ def test_nonexistent_file_raises():
     """Verify that attempting to load a non-existent file raises FileNotFoundError."""
     with pytest.raises(FileNotFoundError):
         load_ohlcv_csv("nonexistent_path_to_data.csv")
+
+
+def test_tradingview_style_columns_success():
+    """Verify that TradingView-style lowercase and 'time' column headers are normalized."""
+    csv_data = io.StringIO(
+        "time,open,high,low,close,Volume\n"
+        "2024-02-22,1427.55,1435.1,1417.6,1426.2,5816\n"
+        "2024-02-23,1430,1431.25,1416.7,1421.65,2058\n"
+    )
+    df = load_ohlcv_csv(csv_data)
+    assert not df.empty
+    assert len(df) == 2
+    # Verify columns were successfully renamed to expected canonical formats
+    for expected_col in ["Date", "Open", "High", "Low", "Close", "Volume"]:
+        assert expected_col in df.columns
+    assert df["Close"].iloc[0] == 1426.2
+    assert df["Volume"].iloc[0] == 5816
+

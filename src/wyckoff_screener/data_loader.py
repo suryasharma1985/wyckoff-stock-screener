@@ -73,13 +73,34 @@ def validate_ohlcv_dataframe(
     if df.empty:
         raise DataValidationError("OHLCV DataFrame is empty.")
 
+    cleaned = df.copy()
+
+    # Normalize column names to handle case-insensitivity and common variations (e.g. from TradingView)
+    col_mapping = {}
+    for col in cleaned.columns:
+        col_lower = str(col).lower().strip()
+        if col_lower in ("date", "time", "timestamp") and date_col not in cleaned.columns:
+            col_mapping[col] = date_col
+        elif col_lower == "open" and open_col not in cleaned.columns:
+            col_mapping[col] = open_col
+        elif col_lower == "high" and high_col not in cleaned.columns:
+            col_mapping[col] = high_col
+        elif col_lower == "low" and low_col not in cleaned.columns:
+            col_mapping[col] = low_col
+        elif col_lower == "close" and close_col not in cleaned.columns:
+            col_mapping[col] = close_col
+        elif col_lower == "volume" and volume_col not in cleaned.columns:
+            col_mapping[col] = volume_col
+
+    if col_mapping:
+        cleaned = cleaned.rename(columns=col_mapping)
+
     # 1. Verify required columns
     required_cols: Sequence[str] = [date_col, open_col, high_col, low_col, close_col, volume_col]
-    missing_cols = [col for col in required_cols if col not in df.columns]
+    missing_cols = [col for col in required_cols if col not in cleaned.columns]
     if missing_cols:
         raise DataValidationError(f"Missing required OHLCV columns: {missing_cols}")
 
-    cleaned = df.copy()
 
     # 2. Parse Date
     try:

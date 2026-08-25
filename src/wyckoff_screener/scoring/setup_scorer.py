@@ -94,6 +94,7 @@ def score_setup(
     high_col: str = "High",
     low_col: str = "Low",
     volume_col: str = "Volume",
+    events: Optional[dict[str, list[WyckoffEvent]]] = None,
 ) -> ScoredSetup:
     """Score a single stock setup across technical filters, schematic events, P&F target, and peer rank.
 
@@ -108,6 +109,7 @@ def score_setup(
         high_col: High column name.
         low_col: Low column name.
         volume_col: Volume column name.
+        events: Optional precomputed dictionary of Wyckoff events to avoid duplicate calculation.
 
     Returns:
         ScoredSetup: Complete scored setup with score breakdown, disqualification flags, and peer analysis status.
@@ -174,7 +176,7 @@ def score_setup(
     # -------------------------------------------------------------
     # 2. Phase 4: Schematic Events & Recency (40 pts max)
     # -------------------------------------------------------------
-    detected_events = detect_all_schematic_events(
+    detected_events = events if events is not None else detect_all_schematic_events(
         wdf,
         date_col=date_col,
         open_col="Open",
