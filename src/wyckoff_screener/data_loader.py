@@ -78,7 +78,8 @@ def validate_ohlcv_dataframe(
     # Normalize column names to handle case-insensitivity and common variations (e.g. from TradingView)
     col_mapping = {}
     for col in cleaned.columns:
-        col_lower = str(col).lower().strip()
+        col_clean = str(col).replace("\ufeff", "").replace("\ufffe", "").strip()
+        col_lower = col_clean.lower()
         if col_lower in ("date", "time", "timestamp") and date_col not in cleaned.columns:
             col_mapping[col] = date_col
         elif col_lower == "open" and open_col not in cleaned.columns:

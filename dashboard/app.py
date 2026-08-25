@@ -286,6 +286,10 @@ if page == "🏠 Home / Single Stock":
                     loaded_dfs[sym_name] = df_val
                 except Exception as exc:
                     st.error(f"CSV Validation Error in {uploaded_file.name}: {exc}")
+                    try:
+                        st.info(f"Detected columns in {uploaded_file.name}: {list(raw_df.columns)}")
+                    except Exception:
+                        pass
             
             if loaded_dfs:
                 st.session_state["uploaded_dfs"] = loaded_dfs
