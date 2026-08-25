@@ -126,6 +126,13 @@ def validate_ohlcv_dataframe(
     for col in numeric_cols:
         cleaned[col] = pd.to_numeric(cleaned[col], errors="coerce")
 
+    # Drop trailing row if it is completely empty/NaN in all price columns (often appended by yfinance for the current session)
+    if not cleaned.empty:
+        last_idx = cleaned.index[-1]
+        price_cols = [open_col, high_col, low_col, close_col]
+        if cleaned.loc[last_idx, price_cols].isna().all():
+            cleaned = cleaned.drop(last_idx).copy()
+
     # 5. Check for NaNs
     nan_counts = cleaned[required_cols].isna().sum()
     cols_with_nans = nan_counts[nan_counts > 0]
