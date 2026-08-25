@@ -292,8 +292,10 @@ if page == "🏠 Home / Single Stock":
     if data_source_mode == "Live Ticker (yfinance)":
         c_sym, c_start, c_end = st.columns([3, 2, 2])
         with c_sym:
-            ticker_input = st.text_input("NSE Ticker (with .NS suffix)", value="ANANTRAJ.NS", key="ticker", help="E.g. ANANTRAJ.NS, APOLLO.NS, HINDCOPPER.NS, TATAMOTORS.NS")
+            ticker_input = st.text_input("NSE Ticker (e.g. ANANTRAJ or ANANTRAJ.NS)", value="ANANTRAJ.NS", key="ticker", help="E.g. ANANTRAJ, APOLLO, HINDCOPPER, TATAMOTORS, RELIANCE")
             current_symbol = ticker_input.strip().upper()
+            if current_symbol and not current_symbol.endswith(".NS") and "." not in current_symbol:
+                current_symbol = f"{current_symbol}.NS"
         with c_start:
             start_date = st.date_input("Start Date", value=pd.to_datetime("2024-01-01"))
         with c_end:
