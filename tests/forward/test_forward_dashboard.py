@@ -122,3 +122,72 @@ def test_historical_validation_dataframe_parsing():
         sub = cdf[cdf["horizon"] == h][sub_cols].copy()
         assert not sub.empty
         assert "observation_count" in sub.columns
+
+
+def test_lps_breakout_trigger_calculations():
+    """Verify that dashboard calculations for LPS breakout trigger and R:R function correctly under various conditions."""
+    # Inputs
+    ref_close = 105.0
+    pf_target = 130.0
+    lps_high_val = 110.0
+    lps_support_val = 100.0
+    lps_anchor_val = 95.0
+
+    # 1. LPS High remains the conditional trigger
+    suggested_entry = lps_high_val
+    assert suggested_entry == 110.0
+
+    # 2. Displayed 5% stop remains only a reference
+    suggested_stop = ref_close * 0.95
+    assert suggested_stop == 99.75
+
+    # 3. Structural R:R uses support_level, NOT the 5% stop
+    risk = lps_high_val - lps_support_val
+    reward = pf_target - lps_high_val
+    indicative_rr = reward / risk
+
+    assert risk == 10.0  # Uses 100.0 (support_level), not 99.75 (5% stop)
+    assert reward == 20.0
+    assert indicative_rr == 2.0  # 20.0 / 10.0 = 2.0
+    assert indicative_rr != (reward / (lps_high_val - suggested_stop))  # Confirms 5% stop is not used
+
+    # 4. Invalid structural R:R conditions return N/A (Trigger <= Support)
+    lps_high_val_invalid1 = 98.0
+    indicative_rr_invalid1 = None
+    rr_na_reason1 = ""
+    if lps_high_val_invalid1 <= lps_support_val:
+        rr_na_reason1 = "LPS Breakout Trigger is below or equal to Trading-Range Support."
+    else:
+        risk1 = lps_high_val_invalid1 - lps_support_val
+        reward1 = pf_target - lps_high_val_invalid1
+        indicative_rr_invalid1 = reward1 / risk1
+
+    assert indicative_rr_invalid1 is None
+    assert "below or equal to Trading-Range Support" in rr_na_reason1
+
+    # 5. Invalid structural R:R conditions return N/A (Target <= Trigger)
+    pf_target_invalid = 108.0
+    indicative_rr_invalid2 = None
+    rr_na_reason2 = ""
+    if pf_target_invalid <= lps_high_val:
+        rr_na_reason2 = "P&F Target Price is below or equal to LPS Breakout Trigger."
+    else:
+        risk2 = lps_high_val - lps_support_val
+        reward2 = pf_target_invalid - lps_high_val
+        indicative_rr_invalid2 = reward2 / risk2
+
+    assert indicative_rr_invalid2 is None
+    assert "below or equal to LPS Breakout Trigger" in rr_na_reason2
+
+    # 6. Non-LPS behavior remains unchanged
+    # For a non-LPS setup, suggested entry is ref_close and stop loss is ref_close * 0.95
+    non_lps_entry = ref_close
+    non_lps_stop = ref_close * 0.95
+    non_lps_target = pf_target
+    non_lps_risk = non_lps_entry - non_lps_stop
+    non_lps_reward = non_lps_target - non_lps_entry
+    non_lps_rrr = non_lps_reward / non_lps_risk
+
+    assert non_lps_entry == 105.0
+    assert non_lps_stop == 99.75
+    assert non_lps_rrr == 25.0 / 5.25

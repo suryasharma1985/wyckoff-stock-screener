@@ -462,20 +462,104 @@ if page == "🏠 Home / Single Stock":
         suggested_entry = ref_close
         suggested_stop = ref_close * 0.95
         suggested_target = pf_target if (pf_target and pf_target > ref_close) else ref_close * 1.15
+
+        # Evaluate LPS conditional breakout levels
+        is_lps_setup = (scored.most_recent_event_type == "LPS")
+        lps_high_val = None
+        lps_support_val = None
+        lps_anchor_val = None
+        indicative_rr = None
+        rr_na_reason = "No active LPS setup to calculate structural boundaries."
+
+        if is_lps_setup and scored.detected_events.get("LPS"):
+            lps_evs = [ev for ev in scored.detected_events["LPS"] if str(ev.date)[:10] == str(scored.most_recent_event_date)[:10]]
+            if lps_evs:
+                lps_ev = lps_evs[-1]
+                matching_rows = df[df["Date"].dt.strftime("%Y-%m-%d") == pd.to_datetime(lps_ev.date).strftime("%Y-%m-%d")]
+                if not matching_rows.empty:
+                    lps_high_val = float(matching_rows["High"].iloc[0])
+                    lps_support_val = lps_ev.support_level
+                    lps_anchor_val = lps_ev.anchor_low
+
+                    # Update suggested entry to LPS breakout high
+                    suggested_entry = lps_high_val
+
+                    # Compute Indicative Structural R:R
+                    if lps_support_val is not None and suggested_target is not None:
+                        if lps_high_val <= lps_support_val:
+                            rr_na_reason = f"LPS Breakout Trigger (₹{lps_high_val:.2f}) is below or equal to Trading-Range Support (₹{lps_support_val:.2f})."
+                        elif suggested_target <= lps_high_val:
+                            rr_na_reason = f"P&F Target Price (₹{suggested_target:.2f}) is below or equal to LPS Breakout Trigger (₹{lps_high_val:.2f})."
+                        else:
+                            risk = lps_high_val - lps_support_val
+                            reward = suggested_target - lps_high_val
+                            indicative_rr = reward / risk
+                    else:
+                        rr_na_reason = "Missing P&F objective or trading-range support values."
+
         projected_reward = suggested_target - suggested_entry
-        projected_risk = suggested_entry - suggested_stop
+        projected_risk = suggested_entry - (ref_close * 0.95)
         projected_rrr = (projected_reward / projected_risk) if projected_risk > 0 else 3.0
 
-        st.markdown("##### 🎯 Suggested Trade Setup Levels")
-        tcol1, tcol2, tcol3, tcol4 = st.columns(4)
-        with tcol1:
-            st.metric("Suggested Entry", f"₹{suggested_entry:.2f}", help="Based on the latest daily Close price.")
-        with tcol2:
-            st.metric("Suggested Stop Loss (SL)", f"₹{suggested_stop:.2f}", help="Suggested invalidation level (5% below Entry).")
-        with tcol3:
-            st.metric("Suggested Target (TP)", f"₹{suggested_target:.2f}", help="Calculated via P&F horizontal count (or 15% default fallback).")
-        with tcol4:
-            st.metric("Risk-to-Reward Ratio (RRR)", f"1 : {projected_rrr:.2f}", help="Reward potential divided by Risk. A 1:3 ratio means you make 3x what you risk.")
+        if is_lps_setup and lps_high_val is not None:
+            st.markdown("##### 🎯 Conditional LPS Breakout Execution")
+
+            # Displays conditional breakout metric cards
+            tcol1, tcol2, tcol3, tcol4 = st.columns(4)
+            with tcol1:
+                st.metric(
+                    "LPS Breakout Trigger",
+                    f"₹{lps_high_val:.2f}",
+                    help="Conditional Trigger Level. Buy only if price breaks above this high to confirm upward momentum; this is not a current buy signal."
+                )
+            with tcol2:
+                st.metric(
+                    "Trading-Range Support",
+                    f"₹{lps_support_val:.2f}" if lps_support_val is not None else "N/A",
+                    help="Primary structural accumulation support boundary; if price breaks below this, the accumulation structure is invalidated."
+                )
+            with tcol3:
+                st.metric(
+                    "Prior Spring/ST Low",
+                    f"₹{lps_anchor_val:.2f}" if lps_anchor_val is not None else "N/A",
+                    help="Absolute floor of the preceding swing low setup."
+                )
+            with tcol4:
+                rr_str = f"1 : {indicative_rr:.2f}" if indicative_rr is not None else f"N/A ({rr_na_reason})"
+                st.metric(
+                    "Indicative Structural R:R",
+                    rr_str,
+                    help="Calculated structurally: [P&F Target - Breakout Trigger] / [Breakout Trigger - Trading-Range Support]. Does not use 5% stop."
+                )
+
+            # Show reference risk management separately
+            st.markdown("##### 🛡️ Reference Risk Management (Backtest Convention)")
+            rcol1, rcol2, rcol3 = st.columns([2, 2, 3])
+            with rcol1:
+                st.metric("P&F Price Objective", f"₹{suggested_target:.2f}", help="Target price calculated from P&F horizontal count.")
+            with rcol2:
+                st.metric("Reference 5% Stop", f"₹{ref_close * 0.95:.2f}", help="Standard 5% backtest stop reference. NOT a Wyckoff-derived structural stop.")
+            with rcol3:
+                st.metric("Reference 5% Stop RRR", f"1 : {projected_rrr:.2f}", help="Risk-to-reward ratio calculated using the standard 5% stop reference.")
+
+            st.markdown(f"""
+            <div style="background:#0f172a; padding:12px 18px; border:1px solid #1e293b; border-left:4px solid #38bdf8; border-radius:8px; margin-top:12px; font-size:0.85rem; color:#94a3b8; line-height:1.4;">
+                <strong>Why use a conditional breakout trigger?</strong><br>
+                In Wyckoff theory, the Last Point of Support (LPS) represents a minor consolidation where institutional buying absorbs final supply. Placing an entry trigger at the High of the LPS bar ensures you only enter once buyers actively push the price back upward. This protects you from getting trapped if the range support fails and breaks down.
+            </div>
+            """, unsafe_allow_html=True)
+        else:
+            # Non-LPS standard dashboard levels layout
+            st.markdown("##### 🎯 Suggested Trade Setup Levels")
+            tcol1, tcol2, tcol3, tcol4 = st.columns(4)
+            with tcol1:
+                st.metric("Suggested Entry", f"₹{suggested_entry:.2f}", help="Based on the latest daily Close price.")
+            with tcol2:
+                st.metric("Suggested Stop Loss (SL)", f"₹{suggested_stop:.2f}", help="Suggested invalidation level (5% below Entry).")
+            with tcol3:
+                st.metric("Suggested Target (TP)", f"₹{suggested_target:.2f}", help="Calculated via P&F horizontal count (or 15% default fallback).")
+            with tcol4:
+                st.metric("Risk-to-Reward Ratio (RRR)", f"1 : {projected_rrr:.2f}", help="Reward potential divided by Risk. A 1:3 ratio means you make 3x what you risk.")
 
 
         # ── 1. "WHY WAS THIS STOCK SELECTED?"

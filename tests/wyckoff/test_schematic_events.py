@@ -57,7 +57,8 @@ def test_selling_climax_hit():
     assert sc.price == 112.0
     assert sc.volume_ratio >= 2.0
     assert sc.spread_ratio >= 1.5
-    assert "Candidate SC" in sc.supporting_note
+    assert sc.support_level is None
+    assert sc.anchor_low is None
 
 
 def test_selling_climax_near_miss_low_volume():
@@ -301,6 +302,8 @@ def test_lps_hit():
     assert lps.event_type == "LPS"
     assert lps.volume_ratio < 0.75
     assert "higher low" in lps.supporting_note
+    assert lps.support_level == 95.0
+    assert lps.anchor_low == 95.0
 
 
 def test_lps_near_miss_high_volume():

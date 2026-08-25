@@ -6,7 +6,7 @@ spread ratio, close position, price level) in its supporting_note.
 """
 
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Optional
 import pandas as pd
 
 
@@ -31,10 +31,12 @@ class WyckoffEvent:
     spread_ratio: float
     close_position: float
     supporting_note: str
+    support_level: Optional[float] = None
+    anchor_low: Optional[float] = None
 
     def to_dict(self) -> dict[str, Any]:
         """Convert event to dictionary."""
-        return {
+        d = {
             "event_type": self.event_type,
             "date": pd.to_datetime(self.date).strftime("%Y-%m-%d") if hasattr(self.date, "strftime") else str(self.date),
             "price": self.price,
@@ -43,3 +45,8 @@ class WyckoffEvent:
             "close_position": round(self.close_position, 2),
             "supporting_note": self.supporting_note,
         }
+        if self.support_level is not None:
+            d["support_level"] = self.support_level
+        if self.anchor_low is not None:
+            d["anchor_low"] = self.anchor_low
+        return d

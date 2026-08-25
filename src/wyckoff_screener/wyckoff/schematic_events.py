@@ -500,6 +500,8 @@ def detect_lps_candidates(
                         spread_ratio=sr,
                         close_position=cp,
                         supporting_note=note,
+                        support_level=float(range_ctx.support),
+                        anchor_low=float(prev_low),
                     )
                 )
                 break  # Record only the first qualifying LPS per anchor
