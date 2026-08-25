@@ -472,14 +472,20 @@ if page == "🏠 Home / Single Stock":
         rr_na_reason = "No active LPS setup to calculate structural boundaries."
 
         if is_lps_setup and scored.detected_events.get("LPS"):
-            lps_evs = [ev for ev in scored.detected_events["LPS"] if str(ev.date)[:10] == str(scored.most_recent_event_date)[:10]]
+            lps_evs = []
+            for ev in scored.detected_events["LPS"]:
+                ev_date = ev.get("date") if isinstance(ev, dict) else ev.date
+                if str(ev_date)[:10] == str(scored.most_recent_event_date)[:10]:
+                    lps_evs.append(ev)
+
             if lps_evs:
                 lps_ev = lps_evs[-1]
-                matching_rows = df[df["Date"].dt.strftime("%Y-%m-%d") == pd.to_datetime(lps_ev.date).strftime("%Y-%m-%d")]
+                lps_date = lps_ev.get("date") if isinstance(lps_ev, dict) else lps_ev.date
+                matching_rows = df[df["Date"].dt.strftime("%Y-%m-%d") == pd.to_datetime(lps_date).strftime("%Y-%m-%d")]
                 if not matching_rows.empty:
                     lps_high_val = float(matching_rows["High"].iloc[0])
-                    lps_support_val = lps_ev.support_level
-                    lps_anchor_val = lps_ev.anchor_low
+                    lps_support_val = lps_ev.get("support_level") if isinstance(lps_ev, dict) else lps_ev.support_level
+                    lps_anchor_val = lps_ev.get("anchor_low") if isinstance(lps_ev, dict) else lps_ev.anchor_low
 
                     # Update suggested entry to LPS breakout high
                     suggested_entry = lps_high_val
