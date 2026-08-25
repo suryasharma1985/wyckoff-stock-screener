@@ -137,13 +137,13 @@ section[data-testid="stSidebar"] .stRadio > div { gap: 4px; }
 # ─────────────────────────────────────────────────────────────────────────────
 def category_chip(cat: str) -> str:
     cat = str(cat)
-    if "HIGH_PRIORITY" in cat:
+    if cat == "HIGH_PRIORITY_CANDIDATE":
         return '<span class="chip-high">⭐ High Priority Candidate</span>'
-    elif "QUALIFIED" in cat:
+    elif cat == "QUALIFIED_CANDIDATE":
         return '<span class="chip-qual">✅ Qualified Candidate</span>'
-    elif "WATCHLIST" in cat:
+    elif cat == "WATCHLIST":
         return '<span class="chip-watch">👁 Watchlist Candidate</span>'
-    elif "DISQUALIFIED" in cat:
+    elif cat == "DISQUALIFIED":
         return '<span class="chip-disq">🚫 Disqualified Setup</span>'
     return '<span class="chip-none">— No Setup</span>'
 
