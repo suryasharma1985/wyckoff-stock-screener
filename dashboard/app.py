@@ -306,7 +306,11 @@ if page == "🏠 Home / Single Stock":
                 try:
                     raw_df = yf.download(current_symbol, start=start_date, end=end_date, progress=False)
                     if raw_df.empty:
-                        st.error(f"No market data returned for '{current_symbol}'. Verify ticker symbol.")
+                        st.error(
+                            f"No market data returned for '{current_symbol}'. "
+                            f"Verify ticker symbol or ensure the Start Date is set to at least 1-2 years in the past. "
+                            f"Currently, your date range ({start_date} to {end_date}) contains no trading sessions."
+                        )
                     else:
                         if isinstance(raw_df.columns, pd.MultiIndex):
                             raw_df.columns = raw_df.columns.get_level_values(0)
