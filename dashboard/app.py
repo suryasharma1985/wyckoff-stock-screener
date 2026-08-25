@@ -357,6 +357,26 @@ if page == "🏠 Home / Single Stock":
             st.markdown(category_chip(cand_category), unsafe_allow_html=True)
             st.caption(f"Composite Score: **{scored.composite_score:.1f} / 100**")
 
+        # ── Suggested Trade Setup Levels
+        suggested_entry = ref_close
+        suggested_stop = ref_close * 0.95
+        suggested_target = pf_target if (pf_target and pf_target > ref_close) else ref_close * 1.15
+        projected_reward = suggested_target - suggested_entry
+        projected_risk = suggested_entry - suggested_stop
+        projected_rrr = (projected_reward / projected_risk) if projected_risk > 0 else 3.0
+
+        st.markdown("##### 🎯 Suggested Trade Setup Levels")
+        tcol1, tcol2, tcol3, tcol4 = st.columns(4)
+        with tcol1:
+            st.metric("Suggested Entry", f"₹{suggested_entry:.2f}", help="Based on the latest daily Close price.")
+        with tcol2:
+            st.metric("Suggested Stop Loss (SL)", f"₹{suggested_stop:.2f}", help="Suggested invalidation level (5% below Entry).")
+        with tcol3:
+            st.metric("Suggested Target (TP)", f"₹{suggested_target:.2f}", help="Calculated via P&F horizontal count (or 15% default fallback).")
+        with tcol4:
+            st.metric("Risk-to-Reward Ratio (RRR)", f"1 : {projected_rrr:.2f}", help="Reward potential divided by Risk. A 1:3 ratio means you make 3x what you risk.")
+
+
         # ── 1. "WHY WAS THIS STOCK SELECTED?"
         render_why_selected_card(
             symbol=current_symbol,
