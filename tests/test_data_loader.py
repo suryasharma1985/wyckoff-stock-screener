@@ -139,3 +139,42 @@ def test_tradingview_style_columns_success():
     assert df["Close"].iloc[0] == 1426.2
     assert df["Volume"].iloc[0] == 5816
 
+
+def test_oneil_rs_score_calculation():
+    """Verify that calculate_oneil_rs_score calculates weighted returns correctly."""
+    from wyckoff_screener.data_loader import calculate_oneil_rs_score
+    # Create a synthetic dataset of exactly 252 days.
+    # Start at 100, increase by 10% each quarter
+    # Q4: start 100, end 110 (index 0 to 62) -> ret = 10%
+    # Q3: start 110, end 121 (index 62 to 125) -> ret = 10%
+    # Q2: start 121, end 133.1 (index 125 to 188) -> ret = 10%
+    # Q1: start 133.1, end 146.41 (index 188 to 251) -> ret = 10%
+    # Expected weighted return score = (0.4 * 0.10 + 0.2 * 0.10 + 0.2 * 0.10 + 0.2 * 0.10) * 100.0 = 10.0
+    prices = [100.0] * 252
+    # Q4 range
+    for i in range(1, 63):
+        prices[i] = 100.0 + (i / 62) * 10.0
+    # Q3 range
+    for i in range(63, 126):
+        prices[i] = 110.0 + ((i - 62) / 63) * 11.0
+    # Q2 range
+    for i in range(126, 189):
+        prices[i] = 121.0 + ((i - 125) / 63) * 12.1
+    # Q1 range
+    for i in range(189, 252):
+        prices[i] = 133.1 + ((i - 188) / 63) * 13.31
+
+    df = pd.DataFrame({
+        "Date": pd.date_range("2024-01-01", periods=252),
+        "Open": prices,
+        "High": prices,
+        "Low": prices,
+        "Close": prices,
+        "Volume": [1000] * 252
+    })
+
+    score = calculate_oneil_rs_score(df)
+    # Allow small floating point delta
+    assert abs(score - 10.0) < 0.01
+
+

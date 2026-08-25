@@ -282,6 +282,37 @@ def main() -> None:
     utad_warnings = [r for r in all_results if r.candidate_event_summary.get("is_UTAD_warning")]
     pending_reviews = [r for r in all_results if r.manual_review_pending]
 
+    # Calculate O'Neil RS Scores and Percentile Ranks (1 to 99)
+    from wyckoff_screener.data_loader import calculate_oneil_rs_score
+    rs_scores = {}
+    for ticker, df in successful_data_map.items():
+        try:
+            score = calculate_oneil_rs_score(df)
+            rs_scores[ticker] = score
+        except Exception:
+            pass
+
+    rs_ratings = {}
+    if rs_scores:
+        sorted_tickers = sorted(rs_scores.items(), key=lambda x: x[1])
+        n_tickers = len(sorted_tickers)
+        for rank_idx, (ticker, score) in enumerate(sorted_tickers):
+            if n_tickers > 1:
+                percentile = int(round((rank_idx / (n_tickers - 1)) * 98 + 1))
+            else:
+                percentile = 99
+            clean_sym = ticker.replace(".NS", "").upper()
+            rs_ratings[clean_sym] = percentile
+
+    try:
+        out_json_path = Path("data/market_rs_ratings.json")
+        out_json_path.parent.mkdir(parents=True, exist_ok=True)
+        with open(out_json_path, "w", encoding="utf-8") as jf:
+            json.dump(rs_ratings, jf, indent=4)
+        print(f"Exported {len(rs_ratings)} RS ratings to: {out_json_path.resolve()}")
+    except Exception as exc:
+        print(f"Failed to export RS ratings: {exc}", file=sys.stderr)
+
     # 5. Export Results CSV
     out_path = Path(args.output)
     out_path.parent.mkdir(parents=True, exist_ok=True)

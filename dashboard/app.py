@@ -206,6 +206,18 @@ def calculate_nifty_relative_strength(stock_df: pd.DataFrame) -> Optional[float]
     return None
 
 
+@st.cache_data(ttl=600)  # Cache for 10 minutes
+def load_market_rs_ratings() -> dict[str, int]:
+    try:
+        path = Path("data/market_rs_ratings.json")
+        if path.exists():
+            with open(path, "r", encoding="utf-8") as jf:
+                return json.load(jf)
+    except Exception:
+        pass
+    return {}
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # SIDEBAR
 # ─────────────────────────────────────────────────────────────────────────────
@@ -388,15 +400,53 @@ if page == "🏠 Home / Single Stock":
         with hcol2:
             st.metric("Reference Close Price", f"₹{df['Close'].iloc[-1]:.2f}")
         
-        # Calculate Nifty 50 Relative Strength Outperformance
-        rs_rating_val = calculate_nifty_relative_strength(df)
+        # Load precalculated O'Neil RS Percentile Ratings from database
+        rs_ratings_db = load_market_rs_ratings()
+        clean_symbol_key = current_symbol.replace(".NS", "").upper()
+        rs_percentile = rs_ratings_db.get(clean_symbol_key)
+
         with hcol3:
-            if rs_rating_val is not None:
-                st.metric("RS vs Nifty 50 (1Yr)", f"{rs_rating_val:+.1f}%", 
-                          delta=f"{rs_rating_val:+.1f}% vs Index",
-                          help="Relative Strength outperformance compared to Nifty 50 Index (^NSEI) over the last 1 year (250 daily trading bars).")
+            if rs_percentile is not None:
+                # Classify O'Neil RS Rating
+                if rs_percentile >= 90:
+                    rs_class = "LEADER"
+                    rs_color = "#38bdf8" # Blue
+                    rs_status = "GREAT"
+                elif rs_percentile >= 80:
+                    rs_class = "STRONG"
+                    rs_color = "#38bdf8" # Blue
+                    rs_status = "GREAT"
+                elif rs_percentile >= 70:
+                    rs_class = "FAIR"
+                    rs_color = "#fbbf24" # Yellow/Orange
+                    rs_status = "FAIR"
+                elif rs_percentile >= 40:
+                    rs_class = "MEDIOCRE"
+                    rs_color = "#94a3b8" # Grey
+                    rs_status = "MEDIOCRE"
+                else:
+                    rs_class = "POOR"
+                    rs_color = "#ef4444" # Red
+                    rs_status = "POOR"
+
+                st.markdown(f"""
+                <div style="background:#0f172a; padding:8px 12px; border:1px solid #334155; border-radius:8px;">
+                    <div style="font-size:0.75rem; color:#94a3b8; text-transform:uppercase; font-weight:600; letter-spacing:0.05em;">RS Rating (1-99)</div>
+                    <div style="font-size:1.4rem; font-weight:700; color:#f1f5f9; margin:2px 0;">{rs_percentile} <span style="font-size:0.85rem; color:{rs_color}; font-weight:600;">({rs_status}: {rs_class})</span></div>
+                    <div style="width:100%; background-color:#1e293b; border-radius:4px; height:6px; overflow:hidden; margin-top:4px;">
+                        <div style="width:{rs_percentile}%; background-color:{rs_color}; height:100%;"></div>
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
             else:
-                st.metric("RS vs Nifty 50 (1Yr)", "N/A")
+                # Fallback to RS vs Nifty 50 outperformance
+                rs_rating_val = calculate_nifty_relative_strength(df)
+                if rs_rating_val is not None:
+                    st.metric("RS vs Nifty 50 (1Yr)", f"{rs_rating_val:+.1f}%", 
+                              delta=f"{rs_rating_val:+.1f}% vs Index",
+                              help="Relative Strength outperformance compared to Nifty 50 Index (^NSEI) over the last 1 year (250 daily trading bars).")
+                else:
+                    st.metric("RS vs Nifty 50 (1Yr)", "N/A")
                 
         with hcol4:
             st.markdown(category_chip(cand_category), unsafe_allow_html=True)

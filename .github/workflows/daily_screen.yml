@@ -83,7 +83,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore(data): auto-generate daily research screening results [skip ci]"
-          file_pattern: "data/research_results/* data/universe_snapshots/*"
+          file_pattern: "data/research_results/* data/universe_snapshots/* data/market_rs_ratings.json"
           commit_user_name: "github-actions[bot]"
           commit_user_email: "github-actions[bot]@users.noreply.github.com"
           commit_author: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"

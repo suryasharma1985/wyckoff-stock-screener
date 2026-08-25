@@ -235,3 +235,50 @@ def load_ohlcv_csv(
         volume_col=volume_col,
         reject_duplicates=reject_duplicates,
     )
+
+
+def calculate_oneil_rs_score(df: pd.DataFrame, close_col: str = DEFAULT_CLOSE_COL) -> float:
+    """Calculate O'Neil's weighted 1-year relative strength return score.
+
+    Formula:
+        Score = 0.4 * R_Q1 + 0.2 * R_Q2 + 0.2 * R_Q3 + 0.2 * R_Q4
+    where:
+        R_Q1: Return of last 63 trading days (most recent 3 months)
+        R_Q2: Return of days 63 to 126 (3-6 months ago)
+        R_Q3: Return of days 126 to 189 (6-9 months ago)
+        R_Q4: Return of days 189 to 252 (9-12 months ago)
+
+    If the DataFrame has fewer than 252 bars, it computes returns for whatever
+    periods are available, substituting 0.0 for missing quarters. We require
+    at least 10 bars to calculate.
+    """
+    if df.empty or close_col not in df.columns:
+        return 0.0
+
+    n_bars = len(df)
+    if n_bars < 10:
+        return 0.0
+
+    # Get closing price array
+    closes = df[close_col].values
+
+    def get_quarter_return(end_idx: int, span: int) -> float:
+        start_idx = max(0, end_idx - span)
+        if start_idx == end_idx:
+            return 0.0
+        p_start = float(closes[start_idx])
+        p_end = float(closes[end_idx])
+        if p_start <= 0:
+            return 0.0
+        return (p_end - p_start) / p_start
+
+    # Standard quarters of 63 trading days (approx 252 trading days per year)
+    q1_ret = get_quarter_return(n_bars - 1, 63)
+    q2_ret = get_quarter_return(max(0, n_bars - 1 - 63), 63)
+    q3_ret = get_quarter_return(max(0, n_bars - 1 - 126), 63)
+    q4_ret = get_quarter_return(max(0, n_bars - 1 - 189), 63)
+
+    # Apply weights (0.4, 0.2, 0.2, 0.2)
+    score = (0.4 * q1_ret + 0.2 * q2_ret + 0.2 * q3_ret + 0.2 * q4_ret) * 100.0
+    return float(score)
+
