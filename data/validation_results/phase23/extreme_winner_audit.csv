@@ -1,0 +1,101 @@
+Symbol,Checkpoint_Date,Entry_Date,Exit_Date,Entry_Price,Exit_Price,Return,Event_Type,Score,Classification,Notes
+PARASPETRO,2022-09-30,2022-10-03,1.4,0.1,1.4,1299.6,None,25.0,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+SILVERTUC,2023-10-31,2023-11-01,689.53,55.96,689.53,1131.76,SOS,55.0,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+SILVERTUC,2023-09-29,2023-10-03,700.67,61.0,700.67,1048.19,SOS,43.0,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+SILVERTUC,2023-11-30,2023-12-01,706.57,68.45,706.57,931.87,UTAD,22.5,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+PARASPETRO,2022-10-31,2022-11-01,1.0,0.1,1.0,899.6,None,25.0,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+MKPL,2022-08-30,2022-09-01,22.22,2.33,22.22,851.72,ST,30.5,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+PARASPETRO,2022-11-30,2022-12-01,0.9,0.1,0.9,799.6,None,25.0,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+KSHITIJPOL,2022-07-29,2022-08-01,61.2,7.87,61.2,677.24,LPS,32.5,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+UNITECH,2023-10-31,2023-11-01,16.35,2.45,16.35,566.95,ST,33.0,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+POCL,2023-02-28,2023-03-01,79.32,12.07,79.32,556.86,None,18.0,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+POCL,2023-01-31,2023-02-01,72.57,12.07,72.57,500.99,None,18.0,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+JAIBALAJI,2023-06-30,2023-07-03,85.06,15.33,85.06,454.46,SC,50.5,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+WSI,2023-01-31,2023-02-01,85.5,16.6,85.5,414.66,SOS,37.5,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+MKPL,2022-07-29,2022-08-01,10.69,2.1,10.69,408.81,ST,50.5,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+SPCENET,2022-06-30,2022-07-01,18.6,3.74,18.6,396.93,None,25.0,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+MKPL,2022-09-30,2022-10-03,24.26,5.34,24.26,353.84,SOS,43.0,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+WSI,2023-02-28,2023-03-01,78.6,17.4,78.6,351.32,SOS,30.0,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+BSHSL,2022-10-31,2022-11-01,473.25,106.45,473.25,344.17,SOS,50.5,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+KEEPLEARN,2022-06-30,2022-07-01,4.92,1.11,4.92,342.46,LPS,32.5,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+SERVOTECH,2023-03-31,2023-04-03,81.33,18.41,81.33,341.28,ST,30.5,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+POCL,2022-12-30,2023-01-02,52.71,12.07,52.71,336.39,None,18.0,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+SWARAJ,2023-03-31,2023-04-03,95.7,23.25,95.7,311.21,LPS,53.5,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+LATTEYS,2022-10-31,2022-11-01,27.47,6.94,27.47,295.42,LPS,65.0,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+SIGMAADV,2026-03-30,2026-04-01,584.3,150.0,584.3,289.13,LPS,55.0,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+SKYGOLD,2023-08-31,2023-09-01,109.07,28.39,109.07,283.79,LPS,43.0,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+KSHITIJPOL,2022-06-30,2022-07-01,24.0,6.4,24.0,274.6,LPS,65.0,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+INDOTHAI,2024-07-31,2024-08-01,100.65,26.91,100.65,273.58,ST,55.0,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+VINNY,2022-11-30,2022-12-01,15.25,4.16,15.25,266.49,LPS,45.5,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+URJA,2023-10-31,2023-11-01,34.45,9.4,34.45,266.09,LPS,55.0,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+IZMO,2025-06-30,2025-07-01,1284.5,359.65,1284.5,256.75,SC,43.5,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+SWARAJ,2023-05-31,2023-06-01,139.0,39.0,139.0,256.01,SOS,65.0,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+LATTEYS,2022-11-30,2022-12-01,37.0,10.44,37.0,254.01,SOS,57.5,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+JAIBALAJI,2023-07-31,2023-08-01,114.97,32.6,114.97,252.27,SOS,55.0,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+DCI,2022-08-30,2022-09-01,144.3,41.35,144.3,248.57,ST,21.5,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+TIJARIA,2024-01-31,2024-02-01,22.25,6.4,22.25,247.26,LPS,65.0,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+PCJEWELLER,2022-06-30,2022-07-01,7.95,2.34,7.95,239.56,LPS,30.0,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+RSSOFTWARE,2023-12-29,2024-01-01,197.54,58.94,197.54,234.77,LPS,61.0,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+BTML,2022-06-30,2022-07-01,7.17,2.17,7.17,229.88,LPS,57.5,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+TAKE,2025-09-30,2025-10-01,39.64,12.06,39.64,228.29,LPS,53.0,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+RSSOFTWARE,2024-01-31,2024-02-01,258.52,79.16,258.52,226.16,LPS,55.0,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+FACT,2022-09-30,2022-10-03,354.43,111.13,354.43,218.52,UTAD,15.0,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+CUPID,2023-11-30,2023-12-01,27.01,8.5,27.01,217.37,SOS,50.5,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+VINNY,2022-10-31,2022-11-01,9.43,3.0,9.43,214.4,ST,35.5,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+TERASOFT,2024-10-31,2024-11-01,254.38,80.81,254.38,214.39,LPS,41.5,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+NACLIND,2025-02-28,2025-03-03,176.35,56.25,176.35,213.11,Spring,52.5,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+SARVESHWAR,2023-11-30,2023-12-01,14.1,4.5,14.1,212.93,LPS,60.5,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+LCCINFOTEC,2024-04-30,2024-05-02,5.77,1.85,5.77,211.49,LPS,43.0,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+REFEX,2024-06-28,2024-07-01,489.04,157.54,489.04,210.03,UTAD,22.5,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+TAKE,2025-08-29,2025-09-01,30.92,10.03,30.92,207.88,SC,17.5,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+HFCL,2026-03-30,2026-04-01,215.0,69.75,215.0,207.84,LPS,50.0,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+SKYGOLD,2023-09-29,2023-10-03,99.65,32.39,99.65,207.27,SOS,55.0,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+SERVOTECH,2023-02-28,2023-03-01,56.21,18.36,56.21,205.71,ST,33.0,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+MEDICO,2022-08-30,2022-09-01,62.58,20.63,62.58,202.94,SOS,65.0,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+LCCINFOTEC,2024-05-31,2024-06-03,8.6,2.85,8.6,201.35,LPS,30.0,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+AURIONPRO,2023-03-31,2023-04-03,466.34,154.64,466.34,201.16,Spring,60.0,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+NPST,2022-10-31,2022-11-01,120.17,39.95,120.17,200.43,LPS,43.5,POSSIBLE DATA/CORPORATE ACTION ISSUE,Abnormal return > 200% in 60 trading days; requires split/bonus adjustment check.
+UNITECH,2023-08-31,2023-09-01,5.85,1.95,5.85,199.6,SOS,62.5,LIQUIDITY / EXECUTION CONCERN,Penny stock (entry price: 1.95 Rupees); execution is highly unrealistic.
+PCJEWELLER,2024-06-28,2024-07-01,15.41,5.14,15.41,199.11,LPS,55.0,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+ELECTHERM,2023-10-31,2023-11-01,369.15,123.55,369.15,198.39,ST,40.5,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+AURIONPRO,2023-04-28,2023-05-02,534.47,180.06,534.47,196.43,LPS,53.0,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+SERVOTECH,2023-04-28,2023-05-02,86.94,29.35,86.94,195.78,SOS,62.5,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+GLOBAL,2022-07-29,2022-08-01,99.81,33.84,99.81,194.54,UTAD,22.5,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+UNITEDPOLY,2022-09-30,2022-10-03,10.9,3.72,10.9,192.75,LPS,47.5,LIQUIDITY / EXECUTION CONCERN,Penny stock (entry price: 3.72 Rupees); execution is highly unrealistic.
+TERASOFT,2024-08-30,2024-09-02,209.12,71.55,209.12,191.86,UTAD,22.5,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+WSI,2023-03-31,2023-04-03,99.05,34.15,99.05,189.64,SOS,30.0,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+BTML,2022-10-31,2022-11-01,16.69,5.76,16.69,189.51,SC,15.0,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+INDOTHAI,2025-08-29,2025-09-01,440.6,152.21,440.6,189.07,LPS,55.0,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+GRSE,2024-03-28,2024-04-01,2275.09,787.13,2275.09,188.64,ST,40.5,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+PARASPETRO,2023-07-31,2023-08-01,2.45,0.85,2.45,187.84,LPS,25.0,LIQUIDITY / EXECUTION CONCERN,Penny stock (entry price: 0.85 Rupees); execution is highly unrealistic.
+NPST,2022-11-30,2022-12-01,115.39,40.13,115.39,187.15,SC,33.0,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+GENUSPOWER,2023-05-31,2023-06-01,260.76,90.94,260.76,186.34,UTAD,25.0,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+SHAKTIPUMP,2024-03-28,2024-04-01,638.72,223.92,638.72,184.84,SOS,37.5,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+FORCEMOT,2023-11-30,2023-12-01,9458.49,3336.98,9458.49,183.04,SOS,37.5,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+KRISHNADEF,2024-03-28,2024-04-01,1038.37,367.12,1038.37,182.44,LPS,61.0,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+TOTAL,2022-06-30,2022-07-01,168.21,59.55,168.21,182.08,LPS,57.5,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+CUPID,2023-09-29,2023-10-03,11.68,4.14,11.68,181.83,SOS,50.5,LIQUIDITY / EXECUTION CONCERN,Penny stock (entry price: 4.14 Rupees); execution is highly unrealistic.
+RSSOFTWARE,2023-11-30,2023-12-01,177.61,62.93,177.61,181.82,AR,40.5,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+SALASAR,2023-10-31,2023-11-01,25.67,9.1,25.67,181.69,LPS,62.5,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+SWARAJ,2023-04-28,2023-05-02,86.5,30.75,86.5,180.9,ST,33.0,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+OSWALSEEDS,2022-08-30,2022-09-01,38.47,13.78,38.47,178.68,LPS,53.0,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+SERVOTECH,2022-07-29,2022-08-01,15.93,5.71,15.93,178.57,LPS,55.0,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+CUPID,2023-10-31,2023-11-01,17.61,6.32,17.61,178.45,SOS,55.0,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+IFCI,2023-10-31,2023-11-01,61.05,21.9,61.05,178.37,LPS,65.0,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+JAIBALAJI,2023-05-31,2023-06-01,46.72,16.76,46.72,178.36,LPS,68.5,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+IBULLSLTD,2026-03-30,2026-04-01,25.75,9.25,25.75,177.98,LPS,40.0,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+BHAGYANGR,2026-03-30,2026-04-01,392.15,140.99,392.15,177.74,LPS,72.5,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+AKI,2023-09-29,2023-10-03,29.4,10.6,29.4,176.96,LPS,32.5,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+JWL,2023-05-31,2023-06-01,359.84,130.35,359.84,175.65,UTAD,22.5,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+HFCL,2026-02-27,2026-03-02,182.28,66.24,182.28,174.78,LPS,45.5,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+PREMEXPLN,2023-05-31,2023-06-01,232.86,84.71,232.86,174.49,ST,33.0,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+POCL,2024-05-31,2024-06-03,356.37,130.31,356.37,173.07,UTAD,13.5,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+INOXWIND,2023-09-29,2023-10-03,131.09,47.97,131.09,172.84,SOS,30.0,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+FORCEMOT,2023-12-06,2024-02-07,9053.31,3336.98,9053.31,170.9,SOS,37.5,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+VINNY,2022-09-30,2022-10-03,5.95,2.2,5.95,169.96,ST,33.0,LIQUIDITY / EXECUTION CONCERN,Penny stock (entry price: 2.2 Rupees); execution is highly unrealistic.
+SIGMAADV,2026-02-27,2026-03-02,416.1,154.0,416.1,169.79,Spring,50.0,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+SKYGOLD,2023-07-31,2023-08-01,71.84,26.66,71.84,169.06,LPS,57.5,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+BSHSL,2022-07-29,2022-08-01,106.45,39.54,106.45,168.79,SC,25.5,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+TEXRAIL,2023-05-31,2023-06-01,147.05,55.23,147.05,165.85,SOS,60.5,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+OPTIEMUS,2024-06-28,2024-07-01,841.35,317.3,841.35,164.76,LPS,57.5,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.
+FACT,2022-10-31,2022-11-01,311.02,117.46,311.02,164.39,UTAD,15.0,VALID / PLAUSIBLY TRADEABLE,Standard price movement without obvious anomalies.

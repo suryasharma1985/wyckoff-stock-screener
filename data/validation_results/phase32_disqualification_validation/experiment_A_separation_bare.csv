@@ -1,0 +1,4 @@
+Horizon,N_Qualified,Dates_Qualified,Mean_Qualified,Median_Qualified,WinRate_Qualified,PF_Qualified,N_Disqualified,Dates_Disqualified,Mean_Disqualified,Median_Disqualified,WinRate_Disqualified,PF_Disqualified,Separation_Delta,Delta_CI_Low,Delta_CI_High,Qualified_Beats_Disqualified
+10D,59916,52,0.82,-0.4,47.78,1.27,24347,50,1.18,-0.33,48.13,1.39,-0.36,-1.35,0.35,NO
+20D,58539,51,1.3,-0.48,48.0,1.32,23754,49,1.63,-0.47,48.09,1.4,-0.33,-1.44,0.55,NO
+60D,55821,50,4.62,0.73,51.53,1.7,22607,48,4.93,0.97,52.14,1.77,-0.31,-1.97,1.15,NO

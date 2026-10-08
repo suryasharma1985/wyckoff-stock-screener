@@ -1,0 +1,279 @@
+{
+  "metadata": {
+    "execution_date": "2026-08-29 12:58:46",
+    "random_seed": 42,
+    "dataset_rows": 86234,
+    "unique_symbols": 1971,
+    "unique_checkpoints": 54,
+    "frozen_strategy_untouched": true,
+    "production_source_untouched": true
+  },
+  "experiment_A_sos_vs_random": [
+    {
+      "Horizon": "10D",
+      "N_Trades": 12801,
+      "Distinct_Months": 50,
+      "actual_mean": 1.09,
+      "random_mean": 1.14,
+      "mean_diff": -0.04,
+      "p_value": 0.532,
+      "percentile": 26.6
+    },
+    {
+      "Horizon": "20D",
+      "N_Trades": 12497,
+      "Distinct_Months": 49,
+      "actual_mean": 1.88,
+      "random_mean": 1.85,
+      "mean_diff": 0.03,
+      "p_value": 0.778,
+      "percentile": 61.1
+    },
+    {
+      "Horizon": "60D",
+      "N_Trades": 11829,
+      "Distinct_Months": 48,
+      "actual_mean": 5.78,
+      "random_mean": 4.89,
+      "mean_diff": 0.89,
+      "p_value": 0.0,
+      "percentile": 100.0
+    }
+  ],
+  "experiment_B_core_comparison": [
+    {
+      "Strategy": "(b0) Frozen baseline (Spring | SC)",
+      "N": 1916,
+      "mean": 7.45,
+      "median": 2.12,
+      "winrate": 55.01,
+      "pf": 2.48,
+      "trimmed5": 6.01,
+      "winsor5": 6.8,
+      "boot_se": 1.8418,
+      "ci_low": 3.72,
+      "ci_high": 11.03
+    },
+    {
+      "Strategy": "(b1) SOS-only",
+      "N": 6359,
+      "mean": 8.54,
+      "median": 3.76,
+      "winrate": 58.09,
+      "pf": 2.73,
+      "trimmed5": 7.1,
+      "winsor5": 7.82,
+      "boot_se": 2.1191,
+      "ci_low": 4.46,
+      "ci_high": 12.84
+    },
+    {
+      "Strategy": "(b2) Spring | SC | SOS",
+      "N": 8275,
+      "mean": 8.29,
+      "median": 3.3,
+      "winrate": 57.38,
+      "pf": 2.67,
+      "trimmed5": 6.84,
+      "winsor5": 7.58,
+      "boot_se": 2.0044,
+      "ci_low": 4.39,
+      "ci_high": 12.29
+    },
+    {
+      "Strategy": "(b3) SOS | Spring",
+      "N": 6915,
+      "mean": 8.27,
+      "median": 3.45,
+      "winrate": 57.66,
+      "pf": 2.69,
+      "trimmed5": 6.86,
+      "winsor5": 7.57,
+      "boot_se": 2.0501,
+      "ci_low": 4.3,
+      "ci_high": 12.4
+    },
+    {
+      "Strategy": "(b4) SOS-only (no LPS)",
+      "N": 6359,
+      "mean": 8.54,
+      "median": 3.76,
+      "winrate": 58.09,
+      "pf": 2.73,
+      "trimmed5": 7.1,
+      "winsor5": 7.82,
+      "boot_se": 2.1191,
+      "ci_low": 4.46,
+      "ci_high": 12.84
+    }
+  ],
+  "experiment_C_regime_sensitivity": [
+    {
+      "Regime": "(A) Loose (market_regime != 'Sideways')",
+      "Strategy": "Frozen baseline (Spring | SC)",
+      "N": 7518,
+      "mean": 9.65,
+      "median": 6.37,
+      "winrate": 63.13,
+      "pf": 3.15,
+      "trimmed5": 8.62,
+      "winsor5": 9.2,
+      "ci_low": 3.92,
+      "ci_high": 14.66
+    },
+    {
+      "Regime": "(A) Loose (market_regime != 'Sideways')",
+      "Strategy": "SOS-only",
+      "N": 8315,
+      "mean": 7.52,
+      "median": 2.97,
+      "winrate": 56.61,
+      "pf": 2.4,
+      "trimmed5": 6.13,
+      "winsor5": 6.81,
+      "ci_low": 3.9,
+      "ci_high": 10.81
+    },
+    {
+      "Regime": "(A) Loose (market_regime != 'Sideways')",
+      "Strategy": "Spring | SC | SOS",
+      "N": 15833,
+      "mean": 8.53,
+      "median": 4.73,
+      "winrate": 59.7,
+      "pf": 2.72,
+      "trimmed5": 7.31,
+      "winsor5": 7.94,
+      "ci_low": 4.6,
+      "ci_high": 12.0
+    },
+    {
+      "Regime": "(B) Canonical (market_regime == 'Bullish')",
+      "Strategy": "Frozen baseline (Spring | SC)",
+      "N": 1916,
+      "mean": 7.45,
+      "median": 2.12,
+      "winrate": 55.01,
+      "pf": 2.48,
+      "trimmed5": 6.01,
+      "winsor5": 6.8,
+      "ci_low": 3.72,
+      "ci_high": 11.03
+    },
+    {
+      "Regime": "(B) Canonical (market_regime == 'Bullish')",
+      "Strategy": "SOS-only",
+      "N": 6359,
+      "mean": 8.54,
+      "median": 3.76,
+      "winrate": 58.09,
+      "pf": 2.73,
+      "trimmed5": 7.1,
+      "winsor5": 7.82,
+      "ci_low": 4.46,
+      "ci_high": 12.84
+    },
+    {
+      "Regime": "(B) Canonical (market_regime == 'Bullish')",
+      "Strategy": "Spring | SC | SOS",
+      "N": 8275,
+      "mean": 8.29,
+      "median": 3.3,
+      "winrate": 57.38,
+      "pf": 2.67,
+      "trimmed5": 6.84,
+      "winsor5": 7.58,
+      "ci_low": 4.39,
+      "ci_high": 12.29
+    }
+  ],
+  "experiment_D_robustness_gates": [
+    {
+      "Strategy": "(b1) SOS-only",
+      "N": 6359,
+      "Distinct_Months": 19,
+      "Base_Mean": 8.54,
+      "Top1pct_Trimmed": 7.14,
+      "Top5pct_Trimmed": 4.58,
+      "Top10pct_Trimmed": 2.33,
+      "Winsorized_1pct": 8.25,
+      "Winsorized_5pct": 7.82,
+      "Bootstrap_CI_Low": 4.46,
+      "Bootstrap_CI_High": 12.84,
+      "CI_Excludes_Zero": "YES",
+      "Mean_Haircut_1.5pct": 8.19,
+      "Mean_Haircut_2.0pct": 8.07,
+      "Mean_Haircut_2.5pct": 7.95
+    },
+    {
+      "Strategy": "(b2) Spring | SC | SOS",
+      "N": 8275,
+      "Distinct_Months": 19,
+      "Base_Mean": 8.29,
+      "Top1pct_Trimmed": 6.9,
+      "Top5pct_Trimmed": 4.32,
+      "Top10pct_Trimmed": 2.05,
+      "Winsorized_1pct": 7.99,
+      "Winsorized_5pct": 7.58,
+      "Bootstrap_CI_Low": 4.39,
+      "Bootstrap_CI_High": 12.29,
+      "CI_Excludes_Zero": "YES",
+      "Mean_Haircut_1.5pct": 7.93,
+      "Mean_Haircut_2.0pct": 7.81,
+      "Mean_Haircut_2.5pct": 7.69
+    },
+    {
+      "Strategy": "(b0) Frozen baseline (Spring | SC)",
+      "N": 1916,
+      "Distinct_Months": 19,
+      "Base_Mean": 7.45,
+      "Top1pct_Trimmed": 6.06,
+      "Top5pct_Trimmed": 3.44,
+      "Top10pct_Trimmed": 1.15,
+      "Winsorized_1pct": 7.14,
+      "Winsorized_5pct": 6.8,
+      "Bootstrap_CI_Low": 3.72,
+      "Bootstrap_CI_High": 11.03,
+      "CI_Excludes_Zero": "YES",
+      "Mean_Haircut_1.5pct": 7.09,
+      "Mean_Haircut_2.0pct": 6.97,
+      "Mean_Haircut_2.5pct": 6.85
+    }
+  ],
+  "experiment_E_lps_removal": [
+    {
+      "Setup": "With LPS Included (Spring | SC | SOS | LPS)",
+      "N": 18936,
+      "Mean": 8.02,
+      "Median": 3.18,
+      "Win_Rate": 57.49,
+      "PF": 2.72,
+      "Trimmed5": 6.69,
+      "Delta_Mean": 0.0,
+      "Delta_PF": 0.0,
+      "Note": "Status quo candidate screening"
+    },
+    {
+      "Setup": "Without LPS (Spring | SC | SOS)",
+      "N": 8275,
+      "Mean": 8.29,
+      "Median": 3.3,
+      "Win_Rate": 57.38,
+      "PF": 2.67,
+      "Trimmed5": 6.84,
+      "Delta_Mean": 0.27,
+      "Delta_PF": -0.05,
+      "Note": "LPS excluded as a bullish candidate"
+    }
+  ],
+  "decision_answers": {
+    "does_sos_beat_frozen_baseline": true,
+    "sos_vs_frozen_mean_delta": 1.09,
+    "does_spring_sc_sos_beat_frozen": true,
+    "spring_sc_sos_vs_frozen_mean_delta": 0.84,
+    "is_sos_ci_excluding_zero": true,
+    "is_sos_tail_dependent": true,
+    "is_strategy_changed": false,
+    "is_lps_removed_from_production": false
+  }
+}

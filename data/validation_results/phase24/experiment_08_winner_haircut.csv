@@ -1,0 +1,4 @@
+Scenario,N,Mean,Median,Win_Rate,PF
+Original returns,78428,4.71,0.8,51.71,1.72
+Capped return at 50%,78428,3.42,0.8,51.71,1.52
+Exclude return >= 100%,77937,3.76,0.66,51.41,1.57

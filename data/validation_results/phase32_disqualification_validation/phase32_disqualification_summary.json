@@ -1,0 +1,318 @@
+{
+  "metadata": {
+    "execution_date": "2026-08-29 15:43:12",
+    "random_seed": 42,
+    "total_dataset_rows": 86234,
+    "total_qualified_rows": 61287,
+    "total_disqualified_rows": 24947,
+    "unique_symbols": 1971,
+    "unique_checkpoints": 54
+  },
+  "headline_answers": {
+    "does_qualified_beat_disqualified_at_60d": false,
+    "separation_delta_60d": -0.31,
+    "delta_bootstrap_ci_60d": [
+      -1.97,
+      1.15
+    ],
+    "delta_ci_excludes_zero": false,
+    "is_qualified_above_random_pool": false,
+    "is_disqualified_below_random_pool": false,
+    "which_edge_is_larger": "SOS Excess Edge (+0.89%, p=0.0000 is established; Disqualification separation delta -0.31% is NOT significant)",
+    "does_separation_survive_listing_filter": false,
+    "filtered_separation_delta": -0.35000000000000053,
+    "does_separation_survive_catastrophic_survivorship": false
+  },
+  "experiment_A_separation": [
+    {
+      "Horizon": "10D",
+      "N_Qualified": 59916,
+      "Dates_Qualified": 52,
+      "Mean_Qualified": 0.82,
+      "Median_Qualified": -0.4,
+      "WinRate_Qualified": 47.78,
+      "PF_Qualified": 1.27,
+      "N_Disqualified": 24347,
+      "Dates_Disqualified": 50,
+      "Mean_Disqualified": 1.18,
+      "Median_Disqualified": -0.33,
+      "WinRate_Disqualified": 48.13,
+      "PF_Disqualified": 1.39,
+      "Separation_Delta": -0.36,
+      "Delta_CI_Low": -1.35,
+      "Delta_CI_High": 0.35,
+      "Qualified_Beats_Disqualified": "NO"
+    },
+    {
+      "Horizon": "20D",
+      "N_Qualified": 58539,
+      "Dates_Qualified": 51,
+      "Mean_Qualified": 1.3,
+      "Median_Qualified": -0.48,
+      "WinRate_Qualified": 48.0,
+      "PF_Qualified": 1.32,
+      "N_Disqualified": 23754,
+      "Dates_Disqualified": 49,
+      "Mean_Disqualified": 1.63,
+      "Median_Disqualified": -0.47,
+      "WinRate_Disqualified": 48.09,
+      "PF_Disqualified": 1.4,
+      "Separation_Delta": -0.33,
+      "Delta_CI_Low": -1.44,
+      "Delta_CI_High": 0.55,
+      "Qualified_Beats_Disqualified": "NO"
+    },
+    {
+      "Horizon": "60D",
+      "N_Qualified": 55821,
+      "Dates_Qualified": 50,
+      "Mean_Qualified": 4.62,
+      "Median_Qualified": 0.73,
+      "WinRate_Qualified": 51.53,
+      "PF_Qualified": 1.7,
+      "N_Disqualified": 22607,
+      "Dates_Disqualified": 48,
+      "Mean_Disqualified": 4.93,
+      "Median_Disqualified": 0.97,
+      "WinRate_Disqualified": 52.14,
+      "PF_Disqualified": 1.77,
+      "Separation_Delta": -0.31,
+      "Delta_CI_Low": -1.97,
+      "Delta_CI_High": 1.15,
+      "Qualified_Beats_Disqualified": "NO"
+    }
+  ],
+  "experiment_B_random_baseline": [
+    {
+      "Group": "Qualified (is_disqualified == False)",
+      "Horizon": "60D",
+      "N_Trades": 55821,
+      "Actual_Mean_Gross": 5.02,
+      "Random_Mean_Gross": 4.92,
+      "Mean_Diff_vs_Random": 0.1,
+      "p_value": 0.08,
+      "Percentile": 96.0,
+      "Position_vs_Pool": "ABOVE POOL"
+    },
+    {
+      "Group": "Disqualified (is_disqualified == True)",
+      "Horizon": "60D",
+      "N_Trades": 22607,
+      "Actual_Mean_Gross": 5.33,
+      "Random_Mean_Gross": 5.59,
+      "Mean_Diff_vs_Random": -0.26,
+      "p_value": 0.054,
+      "Percentile": 2.7,
+      "Position_vs_Pool": "BELOW POOL"
+    }
+  ],
+  "experiment_C_bh_verdicts": [
+    {
+      "hypothesis": "Disqualified_60D",
+      "horizon": "60D",
+      "n_trades": 22607,
+      "actual_mean": 5.33,
+      "mean_diff": -0.26,
+      "p_value": 0.054,
+      "rank": 1,
+      "bh_critical_value": 0.008333333333333333,
+      "is_bh_significant": false,
+      "verdict": "NOT_SIGNIFICANT"
+    },
+    {
+      "hypothesis": "Qualified_60D",
+      "horizon": "60D",
+      "n_trades": 55821,
+      "actual_mean": 5.02,
+      "mean_diff": 0.1,
+      "p_value": 0.08,
+      "rank": 2,
+      "bh_critical_value": 0.016666666666666666,
+      "is_bh_significant": false,
+      "verdict": "NOT_SIGNIFICANT"
+    },
+    {
+      "hypothesis": "Qualified_10D",
+      "horizon": "10D",
+      "n_trades": 59916,
+      "actual_mean": 1.22,
+      "mean_diff": 0.02,
+      "p_value": 0.346,
+      "rank": 3,
+      "bh_critical_value": 0.025,
+      "is_bh_significant": false,
+      "verdict": "NOT_SIGNIFICANT"
+    },
+    {
+      "hypothesis": "Disqualified_10D",
+      "horizon": "10D",
+      "n_trades": 24347,
+      "actual_mean": 1.58,
+      "mean_diff": -0.04,
+      "p_value": 0.378,
+      "rank": 4,
+      "bh_critical_value": 0.03333333333333333,
+      "is_bh_significant": false,
+      "verdict": "NOT_SIGNIFICANT"
+    },
+    {
+      "hypothesis": "Qualified_20D",
+      "horizon": "20D",
+      "n_trades": 58539,
+      "actual_mean": 1.7,
+      "mean_diff": 0.02,
+      "p_value": 0.482,
+      "rank": 5,
+      "bh_critical_value": 0.04166666666666667,
+      "is_bh_significant": false,
+      "verdict": "NOT_SIGNIFICANT"
+    },
+    {
+      "hypothesis": "Disqualified_20D",
+      "horizon": "20D",
+      "n_trades": 23754,
+      "actual_mean": 2.03,
+      "mean_diff": -0.05,
+      "p_value": 0.526,
+      "rank": 6,
+      "bh_critical_value": 0.05,
+      "is_bh_significant": false,
+      "verdict": "NOT_SIGNIFICANT"
+    }
+  ],
+  "experiment_D_vs_sos": [
+    {
+      "Signal_Gate": "1. Disqualification Separation Delta (Qualified vs Disqualified)",
+      "Edge_Definition": "Mean_Net(Qualified) - Mean_Net(Disqualified)",
+      "Horizon": "60D",
+      "N_Signal_Group": 55821,
+      "Edge_Magnitude": "-0.31%",
+      "95pct_Confidence_Interval": "[-1.97%, +1.15%]",
+      "CI_Excludes_Zero": "NO",
+      "Significance_Verdict": "NOT_SIGNIFICANT",
+      "Relative_Strength": "Phase 7 3-stock separation does NOT hold at full scale (-0.31% delta, CI spans zero)"
+    },
+    {
+      "Signal_Gate": "2. SOS Excess Edge vs Same-Month Random Baseline",
+      "Edge_Definition": "Mean_Gross(SOS) - Mean_Gross(Random_Pool)",
+      "Horizon": "60D",
+      "N_Signal_Group": 11829,
+      "Edge_Magnitude": "+0.89%",
+      "95pct_Confidence_Interval": "[+0.45%, +1.33%]",
+      "CI_Excludes_Zero": "YES",
+      "Significance_Verdict": "SIGNIFICANT_POSITIVE",
+      "Relative_Strength": "Statistically Established Alpha (+0.89% over same-month random draw, p=0.0000)"
+    }
+  ],
+  "experiment_E_survivorship": [
+    {
+      "Scenario": "1. Base Listing-Filtered (Observed)",
+      "Lost_Stock_Return": "0.0%",
+      "Adjusted_Qualified_Mean": 4.43,
+      "Adjusted_Disqualified_Mean": 4.78,
+      "Separation_Delta": -0.35,
+      "Qualified_Beats_Disqualified": "NO",
+      "Qualified_Absolute_Positive": "YES"
+    },
+    {
+      "Scenario": "2. Pessimistic Lost-Stock (-15% 60D Return)",
+      "Lost_Stock_Return": "-15.0%",
+      "Adjusted_Qualified_Mean": 0.46,
+      "Adjusted_Disqualified_Mean": 0.73,
+      "Separation_Delta": -0.28,
+      "Qualified_Beats_Disqualified": "NO",
+      "Qualified_Absolute_Positive": "YES"
+    },
+    {
+      "Scenario": "3. Severe Lost-Stock (-25% 60D Return)",
+      "Lost_Stock_Return": "-25.0%",
+      "Adjusted_Qualified_Mean": -1.59,
+      "Adjusted_Disqualified_Mean": -1.31,
+      "Separation_Delta": -0.28,
+      "Qualified_Beats_Disqualified": "NO",
+      "Qualified_Absolute_Positive": "NO"
+    },
+    {
+      "Scenario": "4. Catastrophic Collapse (-40% 60D Return)",
+      "Lost_Stock_Return": "-40.0%",
+      "Adjusted_Qualified_Mean": -4.66,
+      "Adjusted_Disqualified_Mean": -4.38,
+      "Separation_Delta": -0.28,
+      "Qualified_Beats_Disqualified": "NO",
+      "Qualified_Absolute_Positive": "NO"
+    },
+    {
+      "Scenario": "Annual Haircut 1.5%/yr (-0.36% per 60D)",
+      "Lost_Stock_Return": "-1.5%/yr",
+      "Adjusted_Qualified_Mean": 4.07,
+      "Adjusted_Disqualified_Mean": 4.42,
+      "Separation_Delta": -0.35,
+      "Qualified_Beats_Disqualified": "NO",
+      "Qualified_Absolute_Positive": "YES"
+    },
+    {
+      "Scenario": "Annual Haircut 2.0%/yr (-0.48% per 60D)",
+      "Lost_Stock_Return": "-2.0%/yr",
+      "Adjusted_Qualified_Mean": 3.95,
+      "Adjusted_Disqualified_Mean": 4.3,
+      "Separation_Delta": -0.35,
+      "Qualified_Beats_Disqualified": "NO",
+      "Qualified_Absolute_Positive": "YES"
+    },
+    {
+      "Scenario": "Annual Haircut 2.5%/yr (-0.60% per 60D)",
+      "Lost_Stock_Return": "-2.5%/yr",
+      "Adjusted_Qualified_Mean": 3.83,
+      "Adjusted_Disqualified_Mean": 4.18,
+      "Separation_Delta": -0.35,
+      "Qualified_Beats_Disqualified": "NO",
+      "Qualified_Absolute_Positive": "YES"
+    }
+  ],
+  "experiment_F_flags": [
+    {
+      "Disqualifying_Flag": "1. UTAD Distribution Warning",
+      "N_Trades": 16129,
+      "Distinct_Months": 48,
+      "Mean_Net_60D": 4.31,
+      "Median_Net_60D": 0.23,
+      "Win_Rate": 50.51,
+      "Profit_Factor": 1.66,
+      "5pct_Trimmed_Mean": 0.7,
+      "Performance_Drag_vs_Qualified": -0.31
+    },
+    {
+      "Disqualifying_Flag": "2. No Base Accumulation Structure",
+      "N_Trades": 204,
+      "Distinct_Months": 46,
+      "Mean_Net_60D": 29.09,
+      "Median_Net_60D": 5.85,
+      "Win_Rate": 59.31,
+      "Profit_Factor": 4.69,
+      "5pct_Trimmed_Mean": 3.78,
+      "Performance_Drag_vs_Qualified": 24.47
+    },
+    {
+      "Disqualifying_Flag": "3. Mechanical Filters Failed",
+      "N_Trades": 6933,
+      "Distinct_Months": 47,
+      "Mean_Net_60D": 5.42,
+      "Median_Net_60D": 2.84,
+      "Win_Rate": 55.23,
+      "Profit_Factor": 1.86,
+      "5pct_Trimmed_Mean": 2.06,
+      "Performance_Drag_vs_Qualified": 0.8
+    },
+    {
+      "Disqualifying_Flag": "4. All Disqualified Pooled",
+      "N_Trades": 22607,
+      "Distinct_Months": 48,
+      "Mean_Net_60D": 4.93,
+      "Median_Net_60D": 0.97,
+      "Win_Rate": 52.14,
+      "Profit_Factor": 1.77,
+      "5pct_Trimmed_Mean": 1.19,
+      "Performance_Drag_vs_Qualified": 0.31
+    }
+  ]
+}

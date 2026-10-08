@@ -1,0 +1,25 @@
+Candidate,Horizon,Data_Path,N_Trades,Distinct_Months,Mean_Net,Median_Net,Win_Rate,Profit_Factor,Trimmed5,Winsor5,Bootstrap_CI_Low,Bootstrap_CI_High,Random_Mean_Gross,Mean_Diff_Gross,p_value_raw
+C0: Frozen Baseline (Spring | SC),10D,PATH A (pre-computed signal CSV),2151,19,1.31,-0.2,48.81,1.5,-0.2,1.07,-0.0,2.71,2.04,-0.32,0.064
+C0: Frozen Baseline (Spring | SC),20D,PATH A (pre-computed signal CSV),2151,19,2.06,-0.3,48.54,1.59,-0.06,1.81,0.33,4.01,3.21,-0.75,0.002
+C0: Frozen Baseline (Spring | SC),60D,PATH A (pre-computed signal CSV),1916,18,7.45,2.12,55.01,2.48,3.44,6.8,3.72,11.03,8.67,-0.82,0.132
+C1: SOS-Only (Validated Reference),10D,PATH A (pre-computed signal CSV),6675,20,1.43,0.24,51.31,1.54,0.02,1.29,0.14,2.64,1.96,-0.12,0.214
+C1: SOS-Only (Validated Reference),20D,PATH A (pre-computed signal CSV),6675,20,2.68,0.61,52.49,1.77,0.68,2.46,0.94,4.33,3.0,0.07,0.62
+C1: SOS-Only (Validated Reference),60D,PATH A (pre-computed signal CSV),6359,20,8.54,3.76,58.09,2.73,4.58,7.82,4.46,12.84,7.74,1.2,0.0
+C2a: SOS + VCP (CSV atr_contraction < 1.0),10D,PATH A (pre-computed signal CSV),2513,19,1.4,0.2,51.13,1.56,0.07,1.24,0.09,2.85,1.85,-0.05,0.762
+C2a: SOS + VCP (CSV atr_contraction < 1.0),20D,PATH A (pre-computed signal CSV),2513,19,2.73,0.5,52.41,1.84,0.8,2.53,0.88,4.79,2.99,0.14,0.56
+C2a: SOS + VCP (CSV atr_contraction < 1.0),60D,PATH A (pre-computed signal CSV),2365,19,8.0,2.96,57.12,2.64,4.25,7.47,3.25,13.02,7.3,1.1,0.028
+C2b: SOS + VCP (Point-in-Time Price ATR),10D,PATH B (point-in-time from cache),3625,18,1.54,0.25,51.53,1.63,0.19,1.39,0.07,2.8,1.8,0.14,0.332
+C2b: SOS + VCP (Point-in-Time Price ATR),20D,PATH B (point-in-time from cache),3625,18,2.74,0.46,52.19,1.83,0.81,2.58,0.74,4.7,2.98,0.16,0.438
+C2b: SOS + VCP (Point-in-Time Price ATR),60D,PATH B (point-in-time from cache),3383,18,8.46,3.68,57.85,2.75,4.52,7.66,3.28,13.72,7.52,1.34,0.004
+C3a: Minervini Trend Template,10D,PATH B (point-in-time from cache),6248,11,1.11,-0.19,49.01,1.35,-0.36,0.97,-0.89,3.13,1.24,0.27,0.0
+C3a: Minervini Trend Template,20D,PATH B (point-in-time from cache),6248,11,3.11,0.81,52.72,1.82,0.77,2.75,0.14,6.24,3.03,0.49,0.0
+C3a: Minervini Trend Template,60D,PATH B (point-in-time from cache),6050,10,5.78,1.42,52.71,1.93,2.03,5.19,0.61,11.05,5.14,1.05,0.0
+C3b: Minervini + SOS Combo,10D,PATH B (point-in-time from cache) + PATH A,2048,11,0.74,-0.13,49.22,1.22,-0.61,0.62,-1.31,2.8,1.23,-0.09,0.614
+C3b: Minervini + SOS Combo,20D,PATH B (point-in-time from cache) + PATH A,2048,11,2.64,0.92,53.32,1.67,0.58,2.48,-0.04,5.68,3.02,0.02,0.886
+C3b: Minervini + SOS Combo,60D,PATH B (point-in-time from cache) + PATH A,1989,10,5.53,1.13,52.34,1.85,1.84,5.07,0.44,10.94,4.62,1.31,0.012
+C5a: Mechanical Qualified (RSI-14 in 55-70),10D,PATH B (point-in-time from cache),9197,18,1.29,-0.16,49.04,1.49,-0.09,1.15,-0.06,2.46,1.61,0.08,0.324
+C5a: Mechanical Qualified (RSI-14 in 55-70),20D,PATH B (point-in-time from cache),9197,18,2.87,0.71,52.83,1.9,0.92,2.63,1.15,4.5,3.19,0.08,0.51
+C5a: Mechanical Qualified (RSI-14 in 55-70),60D,PATH B (point-in-time from cache),8851,18,7.16,2.65,55.86,2.47,3.65,6.66,2.89,11.1,7.97,-0.42,0.03
+C5b: Mechanical Qualified (RSI-25 in 55-70),10D,PATH B (point-in-time from cache),12285,18,1.06,-0.35,47.84,1.39,-0.34,0.89,-0.35,2.37,1.56,-0.09,0.142
+C5b: Mechanical Qualified (RSI-25 in 55-70),20D,PATH B (point-in-time from cache),12285,18,2.35,0.14,50.44,1.67,0.31,2.02,0.4,4.34,2.91,-0.16,0.096
+C5b: Mechanical Qualified (RSI-25 in 55-70),60D,PATH B (point-in-time from cache),11778,18,7.76,3.47,57.51,2.63,4.25,7.25,3.54,11.74,8.7,-0.54,0.0

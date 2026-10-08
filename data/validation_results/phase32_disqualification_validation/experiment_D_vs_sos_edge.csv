@@ -1,0 +1,3 @@
+Signal_Gate,Edge_Definition,Horizon,N_Signal_Group,Edge_Magnitude,95pct_Confidence_Interval,CI_Excludes_Zero,Significance_Verdict,Relative_Strength
+1. Disqualification Separation Delta (Qualified vs Disqualified),Mean_Net(Qualified) - Mean_Net(Disqualified),60D,55821,-0.31%,"[-1.97%, +1.15%]",NO,NOT_SIGNIFICANT,"Phase 7 3-stock separation does NOT hold at full scale (-0.31% delta, CI spans zero)"
+2. SOS Excess Edge vs Same-Month Random Baseline,Mean_Gross(SOS) - Mean_Gross(Random_Pool),60D,11829,+0.89%,"[+0.45%, +1.33%]",YES,SIGNIFICANT_POSITIVE,"Statistically Established Alpha (+0.89% over same-month random draw, p=0.0000)"

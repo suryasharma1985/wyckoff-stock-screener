@@ -1,0 +1,196 @@
+{
+  "metadata": {
+    "execution_date": "2026-08-29 14:47:52",
+    "random_seed": 42,
+    "total_unfiltered_signals": 86234,
+    "total_listing_filtered_signals": 85512,
+    "dropped_signals_count": 722,
+    "dropped_signals_pct": 0.84,
+    "symbols_not_in_current_nse": 0,
+    "signals_not_in_current_pct": 0.0,
+    "na_listing_dates_count": 0,
+    "lost_stock_population_share": 0.2045,
+    "honesty_statement": "This is NOT a true survivorship-bias-free universe because free historical data does not contain delisted stocks. This study provides a best-effort reduction via listing-date filtering and mathematical worst-case bounds."
+  },
+  "experiment_A_summary": {
+    "total_signals": 86234,
+    "filtered_signals": 85512,
+    "dropped_signals": 722,
+    "drop_pct": 0.84
+  },
+  "experiment_B_sos_vs_random": [
+    {
+      "Universe": "Unfiltered Raw Dataset",
+      "N_Trades": 11829,
+      "Actual_Mean": 5.78,
+      "Random_Mean": 4.89,
+      "Mean_Diff": 0.89,
+      "p_value": 0.0,
+      "Percentile": 100.0,
+      "Survives_Edge": "YES"
+    },
+    {
+      "Universe": "Listing-Date Filtered (date_of_listing <= T)",
+      "N_Trades": 11683,
+      "Actual_Mean": 5.52,
+      "Random_Mean": 4.69,
+      "Mean_Diff": 0.83,
+      "p_value": 0.002,
+      "Percentile": 99.9,
+      "Survives_Edge": "YES"
+    }
+  ],
+  "experiment_C_sos_vs_frozen": [
+    {
+      "Universe": "Unfiltered Raw Dataset",
+      "N_Frozen": 1916,
+      "Mean_Frozen": 7.45,
+      "N_SOS": 6359,
+      "Mean_SOS": 8.54,
+      "Paired_Diff_Mean": 2.01,
+      "Paired_CI_Low": 0.44,
+      "Paired_CI_High": 3.54,
+      "Paired_Verdict": "SIGNIFICANT_POSITIVE",
+      "Unpaired_Diff_Mean": 1.08,
+      "Unpaired_CI_Low": -0.99,
+      "Unpaired_CI_High": 3.07,
+      "Unpaired_Verdict": "NOT_ESTABLISHED"
+    },
+    {
+      "Universe": "Listing-Date Filtered",
+      "N_Frozen": 1894,
+      "Mean_Frozen": 7.3,
+      "N_SOS": 6286,
+      "Mean_SOS": 8.35,
+      "Paired_Diff_Mean": 1.98,
+      "Paired_CI_Low": 0.33,
+      "Paired_CI_High": 3.51,
+      "Paired_Verdict": "SIGNIFICANT_POSITIVE",
+      "Unpaired_Diff_Mean": 1.04,
+      "Unpaired_CI_Low": -1.14,
+      "Unpaired_CI_High": 3.03,
+      "Unpaired_Verdict": "NOT_ESTABLISHED"
+    }
+  ],
+  "experiment_D_survivorship_bounds": [
+    {
+      "Scenario": "Base Filtered (Observed)",
+      "Lost_Stock_Assumed_Return": "0.0%",
+      "Adjusted_SOS_Mean": 8.35,
+      "Adjusted_Frozen_Mean": 7.3,
+      "Adjusted_Random_Mean": 7.64,
+      "SOS_Edge_vs_Random": 0.71,
+      "SOS_Edge_vs_Frozen": 1.05,
+      "SOS_Beats_Random": "YES",
+      "SOS_Beats_Frozen": "YES",
+      "SOS_Absolute_Return_Positive": "YES"
+    },
+    {
+      "Scenario": "Pessimistic Lost-Stock (-15% 60D return)",
+      "Lost_Stock_Assumed_Return": "-15.0%",
+      "Adjusted_SOS_Mean": 3.58,
+      "Adjusted_Frozen_Mean": 2.74,
+      "Adjusted_Random_Mean": 3.01,
+      "SOS_Edge_vs_Random": 0.56,
+      "SOS_Edge_vs_Frozen": 0.84,
+      "SOS_Beats_Random": "YES",
+      "SOS_Beats_Frozen": "YES",
+      "SOS_Absolute_Return_Positive": "YES"
+    },
+    {
+      "Scenario": "Severe Lost-Stock (-25% 60D return)",
+      "Lost_Stock_Assumed_Return": "-25.0%",
+      "Adjusted_SOS_Mean": 1.53,
+      "Adjusted_Frozen_Mean": 0.69,
+      "Adjusted_Random_Mean": 0.97,
+      "SOS_Edge_vs_Random": 0.56,
+      "SOS_Edge_vs_Frozen": 0.84,
+      "SOS_Beats_Random": "YES",
+      "SOS_Beats_Frozen": "YES",
+      "SOS_Absolute_Return_Positive": "YES"
+    },
+    {
+      "Scenario": "Catastrophic Collapse (-40% 60D return)",
+      "Lost_Stock_Assumed_Return": "-40.0%",
+      "Adjusted_SOS_Mean": -1.54,
+      "Adjusted_Frozen_Mean": -2.37,
+      "Adjusted_Random_Mean": -2.1,
+      "SOS_Edge_vs_Random": 0.56,
+      "SOS_Edge_vs_Frozen": 0.84,
+      "SOS_Beats_Random": "YES",
+      "SOS_Beats_Frozen": "YES",
+      "SOS_Absolute_Return_Positive": "NO"
+    },
+    {
+      "Scenario": "Annual Haircut 1.5%/yr (-0.36% per 60D)",
+      "Lost_Stock_Assumed_Return": "-1.5%/yr",
+      "Adjusted_SOS_Mean": 7.99,
+      "Adjusted_Frozen_Mean": 6.94,
+      "Adjusted_Random_Mean": 7.29,
+      "SOS_Edge_vs_Random": 0.71,
+      "SOS_Edge_vs_Frozen": 1.05,
+      "SOS_Beats_Random": "YES",
+      "SOS_Beats_Frozen": "YES",
+      "SOS_Absolute_Return_Positive": "YES"
+    },
+    {
+      "Scenario": "Annual Haircut 2.0%/yr (-0.48% per 60D)",
+      "Lost_Stock_Assumed_Return": "-2.0%/yr",
+      "Adjusted_SOS_Mean": 7.88,
+      "Adjusted_Frozen_Mean": 6.82,
+      "Adjusted_Random_Mean": 7.17,
+      "SOS_Edge_vs_Random": 0.71,
+      "SOS_Edge_vs_Frozen": 1.05,
+      "SOS_Beats_Random": "YES",
+      "SOS_Beats_Frozen": "YES",
+      "SOS_Absolute_Return_Positive": "YES"
+    },
+    {
+      "Scenario": "Annual Haircut 2.5%/yr (-0.60% per 60D)",
+      "Lost_Stock_Assumed_Return": "-2.5%/yr",
+      "Adjusted_SOS_Mean": 7.76,
+      "Adjusted_Frozen_Mean": 6.7,
+      "Adjusted_Random_Mean": 7.05,
+      "SOS_Edge_vs_Random": 0.71,
+      "SOS_Edge_vs_Frozen": 1.05,
+      "SOS_Beats_Random": "YES",
+      "SOS_Beats_Frozen": "YES",
+      "SOS_Absolute_Return_Positive": "YES"
+    }
+  ],
+  "experiment_E_bias_audit": [
+    {
+      "Strategy": "SOS-only",
+      "Unfiltered_Mean": 8.54,
+      "Listing_Filtered_Mean": 8.35,
+      "Catastrophic_Loss_Adjusted_Mean": -1.54,
+      "Haircut_2.5pct_Adjusted_Mean": 7.76,
+      "Non_Current_Signals_Pct": 0.0,
+      "Residual_Bias_Impact": "Moderate (+0.5% to +1.2% estimated upward drift)",
+      "Robust_to_Worst_Case": "NO"
+    },
+    {
+      "Strategy": "Frozen Baseline (Spring | SC)",
+      "Unfiltered_Mean": 7.45,
+      "Listing_Filtered_Mean": 7.3,
+      "Catastrophic_Loss_Adjusted_Mean": -2.37,
+      "Haircut_2.5pct_Adjusted_Mean": 6.7,
+      "Non_Current_Signals_Pct": 0.0,
+      "Residual_Bias_Impact": "Moderate (+0.5% to +1.2% estimated upward drift)",
+      "Robust_to_Worst_Case": "NO"
+    }
+  ],
+  "verdicts": {
+    "does_sos_vs_random_survive_listing_filter": true,
+    "sos_vs_random_filtered_p_value": 0.002,
+    "sos_vs_random_filtered_mean_diff": 0.83,
+    "does_sos_vs_frozen_paired_diff_survive_listing_filter": true,
+    "sos_vs_frozen_filtered_paired_ci": [
+      0.33,
+      3.51
+    ],
+    "sos_worst_case_catastrophic_mean": -1.54,
+    "is_sos_positive_under_worst_case": false,
+    "is_sos_greater_than_frozen_under_worst_case": true
+  }
+}

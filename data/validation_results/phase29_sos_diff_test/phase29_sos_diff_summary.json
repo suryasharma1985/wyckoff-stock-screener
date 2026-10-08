@@ -1,0 +1,117 @@
+{
+  "metadata": {
+    "execution_date": "2026-08-29 14:35:23",
+    "random_seed": 42,
+    "dataset_rows": 86234,
+    "unique_symbols": 1971,
+    "unique_checkpoints": 54,
+    "disjoint_check": "PASSED (overlap = 0)",
+    "frozen_strategy_untouched": true,
+    "production_source_untouched": true
+  },
+  "experiment_Q1_canonical_diff": {
+    "Comparison": "SOS (Group B) vs Frozen Spring+SC (Group A)",
+    "Regime": "Canonical Bullish (breadth >= 0.60)",
+    "N_Frozen": 1916,
+    "Dates_Frozen": 18,
+    "Mean_Frozen": 7.45,
+    "N_SOS": 6359,
+    "Dates_SOS": 20,
+    "Mean_SOS": 8.54,
+    "Actual_Difference": 1.1,
+    "Bootstrap_Diff_Mean": 1.08,
+    "Bootstrap_Diff_SE": 1.018,
+    "Diff_95pct_CI_Low": -0.99,
+    "Diff_95pct_CI_High": 3.07,
+    "Verdict_Q1": "NOT_ESTABLISHED",
+    "Paired_Dates": 18,
+    "Paired_Diff_Mean": 2.01,
+    "Paired_CI_Low": 0.44,
+    "Paired_CI_High": 3.54,
+    "Paired_Verdict": "SIGNIFICANT_POSITIVE"
+  },
+  "experiment_Q2_regime_sensitivity": [
+    {
+      "Regime": "(A) Loose (market_regime != 'Sideways')",
+      "N_Frozen": 7518,
+      "Dates_Frozen": 33,
+      "Mean_Frozen": 9.65,
+      "N_SOS": 8315,
+      "Dates_SOS": 36,
+      "Mean_SOS": 7.52,
+      "Actual_Diff": -2.12,
+      "Diff_CI_Low": -6.41,
+      "Diff_CI_High": 3.15,
+      "Verdict": "NOT_ESTABLISHED",
+      "Paired_Diff_Mean": 0.5,
+      "Paired_CI_Low": -0.9,
+      "Paired_CI_High": 1.78
+    },
+    {
+      "Regime": "(B) Canonical (market_regime == 'Bullish')",
+      "N_Frozen": 1916,
+      "Dates_Frozen": 18,
+      "Mean_Frozen": 7.45,
+      "N_SOS": 6359,
+      "Dates_SOS": 20,
+      "Mean_SOS": 8.54,
+      "Actual_Diff": 1.1,
+      "Diff_CI_Low": -0.99,
+      "Diff_CI_High": 3.07,
+      "Verdict": "NOT_ESTABLISHED",
+      "Paired_Diff_Mean": 2.01,
+      "Paired_CI_Low": 0.44,
+      "Paired_CI_High": 3.54
+    }
+  ],
+  "experiment_Q3_robustness": [
+    {
+      "Stress_Test": "1. Base Canonical Returns",
+      "Mean_Frozen": 7.45,
+      "Mean_SOS": 8.54,
+      "Actual_Diff": 1.1,
+      "Diff_CI_Low": -0.99,
+      "Diff_CI_High": 3.07,
+      "Verdict": "NOT_ESTABLISHED"
+    },
+    {
+      "Stress_Test": "2. 5% Winsorized Tails",
+      "Mean_Frozen": 6.8,
+      "Mean_SOS": 7.82,
+      "Actual_Diff": 1.02,
+      "Diff_CI_Low": -2.22,
+      "Diff_CI_High": 4.36,
+      "Verdict": "NOT_ESTABLISHED"
+    },
+    {
+      "Stress_Test": "3. 5% Top Winner Trimming",
+      "Mean_Frozen": 3.44,
+      "Mean_SOS": 4.58,
+      "Actual_Diff": 1.14,
+      "Diff_CI_Low": -0.34,
+      "Diff_CI_High": 2.55,
+      "Verdict": "NOT_ESTABLISHED"
+    },
+    {
+      "Stress_Test": "4. 2.5%/yr Survivorship Haircut",
+      "Mean_Frozen": 6.85,
+      "Mean_SOS": 7.95,
+      "Actual_Diff": 1.1,
+      "Diff_CI_Low": -0.99,
+      "Diff_CI_High": 3.07,
+      "Verdict": "NOT_ESTABLISHED"
+    }
+  ],
+  "answers": {
+    "Q1_canonical_diff_ci": [
+      -0.99,
+      3.07
+    ],
+    "Q1_verdict": "NOT_ESTABLISHED",
+    "Q1_is_statistically_significant": false,
+    "Q2_does_sign_flip": true,
+    "Q2_loose_diff": -2.12,
+    "Q2_canonical_diff": 1.1,
+    "plain_english_summary": "Under the canonical Bullish regime, SOS achieves a point-estimate difference of +1.10% over Frozen Spring+SC, but its 95% time-block bootstrap difference CI [-0.99%, +3.07%] contains zero (Verdict: NOT_ESTABLISHED). Furthermore, under the loose regime filter, the sign flips to -2.12% (Frozen beats SOS). Therefore, SOS does NOT clearly beat the frozen strategy."
+  }
+}

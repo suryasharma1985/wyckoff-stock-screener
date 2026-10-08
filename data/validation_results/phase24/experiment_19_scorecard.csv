@@ -1,0 +1,12 @@
+Metric,Value,Classification
+Historical Expectancy,9.65,STRONG
+Median Expectancy,6.36,STRONG
+Win Rate,63.13,ACCEPTABLE
+Profit Factor,3.15,STRONG
+Tail-Adjusted Expectancy,8.62,ACCEPTABLE
+Cost-Adjusted Expectancy,9.15,ACCEPTABLE
+Regime-Adjusted Expectancy,7.29,STRONG
+Survivorship-Adjusted Expectancy,7.65,ACCEPTABLE
+Walk-forward TEST performance,7.47,STRONG
+Maximum Drawdown,-29.71,ACCEPTABLE
+Risk of Ruin,0.0,STRONG

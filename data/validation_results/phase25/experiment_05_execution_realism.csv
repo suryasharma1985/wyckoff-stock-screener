@@ -1,0 +1,6 @@
+Cost_Scenario,N,Mean,PF,Max_Loss
+Frictionless (Gross),7518,10.05,3.31,-78.68
+Baseline Net (-0.40%),7518,9.65,3.15,-79.08
+Conservative Net (-0.50%),7518,9.55,3.11,-79.18
+Adverse Net (-0.90%),7518,9.15,2.95,-79.58
+Small-Cap Execution Stress,7518,4.82,1.72,-84.58

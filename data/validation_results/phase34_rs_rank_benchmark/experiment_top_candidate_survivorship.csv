@@ -1,0 +1,5 @@
+Scenario,Assumed_Lost_Return,Adjusted_Mean,Positive_Expectancy
+Base Observed Filtered Mean,0.0%,10.27,YES
+Pessimistic (-15% 60D Return),-15.0%,5.1,YES
+Severe (-25% 60D Return),-25.0%,3.06,YES
+Catastrophic (-40% 60D Return),-40.0%,-0.01,NO

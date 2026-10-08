@@ -1,0 +1,7 @@
+Event_Combination,Trade_Count,Expectancy,Median,Win_Rate,PF
+Strategy A (Spring only),6515,6.43,3.61,57.45,2.14
+Strategy B (SC only),3884,6.18,1.68,53.48,1.95
+Strategy C (Spring + SC),10399,6.33,2.96,55.97,2.06
+Strategy D (Spring + SC + SOS),22228,5.82,1.79,53.68,1.93
+Strategy E (Spring + SC + LPS),44220,4.45,0.99,52.06,1.68
+Strategy F (All events),71076,4.59,0.8,51.72,1.7

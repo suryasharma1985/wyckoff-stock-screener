@@ -1,0 +1,3 @@
+Regime,N_Frozen,Dates_Frozen,Mean_Frozen,N_SOS,Dates_SOS,Mean_SOS,Actual_Diff,Diff_CI_Low,Diff_CI_High,Verdict,Paired_Diff_Mean,Paired_CI_Low,Paired_CI_High
+(A) Loose (market_regime != 'Sideways'),7518,33,9.65,8315,36,7.52,-2.12,-6.41,3.15,NOT_ESTABLISHED,0.5,-0.9,1.78
+(B) Canonical (market_regime == 'Bullish'),1916,18,7.45,6359,20,8.54,1.1,-0.99,3.07,NOT_ESTABLISHED,2.01,0.44,3.54

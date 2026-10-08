@@ -1,0 +1,2 @@
+Event,Horizon,mean_diff,raw_p,bh_threshold,rank,verdict,implication
+LPS,60D,-0.42,0.0,0.01,3,SIGNIFICANT_NEGATIVE,LPS forward returns are significantly NEGATIVE compared to random same-month signals. Screening LPS as a bullish setup is contrary to empirical data.

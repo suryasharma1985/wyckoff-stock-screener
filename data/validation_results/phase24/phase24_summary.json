@@ -1,0 +1,12 @@
+{
+  "verdict": "B",
+  "expectancy_60d": 9.65,
+  "cost_adjusted_expectancy": 9.15,
+  "tail_adjusted_expectancy": 8.62,
+  "survivorship_adjusted_expectancy": 7.65,
+  "validation_expectancy": 13.01,
+  "test_expectancy": 7.47,
+  "max_drawdown": -29.71,
+  "win_rate": 63.13,
+  "profit_factor": 3.15
+}

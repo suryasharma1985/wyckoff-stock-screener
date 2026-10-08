@@ -1,0 +1,8 @@
+Scenario,Lost_Stock_Assumed_Return,Adjusted_SOS_Mean,Adjusted_Frozen_Mean,Adjusted_Random_Mean,SOS_Edge_vs_Random,SOS_Edge_vs_Frozen,SOS_Beats_Random,SOS_Beats_Frozen,SOS_Absolute_Return_Positive
+Base Filtered (Observed),0.0%,8.35,7.3,7.64,0.71,1.05,YES,YES,YES
+Pessimistic Lost-Stock (-15% 60D return),-15.0%,3.58,2.74,3.01,0.56,0.84,YES,YES,YES
+Severe Lost-Stock (-25% 60D return),-25.0%,1.53,0.69,0.97,0.56,0.84,YES,YES,YES
+Catastrophic Collapse (-40% 60D return),-40.0%,-1.54,-2.37,-2.1,0.56,0.84,YES,YES,NO
+Annual Haircut 1.5%/yr (-0.36% per 60D),-1.5%/yr,7.99,6.94,7.29,0.71,1.05,YES,YES,YES
+Annual Haircut 2.0%/yr (-0.48% per 60D),-2.0%/yr,7.88,6.82,7.17,0.71,1.05,YES,YES,YES
+Annual Haircut 2.5%/yr (-0.60% per 60D),-2.5%/yr,7.76,6.7,7.05,0.71,1.05,YES,YES,YES

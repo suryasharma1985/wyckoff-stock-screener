@@ -1,0 +1,5 @@
+Metric,N,Mean,Median,Win_Rate,PF
+Excluding Top 0.1%,78349,4.39,0.78,51.66,1.67
+Excluding Top 0.5%,78035,3.89,0.69,51.47,1.59
+Excluding Top 1.0%,77643,3.42,0.57,51.22,1.52
+Excluding Top 5.0%,74506,0.97,-0.38,49.17,1.14

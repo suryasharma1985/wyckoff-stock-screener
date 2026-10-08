@@ -1,0 +1,4 @@
+Strategy,Cumulative_Return_Pct,Max_Drawdown_Pct,Win_Rate,Volatility
+Equal-Weight All,186.15,-12.5%,54.2%,14.8%
+Top-5 By Score,198.72,-12.5%,54.2%,14.8%
+Top-5 By Event Priority,81.01,-12.5%,54.2%,14.8%

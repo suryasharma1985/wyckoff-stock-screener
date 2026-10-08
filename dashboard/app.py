@@ -42,6 +42,12 @@ try:
         render_wyckoff_interpretation_card,
     )
     from dashboard.glossary import WYCKOFF_GLOSSARY, get_glossary_terms, get_term_details
+    from dashboard.sos_view import (
+        classify_sos_status,
+        add_sos_status_column,
+        prepare_sos_display_df,
+        SOS_STATUS_LABEL,
+    )
 except ImportError:
     from explainers import (
         render_chart_checklist_card,
@@ -52,6 +58,12 @@ except ImportError:
         render_wyckoff_interpretation_card,
     )
     from glossary import WYCKOFF_GLOSSARY, get_glossary_terms, get_term_details
+    from sos_view import (
+        classify_sos_status,
+        add_sos_status_column,
+        prepare_sos_display_df,
+        SOS_STATUS_LABEL,
+    )
 
 from wyckoff_screener.charting.tradingview_links import CHART_REVIEW_CHECKLIST, generate_tradingview_links
 from wyckoff_screener.data_loader import validate_ohlcv_dataframe
@@ -781,7 +793,7 @@ elif page == "📊 Research Screening Results":
                 st.markdown(f"**Total Securities Evaluated**: {len(df_all)}")
 
                 # Filter Controls
-                fc1, fc2, fc3 = st.columns(3)
+                fc1, fc2, fc3, fc4 = st.columns([1.2, 1.2, 1.2, 1.0])
                 with fc1:
                     categories = ["All Categories"] + sorted(df_all["candidate_category"].dropna().unique().tolist())
                     sel_cat = st.selectbox("Filter by Category", categories)
@@ -789,6 +801,9 @@ elif page == "📊 Research Screening Results":
                     min_score = st.slider("Minimum Composite Score", 0.0, 100.0, 30.0, 5.0)
                 with fc3:
                     event_filter = st.selectbox("Filter by Wyckoff Event", ["All Events", "LPS", "Spring", "SOS", "SC", "UTAD"])
+                with fc4:
+                    st.write("")
+                    sos_only = st.checkbox("🚀 SOS Only", help="Filter strictly to research-validated Sign of Strength (SOS) candidates and sort by VSA Volume Ratio.")
 
                 filtered_df = df_all.copy()
                 if sel_cat != "All Categories":
@@ -797,16 +812,31 @@ elif page == "📊 Research Screening Results":
                 if event_filter != "All Events":
                     filtered_df = filtered_df[filtered_df["most_recent_event_type"] == event_filter]
 
+                # Prepare SOS display & sorting
+                processed_df, is_sos_active = prepare_sos_display_df(filtered_df, sos_only=sos_only, event_filter=event_filter)
+
+                # Show educational banner when SOS is active
+                if is_sos_active:
+                    st.markdown("""
+                    <div style="background-color: rgba(38, 166, 154, 0.15); border-left: 4px solid #26a69a; padding: 12px 16px; border-radius: 4px; margin-bottom: 12px;">
+                        <strong style="color: #26a69a; font-size: 1.05rem;">🚀 Sign of Strength (SOS) — Research-Validated Best Signal</strong><br>
+                        <span style="font-size: 0.9rem; color: #d1d4dc;">
+                        Our empirical backtests (Phases 28–32) established that <strong>SOS is the ONLY setup with a statistically significant edge vs random</strong> (+0.89% alpha, <em>p</em>=0.0000). 
+                        Because the continuous composite score is not a reliable ranker, SOS stocks are sorted by <strong>VSA Volume Ratio</strong> (climactic demand absorption).
+                        </span>
+                    </div>
+                    """, unsafe_allow_html=True)
+
                 # Human-readable table
                 display_cols = [
                     c for c in [
-                        "symbol", "candidate_category", "composite_score", "reference_close_price",
+                        "symbol", "sos_status", "candidate_category", "composite_score", "reference_close_price",
                         "is_mechanically_qualified", "vsa_volume_ratio", "vsa_spread_ratio",
                         "most_recent_event_type", "pf_target_price", "pf_upside_pct"
-                    ] if c in filtered_df.columns
+                    ] if c in processed_df.columns
                 ]
                 st.dataframe(
-                    filtered_df[display_cols].sort_values("composite_score", ascending=False),
+                    processed_df[display_cols],
                     use_container_width=True,
                     height=450,
                 )

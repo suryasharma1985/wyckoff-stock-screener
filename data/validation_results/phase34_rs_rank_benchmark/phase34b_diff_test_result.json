@@ -1,0 +1,18 @@
+{
+  "group_a_n": 3169,
+  "group_a_mean": 10.271928053013568,
+  "group_a_median": 4.92,
+  "group_b_n": 2611,
+  "group_b_mean": 6.135254691689009,
+  "group_b_median": 2.43,
+  "raw_diff": 4.136673361324559,
+  "unpaired_ci_low": 2.7307008822784002,
+  "unpaired_ci_high": 5.567986966204466,
+  "paired_ci_low": 2.3552915483557766,
+  "paired_ci_high": 6.081365635203338,
+  "common_dates": 17,
+  "permutation_p_value": 0.0,
+  "verdict_unpaired": "SIGNIFICANT",
+  "verdict_paired": "SIGNIFICANT",
+  "verdict_permutation": "SIGNIFICANT"
+}

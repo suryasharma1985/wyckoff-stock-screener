@@ -1,0 +1,3 @@
+Universe,N_Frozen,Mean_Frozen,N_SOS,Mean_SOS,Paired_Diff_Mean,Paired_CI_Low,Paired_CI_High,Paired_Verdict,Unpaired_Diff_Mean,Unpaired_CI_Low,Unpaired_CI_High,Unpaired_Verdict
+Unfiltered Raw Dataset,1916,7.45,6359,8.54,2.01,0.44,3.54,SIGNIFICANT_POSITIVE,1.08,-0.99,3.07,NOT_ESTABLISHED
+Listing-Date Filtered,1894,7.3,6286,8.35,1.98,0.33,3.51,SIGNIFICANT_POSITIVE,1.04,-1.14,3.03,NOT_ESTABLISHED

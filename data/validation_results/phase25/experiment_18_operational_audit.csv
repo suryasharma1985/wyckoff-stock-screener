@@ -1,0 +1,5 @@
+Failure_Class,Count,Impact
+Missing Price Files,403,Securities skipped in pre-discovery
+Stale Prices,12,Stale anchor warning triggered
+Scanner/Data Failures,0,Zero crashes observed
+Duplicate Signals,0,Successfully filtered prior to ledger creation

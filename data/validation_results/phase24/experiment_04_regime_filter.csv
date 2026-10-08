@@ -1,0 +1,9 @@
+Metric,All_Trades,Exclude_Sideways
+Expectancy,4.71,7.29
+Win_Rate,51.71,57.29
+PF,1.72,2.39
+Max_Loss,-92.67,-91.49
+Trade_Count,78428.0,55198.0
+Portfolio_Return_Pct,234.12,134.15
+Portfolio_Max_Drawdown,-24.8,-29.71
+Tail_Dependency_Pct,80.37,52.91

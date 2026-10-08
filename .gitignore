@@ -35,3 +35,7 @@ data/*
 !data/forward_validation/**
 !data/research_results/
 !data/research_results/**
+
+# Raw data dumps too large for GitHub (kept on the laptop only; 20260826 has 56-85 MB files)
+data/validation_results/20260826/
+data/validation_results/phase22_pre_discovery/

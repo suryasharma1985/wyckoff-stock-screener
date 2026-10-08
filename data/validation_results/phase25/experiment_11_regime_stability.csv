@@ -1,0 +1,4 @@
+Period,Trade_Count,Expectancy,Median_Return,Win_Rate,PF,Max_Loss,Max_Drawdown
+TRAIN (Jun 2022 - May 2023),1801,13.1,9.16,71.24,5.63,-58.35,0.0
+VALIDATION (Jun 2023 - May 2024),1125,13.01,8.16,67.82,5.07,-45.11,0.0
+TEST (Jun 2024 - Aug 2026),4592,7.47,4.32,58.8,2.37,-79.08,-26.46

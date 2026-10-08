@@ -1,0 +1,3 @@
+Universe,N_Trades,Actual_Mean,Random_Mean,Mean_Diff,p_value,Percentile,Survives_Edge
+Unfiltered Raw Dataset,11829,5.78,4.89,0.89,0.0,100.0,YES
+Listing-Date Filtered (date_of_listing <= T),11683,5.52,4.69,0.83,0.002,99.9,YES

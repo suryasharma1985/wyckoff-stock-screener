@@ -1,0 +1,5 @@
+Stress_Test,Mean_Frozen,Mean_SOS,Actual_Diff,Diff_CI_Low,Diff_CI_High,Verdict
+1. Base Canonical Returns,7.45,8.54,1.1,-0.99,3.07,NOT_ESTABLISHED
+2. 5% Winsorized Tails,6.8,7.82,1.02,-2.22,4.36,NOT_ESTABLISHED
+3. 5% Top Winner Trimming,3.44,4.58,1.14,-0.34,2.55,NOT_ESTABLISHED
+4. 2.5%/yr Survivorship Haircut,6.85,7.95,1.1,-0.99,3.07,NOT_ESTABLISHED

@@ -1,0 +1,2 @@
+Horizon,Point_Estimate,Block_Bootstrap_SE,CI_Lower,CI_Upper,Methodology
+60D Net Expectancy,4.71,1.8704,1.2,8.53,"Time-Block Bootstrap by Checkpoint Date T (1,000 iterations)"

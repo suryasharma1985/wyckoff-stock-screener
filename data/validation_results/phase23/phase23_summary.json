@@ -1,0 +1,21 @@
+{
+  "audit": {
+    "discovery_rows": 68059,
+    "prediscovery_rows": 18175,
+    "combined_rows": 86234,
+    "unique_symbols": 1971,
+    "unique_checkpoints": 54
+  },
+  "verdicts": {
+    "baseline_scanner_edge": "Supported",
+    "spring_edge": "Supported",
+    "sc_edge": "Supported",
+    "sos_edge": "Supported",
+    "lps_edge": "Supported",
+    "composite_score": "Not Supported",
+    "market_regime_dependence": "Supported",
+    "tail_robustness": "Weakly Supported",
+    "survivorship_risk": "Supported",
+    "portfolio_tradeability": "Inconclusive"
+  }
+}

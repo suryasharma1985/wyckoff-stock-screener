@@ -1,0 +1,3 @@
+Strategy,Unfiltered_Mean,Listing_Filtered_Mean,Catastrophic_Loss_Adjusted_Mean,Haircut_2.5pct_Adjusted_Mean,Non_Current_Signals_Pct,Residual_Bias_Impact,Robust_to_Worst_Case
+SOS-only,8.54,8.35,-1.54,7.76,0.0,Moderate (+0.5% to +1.2% estimated upward drift),NO
+Frozen Baseline (Spring | SC),7.45,7.3,-2.37,6.7,0.0,Moderate (+0.5% to +1.2% estimated upward drift),NO

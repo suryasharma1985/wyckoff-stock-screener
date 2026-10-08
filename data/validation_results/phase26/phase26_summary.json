@@ -1,0 +1,16 @@
+{
+  "status": "COMPLETE",
+  "experiments_completed": 19,
+  "phase25_rule_drift": "NO",
+  "prospective_sample": 1971,
+  "mature_10d": 0,
+  "mature_20d": 0,
+  "mature_60d": 0,
+  "pending": 1971,
+  "execution_realism": "WARNING",
+  "tail_robustness": "WARNING",
+  "regime_robustness": "PASS",
+  "survivorship": "UNRESOLVED",
+  "operational_audit": "PASS",
+  "final_classification": "INSUFFICIENT SAMPLE / IMMATURE"
+}

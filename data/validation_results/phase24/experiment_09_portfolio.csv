@@ -1,0 +1,6 @@
+Strategy,Total_Return_Pct,Max_Drawdown_Pct,Volatility
+Portfolio A (EW Max 5),318.51,-29.67,56.62
+Portfolio B (EW Max 10),194.84,-28.68,40.57
+Portfolio C (EW Max 20),186.15,-24.69,35.45
+Portfolio D (Priority Selection Max 5),234.12,-24.8,36.7
+Portfolio E (Random Selection Max 5),72.75,-36.69,25.44

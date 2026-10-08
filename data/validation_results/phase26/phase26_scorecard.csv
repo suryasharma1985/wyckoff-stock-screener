@@ -1,0 +1,9 @@
+Criterion,Verdict,Note
+Historical evidence,PASS,Pre-discovery expectancy is +8.03%
+Prospective evidence,INSUFFICIENT SAMPLE,Trades are not yet matured
+Execution realism,WARNING,Slippage could degrade expectancy
+Regime robustness,PASS,Sideways exclusion prevents drawdowns
+Tail robustness,WARNING,Expectancy depends heavily on top winners
+Survivorship concerns,UNRESOLVED,21.21% historical universe listing bias exists
+Operational reliability,PASS,Zero operational crashes or scanner errors
+Methodology integrity,PASS,No drift relative to Phase 25 strategy detected

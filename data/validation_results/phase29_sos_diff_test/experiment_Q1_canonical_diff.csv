@@ -1,0 +1,2 @@
+Comparison,Regime,N_Frozen,Dates_Frozen,Mean_Frozen,N_SOS,Dates_SOS,Mean_SOS,Actual_Difference,Bootstrap_Diff_Mean,Bootstrap_Diff_SE,Diff_95pct_CI_Low,Diff_95pct_CI_High,Verdict_Q1,Paired_Dates,Paired_Diff_Mean,Paired_CI_Low,Paired_CI_High,Paired_Verdict
+SOS (Group B) vs Frozen Spring+SC (Group A),Canonical Bullish (breadth >= 0.60),1916,18,7.45,6359,20,8.54,1.1,1.08,1.018,-0.99,3.07,NOT_ESTABLISHED,18,2.01,0.44,3.54,SIGNIFICANT_POSITIVE

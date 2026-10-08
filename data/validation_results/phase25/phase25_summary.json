@@ -1,0 +1,11 @@
+{
+  "status": "COMPLETE",
+  "experiments_completed": 19,
+  "reproducibility": "PASS",
+  "train_expectancy": 13.1,
+  "validation_expectancy": 13.01,
+  "test_expectancy": 7.47,
+  "risk_of_ruin_pct": 0.0,
+  "regime_filter_status": "KEEP",
+  "verdict": "CONDITIONAL GO \u2014 PAPER TRADING WITH SPECIFIED CONTROLS"
+}

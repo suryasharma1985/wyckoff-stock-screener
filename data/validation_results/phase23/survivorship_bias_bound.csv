@@ -1,0 +1,5 @@
+Metric,Value,Notes
+Current Universe Count,1971,Total active NSE symbols evaluated in the backtest
+Excluded Stock Count (Pre-Discovery),418,Stocks lacking data in 2021-2022 due to late listing or listing gaps
+Listing Bias Percentage,21.21,Percentage of universe that could not be backtested historically
+Estimated Survivorship Bias Impact,1.5% to 2.5% annualized,Estimated positive performance bias added due to static constituents

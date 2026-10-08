@@ -1,0 +1,11 @@
+Criterion,Verdict,Note
+Historical robustness,PASS,Pre-discovery expectancy is +8.03%
+OOS robustness,PASS,Validation/Test expectancy remains positive (+13.01% / +7.47%)
+Walk-forward stability,PASS,Walk-forward windows demonstrate stable positive returns
+Execution realism,WARNING,Adverse slippage stress reduces PF to 2.45
+Drawdown resilience,WARNING,Stressed MDD increases to -44.57%
+Concentration risk,WARNING,High stock/sector concentration in 5-position portfolios
+Survivorship risk,UNRESOLVED,21.21% historical universe listing bias exists
+Tail dependence,WARNING,Trimmed mean drops to +3.83% excluding top 5%
+Operational reliability,PASS,Zero operational crashes or memory leaks
+Prospective paper-trading readiness,PASS,Fully formalized rules and prospective ledger in place

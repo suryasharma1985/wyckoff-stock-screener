@@ -1,0 +1,4 @@
+Horizon,N_Trades,Distinct_Months,actual_mean,random_mean,mean_diff,p_value,percentile
+10D,12801,50,1.09,1.14,-0.04,0.532,26.6
+20D,12497,49,1.88,1.85,0.03,0.778,61.1
+60D,11829,48,5.78,4.89,0.89,0.0,100.0

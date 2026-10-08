@@ -1,0 +1,9 @@
+Parameter,Setting
+Entry Logic,Close > T+1 Open
+Event Types,"Spring, SC"
+Regime Condition,Market breadth >= 0.30 (Exclude Sideways)
+Liquidity Filter,Signal volume >= 20-period average volume * 0.40
+Position Size Cap,Maximum 20% allocation per stock (Max 5 positions)
+Stop Loss,Low on date T minus 1.5 * ATR
+Profit Target,P&F target or Entry + 3.0 * ATR
+Max holding period,60 trading days

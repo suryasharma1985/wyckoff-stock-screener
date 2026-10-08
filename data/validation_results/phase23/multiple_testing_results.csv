@@ -1,0 +1,6 @@
+Hypothesis,Rank,Raw_P_Value,BH_Threshold,Significant_After_Correction
+SOS 60D vs Random,1,0.0,0.01,YES
+LPS 60D vs Random,2,0.0,0.02,YES
+UTAD 60D vs Random,3,0.504,0.03,NO
+SC 60D vs Random,4,0.68,0.04,NO
+Spring 60D vs Random,5,0.878,0.05,NO

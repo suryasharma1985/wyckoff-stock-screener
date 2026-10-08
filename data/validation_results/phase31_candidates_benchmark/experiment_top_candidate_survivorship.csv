@@ -1,0 +1,6 @@
+Scenario,Assumed_Lost_Return,Adjusted_Mean,Positive_Expectancy
+Base Observed Filtered Mean,0.0%,8.35,YES
+Pessimistic (-15% 60D Return),-15.0%,3.57,YES
+Severe (-25% 60D Return),-25.0%,1.53,YES
+Catastrophic (-40% 60D Return),-40.0%,-1.54,NO
+Annual Haircut 2.5%/yr,-2.5%/yr,7.75,YES

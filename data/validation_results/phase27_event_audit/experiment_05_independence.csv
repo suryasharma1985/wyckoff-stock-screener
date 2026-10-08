@@ -1,0 +1,6 @@
+Event,definition_note,row_count,independent_checkpoints,independent_months,min_months_flag
+Spring,Flag possible_Spring == True indicates the single most recent schematic event in lookback is Spring (broad_filter.py).,6894,52,51,SUFFICIENT (>=12)
+SC,Flag most_recent_event_type == 'SC' indicates the single most recent schematic event in lookback is Selling Climax.,4426,51,51,SUFFICIENT (>=12)
+SOS,Flag possible_SOS == True indicates the single most recent schematic event in lookback is Sign of Strength (broad_filter.py).,13119,54,51,SUFFICIENT (>=12)
+LPS,Flag possible_LPS == True indicates the single most recent schematic event in lookback is Last Point of Support (broad_filter.py).,36982,53,51,SUFFICIENT (>=12)
+UTAD,Flag is_UTAD_warning == True indicates the single most recent schematic event in lookback is Upthrust After Distribution.,16695,52,51,SUFFICIENT (>=12)

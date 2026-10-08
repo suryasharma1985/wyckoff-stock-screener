@@ -1,3 +1,13 @@
+---
+title: Wyckoff Stock Screener
+emoji: 📈
+colorFrom: blue
+colorTo: green
+sdk: streamlit
+app_file: dashboard/app.py
+pinned: false
+---
+
 # Wyckoff Stock Screener (NSE)
 
 A Python research and screening tool for Indian equities (NSE) based on the **Wyckoff Method** and **Volume Spread Analysis (VSA)**.

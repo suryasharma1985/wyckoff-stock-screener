@@ -1,0 +1,5 @@
+Disqualifying_Flag,N_Trades,Distinct_Months,Mean_Net_60D,Median_Net_60D,Win_Rate,Profit_Factor,5pct_Trimmed_Mean,Performance_Drag_vs_Qualified
+1. UTAD Distribution Warning,16129,48,4.31,0.23,50.51,1.66,0.7,-0.31
+2. No Base Accumulation Structure,204,46,29.09,5.85,59.31,4.69,3.78,24.47
+3. Mechanical Filters Failed,6933,47,5.42,2.84,55.23,1.86,2.06,0.8
+4. All Disqualified Pooled,22607,48,4.93,0.97,52.14,1.77,1.19,0.31

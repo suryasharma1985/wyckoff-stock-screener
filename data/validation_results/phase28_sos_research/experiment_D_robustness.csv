@@ -1,0 +1,4 @@
+Strategy,N,Distinct_Months,Base_Mean,Top1pct_Trimmed,Top5pct_Trimmed,Top10pct_Trimmed,Winsorized_1pct,Winsorized_5pct,Bootstrap_CI_Low,Bootstrap_CI_High,CI_Excludes_Zero,Mean_Haircut_1.5pct,Mean_Haircut_2.0pct,Mean_Haircut_2.5pct
+(b1) SOS-only,6359,19,8.54,7.14,4.58,2.33,8.25,7.82,4.46,12.84,YES,8.19,8.07,7.95
+(b2) Spring | SC | SOS,8275,19,8.29,6.9,4.32,2.05,7.99,7.58,4.39,12.29,YES,7.93,7.81,7.69
+(b0) Frozen baseline (Spring | SC),1916,19,7.45,6.06,3.44,1.15,7.14,6.8,3.72,11.03,YES,7.09,6.97,6.85
